@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { MentorProfile } from '../types/Mentor';
-import { Colors, Spacing, FontSize } from '../utils/constants';
+import { MentorProfile } from '../../types/Mentor';
+import { Colors, Spacing, FontSize } from '../../utils/constants';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 interface MentorCardProps {

@@ -4,7 +4,7 @@ import React, { useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { Colors, Spacing, FontSize } from '../../utils/constants';
-import { AvailabilitySlot } from '../../types/Availability';
+import { AvailabilitySlot } from '../../types/Mentor';
 
 interface AvailabilityCalendarProps {
   slots: AvailabilitySlot[];

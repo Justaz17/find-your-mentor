@@ -4,7 +4,7 @@ export type RootStackParamList = {
   Auth: undefined;
   Main: undefined;
   MentorProfile: { mentorId: number };
-  BookSession: { mentorId: number };
+  BookSession: { mentorId: number; preselectedDate?: string };
   BookingConfirmation: {
     mentorId: number;
     serviceId: number;

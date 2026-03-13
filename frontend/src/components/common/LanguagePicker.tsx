@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Colors, Spacing, FontSize } from '../utils/constants';
+import { Colors, Spacing, FontSize } from '../../utils/constants';
 
 const LANGUAGES = [
   'English', 'Irish', 'Spanish', 'French', 'German', 'Italian',

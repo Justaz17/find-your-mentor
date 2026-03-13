@@ -83,7 +83,7 @@ const MentorProfileScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [selectedDateFromCalendar, setSelectedDateFromCalendar] = useState<string | null>(null);
+  const [selectedDateFromCalendar, setSelectedDateFromCalendar] = useState<string | undefined>(undefined);
 
   // Review form state
   const [showReviewForm, setShowReviewForm] = useState(false);

@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, Float, ForeignKey, Text, DateTim
 from sqlalchemy.orm import relationship
 from app.db.database import Base
 from datetime import datetime, timezone
+from sqlalchemy.orm import joinedload
 
 
 class Booking(Base):

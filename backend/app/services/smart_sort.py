@@ -221,13 +221,13 @@ def score_mentor(mentor: dict, learner: dict) -> tuple[float, list[str]]:
 
     # ── 8. Booking history (weight 10) ────────────────────────────────
     # Future: boost mentors in same category as previous bookings
-    # For now, pass — this slot exists for when behavioural data is available
+    # For now, this slot exists for when behavioural data is available
     booked_category_ids = learner.get("booked_category_ids", [])
     mentor_category_ids = mentor.get("category_ids", [])
     if booked_category_ids and mentor_category_ids:
         if set(booked_category_ids) & set(mentor_category_ids):
             score += WEIGHTS["booking_history"] * 0.5
-            # Not adding a reason here — booking history is a background signal
+            # Not adding a reason here booking history is a background signal
 
     return round(score, 2), reasons
 

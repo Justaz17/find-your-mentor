@@ -21,7 +21,7 @@ import { MentorService, AvailabilitySlot } from '../../types/Mentor';
 import { getMentorServices } from '../../services/serviceService';
 import { getMentorAvailability } from '../../services/mentorService';
 import { Colors, Spacing, FontSize } from '../../utils/constants';
-import TimelinePickerComponent from '../../components/booking/TimelinePicker';
+import TimelinePickerComponent from '../../components/booking/TimeLinePicker';
 
 type BookSessionRouteProp = RouteProp<RootStackParamList, 'BookSession'>;
 type BookSessionNavProp = NativeStackNavigationProp<RootStackParamList>;

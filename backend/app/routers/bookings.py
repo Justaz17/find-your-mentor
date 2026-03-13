@@ -9,6 +9,7 @@ from app.models.availability_slot import AvailabilitySlot, AvailabilitySlotStatu
 from app.models.user import User
 from app.core.security import get_current_user
 from app.db.database import get_db
+from sqlalchemy.orm import Session, joinedload
 
 router = APIRouter(prefix="/bookings", tags=["bookings"])
 
@@ -208,6 +209,7 @@ def get_mentor_bookings(
 
     bookings = (
         db.query(Booking)
+        .options(joinedload(Booking.learner))
         .join(MentorService)
         .join(AvailabilitySlot)
         .filter(MentorService.mentor_profile.has(user_id=current_user.id))
@@ -219,11 +221,7 @@ def get_mentor_bookings(
         {
             "id": b.id,
             "learner_id": b.learner_id,
-            "learner_name": (
-                db.query(User).filter(User.id == b.learner_id).first().name
-                if db.query(User).filter(User.id == b.learner_id).first()
-                else "Unknown"
-            ),
+            "learner_name": b.learner.name if b.learner else "Unknown",
             "mentor_service_id": b.mentor_service_id,
             "service_title": b.mentor_service.title,
             "availability_slot_id": b.availability_slot_id,

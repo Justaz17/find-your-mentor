@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { Spacing, FontSize } from '../utils/constants';
+import { Spacing, FontSize } from '../../utils/constants';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 interface CategoryCardProps {
