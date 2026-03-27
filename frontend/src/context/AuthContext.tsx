@@ -8,13 +8,14 @@ interface AuthContextType {
   token: string | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  signIn: (token: string) => Promise<void>;
+  pendingOnboarding: boolean;
+  signIn: (token: string, isNewUser?: boolean) => Promise<void>;
   signOut: () => Promise<void>;
+  clearPendingOnboarding: () => void | Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Decode JWT to extract user info (your backend stores aemail in 'sub')
 const getUserFromToken = (token: string): User | null => {
   try {
     const decoded: any = jwtDecode(token);
@@ -32,19 +33,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [pendingOnboarding, setPendingOnboarding] = useState(false);
 
-  // Check for existing token on app start
   useEffect(() => {
     const loadToken = async () => {
       try {
-        console.log('AuthContext: Loading token...');
         const storedToken = await AsyncStorage.getItem('token');
-        console.log('AuthContext: Token found:', !!storedToken);
         if (storedToken) {
           const userData = getUserFromToken(storedToken);
           if (userData) {
+            // Load pending_onboarding BEFORE setting isLoading false
+            // so StackNavigator gets the correct initialRouteName on first render
+            const pending = await AsyncStorage.getItem('pending_onboarding');
             setToken(storedToken);
             setUser(userData);
+            if (pending === '1') setPendingOnboarding(true);
           } else {
             await AsyncStorage.removeItem('token');
           }
@@ -52,26 +55,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       } catch (error) {
         console.error('Failed to load auth token:', error);
       } finally {
-        console.log('AuthContext: Done loading');
         setIsLoading(false);
       }
     };
 
-    // Safety timeout — if loading takes more than 3 seconds, force it
-    const timeout = setTimeout(() => {
-      console.log('AuthContext: Timeout — forcing load complete');
-      setIsLoading(false);
-    }, 3000);
-
+    const timeout = setTimeout(() => setIsLoading(false), 3000);
     loadToken().then(() => clearTimeout(timeout));
   }, []);
 
-  const signIn = async (newToken: string) => {
+  const signIn = async (newToken: string, isNewUser = false) => {
     const userData = getUserFromToken(newToken);
     if (userData) {
       await AsyncStorage.setItem('token', newToken);
+      if (isNewUser) await AsyncStorage.setItem('pending_onboarding', '1');
       setToken(newToken);
       setUser(userData);
+      if (isNewUser) setPendingOnboarding(true);
     }
   };
 
@@ -79,6 +78,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     await AsyncStorage.removeItem('token');
     setToken(null);
     setUser(null);
+    setPendingOnboarding(false);
+  };
+
+  const clearPendingOnboarding = async () => {
+    await AsyncStorage.removeItem('pending_onboarding');
+    setPendingOnboarding(false);
   };
 
   return (
@@ -88,8 +93,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         token,
         isLoading,
         isAuthenticated: !!token && !!user,
+        pendingOnboarding,
         signIn,
         signOut,
+        clearPendingOnboarding,
       }}
     >
       {children}
@@ -97,11 +104,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Custom hook for easy access
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
+  if (!context) throw new Error('useAuth must be used within an AuthProvider');
   return context;
 };

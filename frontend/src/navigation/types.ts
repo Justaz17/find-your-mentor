@@ -1,7 +1,8 @@
 import { LearnerProfile } from "../types/Learner";
 
 export type RootStackParamList = {
-  Auth: undefined;
+  Auth: { initialTab?: 'login' | 'register'; wantsMentor?: boolean } | undefined;
+  Onboarding: undefined;
   Main: undefined;
   MentorProfile: { mentorId: number };
   BookSession: { mentorId: number; preselectedDate?: string };
@@ -25,4 +26,5 @@ export type TabParamList = {
   Search: undefined;
   Bookings: undefined;
   Dashboard: undefined;
+  Login: undefined;
 };

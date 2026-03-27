@@ -1,5 +1,3 @@
-// frontend/src/screens/BookingScreen.tsx
-
 import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
@@ -22,7 +20,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/types';
 import { Booking } from '../../types/Booking';
-import { getMyBookings } from '../../services/bookingService';
+import { getMyBookings, cancelBooking } from '../../services/bookingService';
 import { Colors, Spacing, FontSize } from '../../utils/constants';
 import BookedDatesCalendar from '../../components/mentor/BookedDatesCalendar';
 
@@ -39,6 +37,7 @@ const BookingScreen = () => {
   const [filter, setFilter] = useState<'upcoming' | 'pending' | 'past' | 'all'>('upcoming');
   const [expandedBookingId, setExpandedBookingId] = useState<number | null>(null);
   const [selectedDateFromCalendar, setSelectedDateFromCalendar] = useState<string | null>(null);
+  const [cancellingId, setCancellingId] = useState<number | null>(null);
 
   const fetchBookings = useCallback(async () => {
     try {
@@ -64,16 +63,19 @@ const BookingScreen = () => {
 
   const handleFilterChange = (newFilter: typeof filter) => {
     setFilter(newFilter);
-    if (newFilter !== 'all') {
-      setSelectedDateFromCalendar(null);
-    }
+    if (newFilter !== 'all') setSelectedDateFromCalendar(null);
   };
 
-  const handleCancelPending = async (bookingId: number) => {
-    // TODO: wire up cancel API call
-    // await cancelBooking(bookingId);
-    // fetchBookings();
-    console.log('Cancel pending booking', bookingId);
+  const handleCancel = async (bookingId: number) => {
+    setCancellingId(bookingId);
+    try {
+      await cancelBooking(bookingId);
+      await fetchBookings();
+    } catch (err: any) {
+      setError(err.message || 'Failed to cancel booking');
+    } finally {
+      setCancellingId(null);
+    }
   };
 
   // Filter bookings
@@ -83,108 +85,70 @@ const BookingScreen = () => {
     const bookingDate = new Date(booking.slot_start).toISOString().split('T')[0];
 
     let passesStatusFilter = false;
-    if (filter === 'upcoming')
-      passesStatusFilter = slotEnd > now && booking.status === 'confirmed';
-    if (filter === 'pending')
-      passesStatusFilter = booking.status === 'pending';
-    if (filter === 'past')
-      passesStatusFilter = slotEnd <= now || booking.status === 'completed';
-    if (filter === 'all')
-      passesStatusFilter = true;
+    if (filter === 'upcoming') passesStatusFilter = slotEnd > now && booking.status === 'confirmed';
+    if (filter === 'pending') passesStatusFilter = booking.status === 'pending';
+    if (filter === 'past') passesStatusFilter = slotEnd <= now || booking.status === 'completed';
+    if (filter === 'all') passesStatusFilter = true;
 
     if (selectedDateFromCalendar) {
       return passesStatusFilter && bookingDate === selectedDateFromCalendar;
     }
-
     return passesStatusFilter;
   });
 
-  // Sort by date
-  const sortedBookings = [...filteredBookings].sort((a, b) => {
-    const dateA = new Date(a.slot_start);
-    const dateB = new Date(b.slot_start);
-    return dateB.getTime() - dateA.getTime();
-  });
+  const sortedBookings = [...filteredBookings].sort((a, b) =>
+    new Date(b.slot_start).getTime() - new Date(a.slot_start).getTime()
+  );
 
   const formatDateTime = (iso: string) => {
-    const d = new Date(iso);
-    return d.toLocaleDateString('en-IE', {
-      weekday: 'short',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
+    return new Date(iso).toLocaleDateString('en-IE', {
+      weekday: 'short', month: 'short', day: 'numeric',
+      hour: '2-digit', minute: '2-digit',
     });
   };
 
-  const formatTime = (iso: string) => {
-    return new Date(iso).toLocaleTimeString('en-IE', {
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-  };
+  const formatTime = (iso: string) =>
+    new Date(iso).toLocaleTimeString('en-IE', { hour: '2-digit', minute: '2-digit' });
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'confirmed':
-        return Colors.secondary;
-      case 'completed':
-        return Colors.secondary;
-      case 'pending':
-        return Colors.warning;
-      case 'cancelled_by_learner':
-        return Colors.error;
-      default:
-        return Colors.textSecondary;
+  const getStatusColor = (s: string) => {
+    switch (s) {
+      case 'confirmed': case 'completed': return Colors.secondary;
+      case 'pending': return Colors.warning;
+      case 'cancelled_by_learner': case 'cancelled_by_mentor': return Colors.error;
+      default: return Colors.textSecondary;
     }
   };
 
-  const getStatusLabel = (status: string) => {
-    switch (status) {
-      case 'confirmed':
-        return 'Confirmed';
-      case 'completed':
-        return 'Completed';
-      case 'pending':
-        return 'Pending';
-      case 'cancelled_by_learner':
-        return 'Cancelled';
-      default:
-        return status;
+  const getStatusLabel = (s: string) => {
+    switch (s) {
+      case 'confirmed': return 'Confirmed';
+      case 'completed': return 'Completed';
+      case 'pending': return 'Pending';
+      case 'cancelled_by_learner': return 'Cancelled';
+      case 'cancelled_by_mentor': return 'Declined';
+      default: return s;
     }
   };
 
-  const getPaymentStatusColor = (status: string) => {
-    switch (status) {
-      case 'paid':
-        return Colors.secondary;
-      case 'pending':
-        return Colors.warning;
-      case 'refunded':
-        return Colors.error;
-      case 'partial_refund':
-        return Colors.warning;
-      default:
-        return Colors.textSecondary;
+  const getPaymentStatusColor = (s: string) => {
+    switch (s) {
+      case 'paid': return Colors.secondary;
+      case 'pending': return Colors.warning;
+      case 'refunded': case 'partial_refund': return Colors.error;
+      default: return Colors.textSecondary;
     }
   };
 
-  const getPaymentStatusLabel = (status: string) => {
-    switch (status) {
-      case 'paid':
-        return 'Paid';
-      case 'pending':
-        return 'Pending';
-      case 'refunded':
-        return 'Refunded';
-      case 'partial_refund':
-        return 'Partial Refund';
-      default:
-        return status;
+  const getPaymentStatusLabel = (s: string) => {
+    switch (s) {
+      case 'paid': return 'Paid';
+      case 'pending': return 'Pending';
+      case 'refunded': return 'Refunded';
+      case 'partial_refund': return 'Partial Refund';
+      default: return s;
     }
   };
 
-  // Count pending bookings for badge
   const pendingCount = bookings.filter((b) => b.status === 'pending').length;
 
   if (isLoading) {
@@ -223,19 +187,12 @@ const BookingScreen = () => {
               <Button
                 mode={filter === tab ? 'outlined' : 'text'}
                 onPress={() => handleFilterChange(tab)}
-                style={[
-                  styles.filterButton,
-                  filter === tab && styles.filterButtonActive,
-                ]}
-                labelStyle={[
-                  styles.filterLabel,
-                  filter === tab && styles.filterLabelActive,
-                ]}
+                style={[styles.filterButton, filter === tab && styles.filterButtonActive]}
+                labelStyle={[styles.filterLabel, filter === tab && styles.filterLabelActive]}
                 compact
               >
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
               </Button>
-              {/* Badge for pending count */}
               {tab === 'pending' && pendingCount > 0 && (
                 <View style={styles.badge}>
                   <Text style={styles.badgeText}>{pendingCount}</Text>
@@ -246,7 +203,7 @@ const BookingScreen = () => {
         </View>
       </View>
 
-      {/* Bookings List with Calendar Header */}
+      {/* Bookings List */}
       <FlatList
         data={sortedBookings}
         keyExtractor={(item) => String(item.id)}
@@ -265,6 +222,7 @@ const BookingScreen = () => {
           const isPast = slotEnd <= now;
           const isExpanded = expandedBookingId === item.id;
           const isPending = item.status === 'pending';
+          const isCancelling = cancellingId === item.id;
 
           return (
             <TouchableOpacity
@@ -274,13 +232,9 @@ const BookingScreen = () => {
             >
               <Card
                 mode="outlined"
-                style={[
-                  styles.bookingCard,
-                  isPending && styles.bookingCardPending,
-                ]}
+                style={[styles.bookingCard, isPending && styles.bookingCardPending]}
               >
                 <Card.Content>
-                  {/* Main Row - Always Visible */}
                   <View style={styles.headerRow}>
                     <View style={styles.headerLeft}>
                       <Text variant="titleSmall" style={styles.serviceName}>
@@ -302,16 +256,14 @@ const BookingScreen = () => {
                     </View>
                   </View>
 
-                  {/* Pending notice strip */}
                   {isPending && (
                     <View style={styles.pendingNotice}>
                       <Text style={styles.pendingNoticeText}>
-                        ⏳ Awaiting mentor confirmation
+                        Awaiting mentor confirmation
                       </Text>
                     </View>
                   )}
 
-                  {/* Expanded Details */}
                   {isExpanded && (
                     <>
                       <Divider style={styles.divider} />
@@ -349,56 +301,43 @@ const BookingScreen = () => {
                         </View>
                       )}
 
-                      {/* Action Buttons */}
                       <View style={styles.actions}>
+                        {/* Mentor Profile — now uses real mentor_id */}
                         <Button
                           mode="contained"
                           style={styles.primaryAction}
                           labelStyle={styles.actionButtonLabel}
-                          onPress={() => {
-                            // TODO: Get mentor_id from booking - need to add to Booking type
-                            navigation.navigate('MentorProfile', { mentorId: 1 });
-                          }}
+                          onPress={() => navigation.navigate('MentorProfile', { mentorId: item.mentor_id })}
                         >
                           Mentor Profile
                         </Button>
 
-                        {/* Cancel pending - free of charge */}
+                        {/* Cancel pending — free */}
                         {isPending && (
                           <Button
                             mode="outlined"
                             style={[styles.actionButton, styles.dangerAction]}
                             labelStyle={[styles.actionButtonLabel, styles.dangerActionLabel]}
-                            onPress={() => handleCancelPending(item.id)}
+                            loading={isCancelling}
+                            disabled={isCancelling}
+                            onPress={() => handleCancel(item.id)}
                           >
                             Cancel (Free)
                           </Button>
                         )}
 
-                        {/* Reschedule / Cancel for confirmed upcoming */}
+                        {/* Cancel confirmed upcoming */}
                         {!isPast && item.status === 'confirmed' && (
-                          <>
-                            <Button
-                              mode="outlined"
-                              style={styles.actionButton}
-                              labelStyle={styles.actionButtonLabel}
-                              onPress={() => {
-                                // TODO: Show reschedule modal
-                              }}
-                            >
-                              Reschedule
-                            </Button>
-                            <Button
-                              mode="outlined"
-                              style={[styles.actionButton, styles.dangerAction]}
-                              labelStyle={[styles.actionButtonLabel, styles.dangerActionLabel]}
-                              onPress={() => {
-                                // TODO: Show cancel confirmation
-                              }}
-                            >
-                              Cancel
-                            </Button>
-                          </>
+                          <Button
+                            mode="outlined"
+                            style={[styles.actionButton, styles.dangerAction]}
+                            labelStyle={[styles.actionButtonLabel, styles.dangerActionLabel]}
+                            loading={isCancelling}
+                            disabled={isCancelling}
+                            onPress={() => handleCancel(item.id)}
+                          >
+                            Cancel Session
+                          </Button>
                         )}
                       </View>
                     </>
@@ -409,24 +348,19 @@ const BookingScreen = () => {
           );
         }}
         contentContainerStyle={styles.listContent}
-        scrollEnabled={true}
         refreshControl={
           <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} tintColor={Colors.primary} />
         }
         ListEmptyComponent={
           <View style={styles.emptyState}>
             <Text variant="titleMedium" style={styles.emptyStateTitle}>
-              {filter === 'upcoming'
-                ? 'No upcoming bookings'
-                : filter === 'pending'
-                ? 'No pending bookings'
+              {filter === 'upcoming' ? 'No upcoming bookings'
+                : filter === 'pending' ? 'No pending bookings'
                 : 'No bookings yet'}
             </Text>
             <Text variant="bodyMedium" style={styles.emptyStateText}>
-              {filter === 'upcoming'
-                ? 'Book a mentor to get started'
-                : filter === 'pending'
-                ? 'Any bookings awaiting confirmation will appear here'
+              {filter === 'upcoming' ? 'Book a mentor to get started'
+                : filter === 'pending' ? 'Any bookings awaiting confirmation will appear here'
                 : 'Your past sessions will appear here'}
             </Text>
             {(filter === 'upcoming' || filter === 'pending') && (
@@ -446,28 +380,13 @@ const BookingScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.surface,
-  },
+  container: { flex: 1, backgroundColor: Colors.surface },
   centered: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Colors.surface,
-    padding: Spacing.lg,
+    flex: 1, justifyContent: 'center', alignItems: 'center',
+    backgroundColor: Colors.surface, padding: Spacing.lg,
   },
-  loadingText: {
-    color: Colors.textSecondary,
-    marginTop: Spacing.sm,
-  },
-  errorText: {
-    color: Colors.textSecondary,
-    textAlign: 'center',
-    marginBottom: Spacing.lg,
-  },
-
-  // Header
+  loadingText: { color: Colors.textSecondary, marginTop: Spacing.sm },
+  errorText: { color: Colors.textSecondary, textAlign: 'center', marginBottom: Spacing.lg },
   header: {
     backgroundColor: Colors.background,
     paddingHorizontal: Spacing.lg,
@@ -475,17 +394,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: Colors.border,
   },
-  title: {
-    fontWeight: '800',
-    color: Colors.text,
-    marginBottom: Spacing.xs,
-    letterSpacing: -0.3,
-  },
-  subtitle: {
-    color: Colors.textSecondary,
-  },
-
-  // Filter Tabs
+  title: { fontWeight: '800', color: Colors.text, marginBottom: Spacing.xs, letterSpacing: -0.3 },
+  subtitle: { color: Colors.textSecondary },
   filterContainer: {
     backgroundColor: Colors.background,
     borderBottomWidth: 1,
@@ -493,87 +403,31 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.lg,
     paddingVertical: Spacing.sm,
   },
-  filterTabs: {
-    flexDirection: 'row',
-    gap: Spacing.sm,
-  },
-  filterButtonWrapper: {
-    position: 'relative',
-  },
-  filterButton: {
-    borderColor: Colors.border,
-    borderWidth: 1,
-  },
-  filterButtonActive: {
-    borderColor: Colors.primary,
-    backgroundColor: Colors.primaryLight,
-  },
-  filterLabel: {
-    fontSize: FontSize.sm,
-    fontWeight: '600',
-    color: Colors.textSecondary,
-  },
-  filterLabelActive: {
-    color: Colors.primary,
-    fontWeight: '700',
-  },
+  filterTabs: { flexDirection: 'row', gap: Spacing.sm },
+  filterButtonWrapper: { position: 'relative' },
+  filterButton: { borderColor: Colors.border, borderWidth: 1 },
+  filterButtonActive: { borderColor: Colors.primary, backgroundColor: Colors.primaryLight },
+  filterLabel: { fontSize: FontSize.sm, fontWeight: '600', color: Colors.textSecondary },
+  filterLabelActive: { color: Colors.primary, fontWeight: '700' },
   badge: {
-    position: 'absolute',
-    top: -4,
-    right: -4,
-    backgroundColor: Colors.warning,
-    borderRadius: 8,
-    minWidth: 16,
-    height: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 3,
+    position: 'absolute', top: -4, right: -4,
+    backgroundColor: Colors.warning, borderRadius: 8,
+    minWidth: 16, height: 16,
+    justifyContent: 'center', alignItems: 'center', paddingHorizontal: 3,
   },
-  badgeText: {
-    color: Colors.textLight,
-    fontSize: 10,
-    fontWeight: '800',
-  },
-
-  // List
-  listContent: {
-    paddingHorizontal: Spacing.lg,
-    paddingVertical: Spacing.md,
-  },
-  bookingTouchable: {
-    marginBottom: Spacing.md,
-  },
-  bookingCard: {
-    borderRadius: 16,
-    borderColor: Colors.border,
-  },
-  bookingCardPending: {
-    borderColor: Colors.warning,
-    borderWidth: 1.5,
-  },
+  badgeText: { color: Colors.textLight, fontSize: 10, fontWeight: '800' },
+  listContent: { paddingHorizontal: Spacing.lg, paddingVertical: Spacing.md },
+  bookingTouchable: { marginBottom: Spacing.md },
+  bookingCard: { borderRadius: 16, borderColor: Colors.border },
+  bookingCardPending: { borderColor: Colors.warning, borderWidth: 1.5 },
   headerRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: Spacing.md,
+    flexDirection: 'row', justifyContent: 'space-between',
+    alignItems: 'center', gap: Spacing.md,
   },
-  headerLeft: {
-    flex: 1,
-  },
-  headerRight: {
-    flexShrink: 1,
-  },
-  serviceName: {
-    fontWeight: '800',
-    color: Colors.text,
-    marginBottom: Spacing.xs,
-  },
-  dateText: {
-    color: Colors.textSecondary,
-    fontWeight: '500',
-  },
-
-  // Pending notice
+  headerLeft: { flex: 1 },
+  headerRight: { flexShrink: 1 },
+  serviceName: { fontWeight: '800', color: Colors.text, marginBottom: Spacing.xs },
+  dateText: { color: Colors.textSecondary, fontWeight: '500' },
   pendingNotice: {
     marginTop: Spacing.sm,
     backgroundColor: Colors.warning + '18',
@@ -581,93 +435,36 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.md,
     paddingVertical: Spacing.xs,
   },
-  pendingNoticeText: {
-    fontSize: FontSize.xs,
-    color: Colors.warning,
-    fontWeight: '600',
-  },
-
-  divider: {
-    backgroundColor: Colors.border,
-    marginVertical: Spacing.md,
-  },
-
-  // Expanded Details
-  detailSection: {
-    marginBottom: Spacing.md,
-  },
+  pendingNoticeText: { fontSize: FontSize.xs, color: Colors.warning, fontWeight: '600' },
+  divider: { backgroundColor: Colors.border, marginVertical: Spacing.md },
+  detailSection: { marginBottom: Spacing.md },
   sectionTitle: {
-    color: Colors.textSecondary,
-    fontWeight: '700',
-    marginBottom: Spacing.xs,
-    textTransform: 'uppercase',
-    fontSize: FontSize.xs,
-    letterSpacing: 0.5,
+    color: Colors.textSecondary, fontWeight: '700',
+    marginBottom: Spacing.xs, textTransform: 'uppercase',
+    fontSize: FontSize.xs, letterSpacing: 0.5,
   },
-  detailText: {
-    color: Colors.text,
-    fontWeight: '600',
-  },
+  detailText: { color: Colors.text, fontWeight: '600' },
   paymentRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
   },
-  priceText: {
-    color: Colors.primary,
-    fontWeight: '900',
-  },
-  noteText: {
-    color: Colors.text,
-    lineHeight: 18,
-    fontStyle: 'italic',
-  },
-
-  // Actions
-  actions: {
-    gap: Spacing.sm,
-    marginTop: Spacing.md,
-  },
-  actionButton: {
-    borderColor: Colors.border,
-    borderRadius: 12,
-  },
-  primaryAction: {
-    backgroundColor: Colors.primary,
-    borderRadius: 12,
-  },
-  actionButtonLabel: {
-    fontSize: FontSize.sm,
-    fontWeight: '700',
-  },
-  dangerAction: {
-    borderColor: Colors.error,
-  },
-  dangerActionLabel: {
-    color: Colors.error,
-  },
-
-  // Empty State
+  priceText: { color: Colors.primary, fontWeight: '900' },
+  noteText: { color: Colors.text, lineHeight: 18, fontStyle: 'italic' },
+  actions: { gap: Spacing.sm, marginTop: Spacing.md },
+  actionButton: { borderColor: Colors.border, borderRadius: 12 },
+  primaryAction: { backgroundColor: Colors.primary, borderRadius: 12 },
+  actionButtonLabel: { fontSize: FontSize.sm, fontWeight: '700' },
+  dangerAction: { borderColor: Colors.error },
+  dangerActionLabel: { color: Colors.error },
   emptyState: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: Spacing.xxl,
+    flex: 1, justifyContent: 'center',
+    alignItems: 'center', paddingVertical: Spacing.xxl,
   },
-  emptyStateTitle: {
-    fontWeight: '700',
-    color: Colors.text,
-    marginBottom: Spacing.xs,
-  },
+  emptyStateTitle: { fontWeight: '700', color: Colors.text, marginBottom: Spacing.xs },
   emptyStateText: {
-    color: Colors.textSecondary,
-    textAlign: 'center',
-    marginBottom: Spacing.lg,
-    maxWidth: 280,
+    color: Colors.textSecondary, textAlign: 'center',
+    marginBottom: Spacing.lg, maxWidth: 280,
   },
-  exploreButton: {
-    borderRadius: 12,
-  },
+  exploreButton: { borderRadius: 12 },
 });
 
 export default BookingScreen;

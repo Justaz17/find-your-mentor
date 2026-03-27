@@ -13,7 +13,6 @@ interface MentorCardProps {
 
 const AVATAR_COLORS = ['#6C3AED', '#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#EC4899', '#8B5CF6', '#06B6D4'];
 
-// Condenses backend reason strings to a single short label
 const shortenReason = (reason: string): string => {
   const r = reason.toLowerCase();
   if (r.includes('budget') || r.includes('price') || r.includes('rate')) return 'Budget';
@@ -29,13 +28,56 @@ const shortenReason = (reason: string): string => {
   return words[0].charAt(0).toUpperCase() + words[0].slice(1);
 };
 
+// ── Star rating ───────────────────────────────────────────────────────────
+const StarRating = ({ rating, count }: { rating: number; count: number }) => {
+  const full = Math.floor(rating);
+  const half = rating - full >= 0.5;
+  const empty = 5 - full - (half ? 1 : 0);
+
+  return (
+    <View style={sr.row}>
+      {Array.from({ length: full }).map((_, i) => (
+        <MaterialCommunityIcons key={`f${i}`} name="star" size={12} color="#F59E0B" />
+      ))}
+      {half && <MaterialCommunityIcons name="star-half-full" size={12} color="#F59E0B" />}
+      {Array.from({ length: empty }).map((_, i) => (
+        <MaterialCommunityIcons key={`e${i}`} name="star-outline" size={12} color="#F59E0B" />
+      ))}
+      <Text style={sr.count}>
+        {rating.toFixed(1)}
+        <Text style={sr.reviews}> ({count})</Text>
+      </Text>
+    </View>
+  );
+};
+
+const sr = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 2,
+    marginBottom: 8,
+  },
+  count: {
+    fontSize: FontSize.xs,
+    fontWeight: '800',
+    color: Colors.text,
+    marginLeft: 3,
+  },
+  reviews: {
+    fontSize: FontSize.xs,
+    fontWeight: '600',
+    color: Colors.textSecondary,
+  },
+});
+
 // ── Match label ───────────────────────────────────────────────────────────
 const MatchLabel = ({ score }: { score: number }) => {
   const clamped = Math.round(score);
   const { label, color, bg } =
     clamped >= 70 ? { label: 'Great match', color: '#059669', bg: '#ECFDF5' } :
-    clamped >= 40 ? { label: 'Good match',  color: Colors.primary, bg: Colors.primaryLight } :
-                   { label: 'Explore',      color: '#6C3AED', bg: '#EDE9FE' };
+    clamped >= 40 ? { label: 'Good match', color: Colors.primary, bg: Colors.primaryLight } :
+                   { label: 'Explore', color: '#6C3AED', bg: '#EDE9FE' };
   return (
     <View style={[ml.wrap, { backgroundColor: bg }]}>
       <Text style={[ml.text, { color }]}>{label}</Text>
@@ -64,9 +106,12 @@ const MentorCard = ({ mentor, onPress, matchReasons, matchScore }: MentorCardPro
     .slice(0, 2);
 
   const avatarColor = AVATAR_COLORS[mentor.user_name.length % AVATAR_COLORS.length];
-
   const rating = mentor.average_rating ?? null;
   const reviewCount = mentor.total_reviews ?? 0;
+
+  // Trim bio to 2 lines worth — ~80 chars
+  const bio = mentor.bio?.trim();
+  const shortBio = bio && bio.length > 80 ? bio.slice(0, 78).trimEnd() + '…' : bio;
 
   return (
     <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.85}>
@@ -74,33 +119,36 @@ const MentorCard = ({ mentor, onPress, matchReasons, matchScore }: MentorCardPro
       {/* Match label */}
       {matchScore != null && <MatchLabel score={matchScore} />}
 
-      {/* Avatar */}
-      <View style={[styles.avatarWrap, { backgroundColor: avatarColor + '18' }]}>
-        <View style={[styles.avatar, { backgroundColor: avatarColor }]}>
-          <Text style={styles.avatarText}>{initials}</Text>
+      {/* Top row — avatar + price */}
+      <View style={styles.topRow}>
+        <View style={[styles.avatarWrap, { backgroundColor: avatarColor + '18' }]}>
+          <View style={[styles.avatar, { backgroundColor: avatarColor }]}>
+            <Text style={styles.avatarText}>{initials}</Text>
+          </View>
+        </View>
+
+        <View style={styles.priceWrap}>
+          <Text style={styles.price}>€{mentor.hourly_rate}</Text>
+          <Text style={styles.priceLabel}>/session</Text>
         </View>
       </View>
 
-      {/* Name + rating */}
-      <View style={styles.nameRow}>
-        <Text style={styles.name} numberOfLines={1}>{mentor.user_name}</Text>
-      </View>
+      {/* Name */}
+      <Text style={styles.name} numberOfLines={1}>{mentor.user_name}</Text>
 
-      {rating != null && (
-        <View style={styles.ratingRow}>
-          <MaterialCommunityIcons name="star" size={13} color="#F59E0B" />
-          <Text style={styles.ratingText}>{rating.toFixed(1)}</Text>
-          <Text style={styles.reviewCount}>({reviewCount})</Text>
-        </View>
+      {/* Star rating */}
+      {rating != null ? (
+        <StarRating rating={rating} count={reviewCount} />
+      ) : (
+        <Text style={styles.noRating}>No reviews yet</Text>
       )}
 
-      {/* Price */}
-      <View style={styles.priceRow}>
-        <Text style={styles.price}>€{mentor.hourly_rate}</Text>
-        <Text style={styles.priceLabel}>/session</Text>
-      </View>
+      {/* Bio */}
+      {shortBio ? (
+        <Text style={styles.bio} numberOfLines={2}>{shortBio}</Text>
+      ) : null}
 
-      {/* Top 2 skills */}
+      {/* Skills */}
       {mentor.skills.length > 0 && (
         <View style={styles.skillsRow}>
           {mentor.skills.slice(0, 2).map(skill => (
@@ -143,61 +191,37 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     shadowOffset: { width: 0, height: 4 },
     elevation: 2,
-    minHeight: 200,
   },
 
-  avatarWrap: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    justifyContent: 'center',
-    alignItems: 'center',
+  // Top row
+  topRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
     marginBottom: 10,
   },
+  avatarWrap: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   avatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     justifyContent: 'center',
     alignItems: 'center',
   },
   avatarText: {
     color: '#fff',
-    fontSize: 17,
+    fontSize: 15,
     fontWeight: '900',
     letterSpacing: 0.5,
   },
-
-  nameRow: { marginBottom: 2 },
-  name: {
-    fontSize: FontSize.sm,
-    fontWeight: '900',
-    color: Colors.text,
-    letterSpacing: -0.2,
-  },
-
-  ratingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 3,
-    marginBottom: 6,
-  },
-  ratingText: {
-    fontSize: FontSize.xs,
-    fontWeight: '800',
-    color: Colors.text,
-  },
-  reviewCount: {
-    fontSize: FontSize.xs,
-    color: Colors.textSecondary,
-    fontWeight: '600',
-  },
-
-  priceRow: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    gap: 2,
-    marginBottom: 8,
+  priceWrap: {
+    alignItems: 'flex-end',
   },
   price: {
     fontSize: FontSize.md,
@@ -211,11 +235,38 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
 
+  // Name
+  name: {
+    fontSize: FontSize.sm,
+    fontWeight: '900',
+    color: Colors.text,
+    letterSpacing: -0.2,
+    marginBottom: 4,
+  },
+
+  // No rating placeholder
+  noRating: {
+    fontSize: 10,
+    color: Colors.textSecondary,
+    fontWeight: '600',
+    marginBottom: 8,
+  },
+
+  // Bio
+  bio: {
+    fontSize: 11,
+    color: Colors.textSecondary,
+    lineHeight: 16,
+    fontWeight: '500',
+    marginBottom: 8,
+  },
+
+  // Skills
   skillsRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 4,
-    marginBottom: 8,
+    marginBottom: 6,
   },
   skillChip: {
     backgroundColor: Colors.primaryLight,
@@ -238,9 +289,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
 
+  // Match
   matchRow: {
     gap: 4,
-    marginTop: 'auto' as any,
+    marginTop: 4,
   },
   matchChip: {
     flexDirection: 'row',

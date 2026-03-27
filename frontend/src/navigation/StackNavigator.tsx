@@ -12,33 +12,40 @@ import BookingConfirmationScreen from '../screens/booking/BookingConfirmationScr
 import SearchScreen from '../screens/home/SearchScreen';
 import LearnerProfileScreen from '../screens/learner/LearnerDashboardScreen';
 import EditLearnerProfileScreen from '../screens/learner/EditLearnerProfileScreen';
+import OnboardingScreen from '../screens/learner/OnboardingScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const StackNavigator = () => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, pendingOnboarding, clearPendingOnboarding } = useAuth();
 
   if (isLoading) {
     return (
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName={isAuthenticated && pendingOnboarding ? 'Onboarding' : 'Main'}
+      key={isAuthenticated && pendingOnboarding ? 'onboarding' : 'main'}
+    >
         <Stack.Screen name="Main" component={TabNavigator} />
       </Stack.Navigator>
     );
   }
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {/* Always show main app */}
+    <Stack.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName={isAuthenticated && pendingOnboarding ? 'Onboarding' : 'Main'}
+      key={isAuthenticated && pendingOnboarding ? 'onboarding' : 'main'}
+    >
       <Stack.Screen name="Main" component={TabNavigator} />
 
-      {/* Auth modal - only when NOT logged in */}
+      {/* Auth modal — dismissible with swipe or X button */}
       {!isAuthenticated && (
-        <Stack.Group screenOptions={{ presentation: 'modal', gestureEnabled: false }}>
+        <Stack.Group screenOptions={{ presentation: 'modal', gestureEnabled: true }}>
           <Stack.Screen name="Auth" component={AuthScreen} />
         </Stack.Group>
       )}
 
-      {/* Only for authenticated users */}
       {isAuthenticated && (
         <Stack.Group screenOptions={{ presentation: 'card' }}>
           <Stack.Screen
@@ -71,25 +78,30 @@ const StackNavigator = () => {
               headerStyle: { backgroundColor: Colors.background },
             }}
           />
-          <Stack.Screen name="LearnerProfile" 
-          component={LearnerProfileScreen} 
-          options={{ 
-            headerShown: false 
-            }} 
+          <Stack.Screen
+            name="Onboarding"
+            component={OnboardingScreen}
+            options={{ headerShown: false, gestureEnabled: false }}
+            listeners={{ focus: () => clearPendingOnboarding() }}
           />
-          <Stack.Screen name="EditLearnerProfile" 
-          component={EditLearnerProfileScreen} 
-          options={{
-            headerShown: false,
-            headerTitle: 'Edit Profile',
-            headerTintColor: Colors.primary,
-            headerStyle: { backgroundColor: Colors.background },
-          }}
+          <Stack.Screen
+            name="LearnerProfile"
+            component={LearnerProfileScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="EditLearnerProfile"
+            component={EditLearnerProfileScreen}
+            options={{
+              headerShown: false,
+              headerTitle: 'Edit Profile',
+              headerTintColor: Colors.primary,
+              headerStyle: { backgroundColor: Colors.background },
+            }}
           />
         </Stack.Group>
       )}
 
-      {/* Shared screens (everyone) */}
       <Stack.Group>
         <Stack.Screen
           name="MentorProfile"
@@ -104,9 +116,7 @@ const StackNavigator = () => {
         <Stack.Screen
           name="Search"
           component={SearchScreen}
-          options={{
-            headerShown: false,
-          }}
+          options={{ headerShown: false }}
         />
       </Stack.Group>
     </Stack.Navigator>
