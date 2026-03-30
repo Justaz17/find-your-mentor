@@ -7,4 +7,5 @@ from app.routers import (
     bookings,
     resources,
     recurring,
+    mentor_dashboard,
 )

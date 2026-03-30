@@ -3,6 +3,10 @@ import { LearnerProfile } from "../types/Learner";
 export type RootStackParamList = {
   Auth: { initialTab?: 'login' | 'register'; wantsMentor?: boolean } | undefined;
   Onboarding: undefined;
+  MentorNotifications: undefined;
+  MentorSessions: undefined;
+  MentorFinance: undefined;
+  MentorReviews: undefined;
   Main: undefined;
   MentorProfile: { mentorId: number };
   BookSession: { mentorId: number; preselectedDate?: string };

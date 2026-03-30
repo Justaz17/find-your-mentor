@@ -55,7 +55,8 @@ def login(credentials: UserLogin, db: Session = Depends(get_db)):
 
     token_data = {
         "sub": user.email,
-        "name": user.name,  # ← added so frontend can decode display name
+        "name": user.name,
+        "role": user.role,  # learner | mentor | both
         "exp": datetime.now(timezone.utc) + timedelta(hours=ACCESS_TOKEN_EXPIRE_HOURS),
     }
     access_token = jwt.encode(token_data, SECRET_KEY, algorithm=ALGORITHM)

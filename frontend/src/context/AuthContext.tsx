@@ -9,6 +9,7 @@ interface AuthContextType {
   isLoading: boolean;
   isAuthenticated: boolean;
   pendingOnboarding: boolean;
+  role: 'learner' | 'mentor' | 'both' | null;
   signIn: (token: string, isNewUser?: boolean) => Promise<void>;
   signOut: () => Promise<void>;
   clearPendingOnboarding: () => void | Promise<void>;
@@ -29,11 +30,21 @@ const getUserFromToken = (token: string): User | null => {
   }
 };
 
+const getRoleFromToken = (token: string): 'learner' | 'mentor' | 'both' | null => {
+  try {
+    const decoded: any = jwtDecode(token);
+    return decoded.role ?? 'learner';
+  } catch {
+    return null;
+  }
+};
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [pendingOnboarding, setPendingOnboarding] = useState(false);
+  const [role, setRole] = useState<'learner' | 'mentor' | 'both' | null>(null);
 
   useEffect(() => {
     const loadToken = async () => {
@@ -47,6 +58,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             const pending = await AsyncStorage.getItem('pending_onboarding');
             setToken(storedToken);
             setUser(userData);
+            setRole(getRoleFromToken(storedToken));
             if (pending === '1') setPendingOnboarding(true);
           } else {
             await AsyncStorage.removeItem('token');
@@ -70,6 +82,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (isNewUser) await AsyncStorage.setItem('pending_onboarding', '1');
       setToken(newToken);
       setUser(userData);
+      setRole(getRoleFromToken(newToken));
       if (isNewUser) setPendingOnboarding(true);
     }
   };
@@ -79,11 +92,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setToken(null);
     setUser(null);
     setPendingOnboarding(false);
+    setRole(null);
   };
 
   const clearPendingOnboarding = async () => {
     await AsyncStorage.removeItem('pending_onboarding');
     setPendingOnboarding(false);
+    setRole(null);
   };
 
   return (
@@ -93,6 +108,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         token,
         isLoading,
         isAuthenticated: !!token && !!user,
+        role,
         pendingOnboarding,
         signIn,
         signOut,

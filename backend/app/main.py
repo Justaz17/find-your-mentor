@@ -11,6 +11,7 @@ from app.routers import (
     bookings,
     resources,
     learners,
+    mentor_dashboard,
 )
 from app.models import (
     user,
@@ -62,6 +63,7 @@ app.include_router(services.router)
 app.include_router(bookings.router)
 app.include_router(resources.router)
 app.include_router(learners.router)
+app.include_router(mentor_dashboard.router)
 
 
 @app.get("/")

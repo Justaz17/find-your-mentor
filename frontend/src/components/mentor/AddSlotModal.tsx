@@ -1,17 +1,11 @@
-// frontend/src/components/AvailabilityModals/AddSlotModal.tsx
-
 import React, { useState } from 'react';
 import {
-  View,
-  Text,
-  Modal,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
-  TextInput,
-  ScrollView,
+  View, Text, Modal, TouchableOpacity, StyleSheet,
+  Alert, ScrollView, KeyboardAvoidingView, Platform,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors, FontSize, Spacing } from '../../utils/constants';
 
 interface AddSlotModalProps {
@@ -21,259 +15,226 @@ interface AddSlotModalProps {
 }
 
 const AddSlotModal = ({ visible, onClose, onAdd }: AddSlotModalProps) => {
+  const insets = useSafeAreaInsets();
   const [startDate, setStartDate] = useState(new Date());
   const [startTime, setStartTime] = useState(new Date());
-  const [endTime, setEndTime] = useState(new Date(new Date().getTime() + 60 * 60 * 1000)); // +1 hour
+  const [endTime, setEndTime] = useState(new Date(Date.now() + 60 * 60 * 1000));
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
   const [showStartTimePicker, setShowStartTimePicker] = useState(false);
   const [showEndTimePicker, setShowEndTimePicker] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleStartDateChange = (event: any, selectedDate?: Date) => {
-    setShowStartDatePicker(false);
-    if (selectedDate) {
-      setStartDate(selectedDate);
-    }
-  };
-
-  const handleStartTimeChange = (event: any, selectedTime?: Date) => {
-    setShowStartTimePicker(false);
-    if (selectedTime) {
-      setStartTime(selectedTime);
-    }
-  };
-
-  const handleEndTimeChange = (event: any, selectedTime?: Date) => {
-    setShowEndTimePicker(false);
-    if (selectedTime) {
-      setEndTime(selectedTime);
-    }
-  };
-
-  const handleAddSlot = async () => {
-    // Combine date and time
-    const startDateTime = new Date(
-      startDate.getFullYear(),
-      startDate.getMonth(),
-      startDate.getDate(),
-      startTime.getHours(),
-      startTime.getMinutes()
+  const handleAdd = async () => {
+    const start = new Date(
+      startDate.getFullYear(), startDate.getMonth(), startDate.getDate(),
+      startTime.getHours(), startTime.getMinutes()
+    );
+    const end = new Date(
+      startDate.getFullYear(), startDate.getMonth(), startDate.getDate(),
+      endTime.getHours(), endTime.getMinutes()
     );
 
-    const endDateTime = new Date(
-      startDate.getFullYear(),
-      startDate.getMonth(),
-      startDate.getDate(),
-      endTime.getHours(),
-      endTime.getMinutes()
-    );
+    if (start >= end) { Alert.alert('Invalid time', 'End time must be after start time'); return; }
+    if (start < new Date()) { Alert.alert('Invalid date', 'Cannot create slots in the past'); return; }
 
-    // Validate
-    if (startDateTime >= endDateTime) {
-      Alert.alert('Invalid Time', 'End time must be after start time');
-      return;
-    }
-
-    if (startDateTime < new Date()) {
-      Alert.alert('Invalid Date', 'Cannot create slots in the past');
-      return;
-    }
-
-    try {
-      setIsLoading(true);
-      await onAdd(startDateTime.toISOString(), endDateTime.toISOString());
-    } finally {
-      setIsLoading(false);
-    }
+    setIsLoading(true);
+    try { await onAdd(start.toISOString(), end.toISOString()); }
+    finally { setIsLoading(false); }
   };
 
-  const formatDateTime = (date: Date, time: Date): string => {
-    const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-    const timeStr = time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-    return `${dateStr} ${timeStr}`;
-  };
+  const durationMins = Math.round((endTime.getTime() - startTime.getTime()) / 60000);
+  const durationStr = durationMins > 0
+    ? (durationMins >= 60 ? `${Math.floor(durationMins / 60)}h${durationMins % 60 > 0 ? ` ${durationMins % 60}m` : ''}` : `${durationMins}m`)
+    : '—';
 
   return (
-    <Modal visible={visible} animationType="slide" transparent={false}>
-      <ScrollView style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={onClose}>
-            <Text style={styles.cancelButton}>Cancel</Text>
+    <Modal visible={visible} animationType="slide" presentationStyle="pageSheet" onRequestClose={onClose}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
+        {/* Header */}
+        <View style={[styles.header, { paddingTop: insets.top + Spacing.sm }]}>
+          <TouchableOpacity onPress={onClose} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+            <Text style={styles.cancelBtn}>Cancel</Text>
           </TouchableOpacity>
-          <Text style={styles.title}>Add Slot</Text>
-          <TouchableOpacity
-            onPress={handleAddSlot}
-            disabled={isLoading}
-          >
-            <Text style={[styles.saveButton, isLoading && styles.disabledButton]}>
-              {isLoading ? 'Adding...' : 'Save'}
+          <Text style={styles.title}>Add slot</Text>
+          <TouchableOpacity onPress={handleAdd} disabled={isLoading} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+            <Text style={[styles.saveBtn, isLoading && styles.disabled]}>
+              {isLoading ? 'Saving...' : 'Save'}
             </Text>
           </TouchableOpacity>
         </View>
 
-        <View style={styles.content}>
-          {/* Date Picker */}
-          <View style={styles.section}>
-            <Text style={styles.sectionLabel}>📅 Date</Text>
-            <TouchableOpacity
-              style={styles.pickerButton}
-              onPress={() => setShowStartDatePicker(true)}
-            >
-              <Text style={styles.pickerButtonText}>
-                {startDate.toLocaleDateString('en-US', {
-                  weekday: 'long',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </Text>
-            </TouchableOpacity>
+        <ScrollView contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + Spacing.xl }]} showsVerticalScrollIndicator={false}>
 
+          {/* Date */}
+          <View style={styles.section}>
+            <View style={styles.labelRow}>
+              <MaterialCommunityIcons name="calendar-outline" size={16} color={Colors.primary} />
+              <Text style={styles.label}>Date</Text>
+            </View>
+            <TouchableOpacity style={styles.pickerBtn} onPress={() => setShowStartDatePicker(true)} activeOpacity={0.8}>
+              <Text style={styles.pickerText}>
+                {startDate.toLocaleDateString('en-IE', { weekday: 'long', month: 'long', day: 'numeric' })}
+              </Text>
+              <MaterialCommunityIcons name="chevron-right" size={18} color={Colors.textSecondary} />
+            </TouchableOpacity>
             {showStartDatePicker && (
-              <DateTimePicker
-                value={startDate}
-                mode="date"
-                display="spinner"
-                onChange={handleStartDateChange}
-                minimumDate={new Date()}
-              />
+              <View style={styles.pickerWrap}>
+                <DateTimePicker
+                  value={startDate}
+                  mode="date"
+                  display="spinner"
+                  onChange={(_, d) => { if (d) setStartDate(d); }}
+                  minimumDate={new Date()}
+                  style={styles.picker}
+                  textColor={Colors.text}
+                />
+                <TouchableOpacity style={styles.pickerDone} onPress={() => setShowStartDatePicker(false)} activeOpacity={0.8}>
+                  <Text style={styles.pickerDoneText}>Done</Text>
+                </TouchableOpacity>
+              </View>
             )}
           </View>
 
-          {/* Start Time Picker */}
+          {/* Start time */}
           <View style={styles.section}>
-            <Text style={styles.sectionLabel}>⏰ Start Time</Text>
-            <TouchableOpacity
-              style={styles.pickerButton}
-              onPress={() => setShowStartTimePicker(true)}
-            >
-              <Text style={styles.pickerButtonText}>
-                {startTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
+            <View style={styles.labelRow}>
+              <MaterialCommunityIcons name="clock-outline" size={16} color={Colors.primary} />
+              <Text style={styles.label}>Start time</Text>
+            </View>
+            <TouchableOpacity style={styles.pickerBtn} onPress={() => setShowStartTimePicker(true)} activeOpacity={0.8}>
+              <Text style={styles.pickerText}>
+                {startTime.toLocaleTimeString('en-IE', { hour: '2-digit', minute: '2-digit' })}
               </Text>
+              <MaterialCommunityIcons name="chevron-right" size={18} color={Colors.textSecondary} />
             </TouchableOpacity>
-
             {showStartTimePicker && (
-              <DateTimePicker
-                value={startTime}
-                mode="time"
-                display="spinner"
-                onChange={handleStartTimeChange}
-              />
+              <View style={styles.pickerWrap}>
+                <DateTimePicker
+                  value={startTime}
+                  mode="time"
+                  display="spinner"
+                  onChange={(_, t) => { if (t) setStartTime(t); }}
+                  style={styles.picker}
+                  textColor={Colors.text}
+                />
+                <TouchableOpacity style={styles.pickerDone} onPress={() => setShowStartTimePicker(false)} activeOpacity={0.8}>
+                  <Text style={styles.pickerDoneText}>Done</Text>
+                </TouchableOpacity>
+              </View>
             )}
           </View>
 
-          {/* End Time Picker */}
+          {/* End time */}
           <View style={styles.section}>
-            <Text style={styles.sectionLabel}>⏱ End Time</Text>
-            <TouchableOpacity
-              style={styles.pickerButton}
-              onPress={() => setShowEndTimePicker(true)}
-            >
-              <Text style={styles.pickerButtonText}>
-                {endTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
+            <View style={styles.labelRow}>
+              <MaterialCommunityIcons name="clock-check-outline" size={16} color={Colors.primary} />
+              <Text style={styles.label}>End time</Text>
+            </View>
+            <TouchableOpacity style={styles.pickerBtn} onPress={() => setShowEndTimePicker(true)} activeOpacity={0.8}>
+              <Text style={styles.pickerText}>
+                {endTime.toLocaleTimeString('en-IE', { hour: '2-digit', minute: '2-digit' })}
               </Text>
+              <MaterialCommunityIcons name="chevron-right" size={18} color={Colors.textSecondary} />
             </TouchableOpacity>
-
             {showEndTimePicker && (
-              <DateTimePicker
-                value={endTime}
-                mode="time"
-                display="spinner"
-                onChange={handleEndTimeChange}
-              />
+              <View style={styles.pickerWrap}>
+                <DateTimePicker
+                  value={endTime}
+                  mode="time"
+                  display="spinner"
+                  onChange={(_, t) => { if (t) setEndTime(t); }}
+                  style={styles.picker}
+                  textColor={Colors.text}
+                />
+                <TouchableOpacity style={styles.pickerDone} onPress={() => setShowEndTimePicker(false)} activeOpacity={0.8}>
+                  <Text style={styles.pickerDoneText}>Done</Text>
+                </TouchableOpacity>
+              </View>
             )}
           </View>
 
           {/* Summary */}
           <View style={styles.summary}>
-            <Text style={styles.summaryLabel}>Summary</Text>
-            <Text style={styles.summaryText}>
-              {formatDateTime(startDate, startTime)} - {endTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
+            <View style={styles.summaryRow}>
+              <MaterialCommunityIcons name="calendar-clock" size={18} color={Colors.primary} />
+              <Text style={styles.summaryTitle}>Summary</Text>
+            </View>
+            <Text style={styles.summaryDate}>
+              {startDate.toLocaleDateString('en-IE', { weekday: 'short', month: 'short', day: 'numeric' })}
+            </Text>
+            <Text style={styles.summaryTime}>
+              {startTime.toLocaleTimeString('en-IE', { hour: '2-digit', minute: '2-digit' })}
+              {' – '}
+              {endTime.toLocaleTimeString('en-IE', { hour: '2-digit', minute: '2-digit' })}
+              {durationMins > 0 && <Text style={styles.summaryDuration}> · {durationStr}</Text>}
             </Text>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </Modal>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.surface,
-  },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: Spacing.lg,
-    paddingTop: Spacing.xl,
-    paddingBottom: Spacing.lg,
+    paddingBottom: Spacing.md,
     backgroundColor: Colors.background,
     borderBottomWidth: 1,
     borderBottomColor: Colors.border,
   },
-  cancelButton: {
-    fontSize: FontSize.md,
-    fontWeight: '600',
-    color: Colors.error,
+  cancelBtn: { fontSize: FontSize.md, fontWeight: '700', color: Colors.textSecondary },
+  title: { fontSize: FontSize.lg, fontWeight: '900', color: Colors.text },
+  saveBtn: { fontSize: FontSize.md, fontWeight: '900', color: Colors.primary },
+  disabled: { opacity: 0.4 },
+  content: { padding: Spacing.lg, gap: Spacing.md },
+  section: { gap: Spacing.sm },
+  labelRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  label: { fontSize: FontSize.sm, fontWeight: '800', color: Colors.text },
+  pickerBtn: {
+    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
+    backgroundColor: Colors.background, borderRadius: 12,
+    borderWidth: 1, borderColor: Colors.border,
+    paddingHorizontal: Spacing.md, paddingVertical: 14,
   },
-  title: {
-    fontSize: FontSize.lg,
-    fontWeight: '700',
-    color: Colors.text,
+  pickerText: { fontSize: FontSize.md, fontWeight: '600', color: Colors.text },
+  summary: {
+    backgroundColor: Colors.primaryLight, borderRadius: 14,
+    padding: Spacing.md, gap: 4, marginTop: Spacing.sm,
+    borderWidth: 1, borderColor: Colors.primary + '30',
   },
-  saveButton: {
-    fontSize: FontSize.md,
-    fontWeight: '600',
-    color: Colors.primary,
-  },
-  disabledButton: {
-    opacity: 0.5,
-  },
-  content: {
-    paddingHorizontal: Spacing.lg,
-    paddingVertical: Spacing.xl,
-  },
-  section: {
-    marginBottom: Spacing.xl,
-  },
-  sectionLabel: {
-    fontSize: FontSize.md,
-    fontWeight: '700',
-    color: Colors.text,
-    marginBottom: Spacing.md,
-  },
-  pickerButton: {
-    backgroundColor: Colors.background,
-    borderRadius: 12,
+  summaryRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 4 },
+  summaryTitle: { fontSize: FontSize.sm, fontWeight: '800', color: Colors.primary },
+  summaryDate: { fontSize: FontSize.md, fontWeight: '900', color: Colors.text },
+  summaryTime: { fontSize: FontSize.md, fontWeight: '700', color: Colors.text },
+  summaryDuration: { fontSize: FontSize.sm, color: Colors.textSecondary, fontWeight: '600' },
+  pickerWrap: {
+    backgroundColor: Colors.surface,
+    borderRadius: 14,
     borderWidth: 1,
     borderColor: Colors.border,
-    paddingVertical: Spacing.md,
-    paddingHorizontal: Spacing.lg,
+    overflow: 'hidden',
+    marginTop: 4,
+  },
+  picker: {
+    height: 180,
+    backgroundColor: Colors.surface,
+  },
+  pickerDone: {
+    backgroundColor: Colors.primary,
+    paddingVertical: 12,
     alignItems: 'center',
   },
-  pickerButtonText: {
+  pickerDoneText: {
+    color: '#fff',
+    fontWeight: '900',
     fontSize: FontSize.md,
-    fontWeight: '600',
-    color: Colors.text,
-  },
-  summary: {
-    backgroundColor: Colors.primaryLight,
-    borderRadius: 12,
-    paddingHorizontal: Spacing.lg,
-    paddingVertical: Spacing.md,
-    marginTop: Spacing.xl,
-  },
-  summaryLabel: {
-    fontSize: FontSize.sm,
-    fontWeight: '600',
-    color: Colors.primary,
-    marginBottom: Spacing.sm,
-  },
-  summaryText: {
-    fontSize: FontSize.md,
-    fontWeight: '700',
-    color: Colors.text,
   },
 });
 

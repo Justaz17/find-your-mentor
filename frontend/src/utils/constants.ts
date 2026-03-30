@@ -1,7 +1,7 @@
 // Update this to your machine's local IP when testing on physical device
 // e.g., 'http://192.168.1.100:8000'
 // Use 'http://10.0.2.2:8000' for Android emulator
-export const API_BASE_URL = 'http://10.0.15.73:8000';
+export const API_BASE_URL = 'http://192.168.1.17:8000';
 // export const API_BASE_URL = 'http://10.0.15.208:8000';
 
 // Colors derived from the design chapter wireframes (purple/indigo primary)

@@ -13,6 +13,7 @@ import { useAuth } from '../../context/AuthContext';
 import { LearnerProfile, GOAL_TAGS, AVAILABILITY_WINDOWS } from '../../types/Learner';
 import { getMyLearnerProfile } from '../../services/learnerService';
 import { RootStackParamList } from '../../navigation/types';
+import BecomeMentorDevButton from '../../components/common/BecomeMentorDevButton';
 
 type NavProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -314,6 +315,7 @@ const LearnerDashboardScreen = () => {
       )}
 
       {/* ── Sign out ─────────────────────────────────────────────── */}
+      <BecomeMentorDevButton />
       <TouchableOpacity style={styles.signOutButton} onPress={signOut} activeOpacity={0.85}>
         <MaterialCommunityIcons name="logout" size={16} color={Colors.error} />
         <Text style={styles.signOutText}>Sign out</Text>

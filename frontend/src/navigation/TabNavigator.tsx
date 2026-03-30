@@ -12,6 +12,7 @@ import HomeScreen from '../screens/home/HomeScreen';
 import SearchScreen from '../screens/home/SearchScreen';
 import BookingScreen from '../screens/booking/BookingScreen';
 import LearnerDashboardScreen from '../screens/learner/LearnerDashboardScreen';
+import MentorDashboardScreen from '../screens/mentor/MentorDashboardScreen';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator<TabParamList>();
@@ -21,7 +22,8 @@ const NullScreen = () => null;
 
 const TabNavigator = () => {
   const insets = useSafeAreaInsets();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, role } = useAuth();
+  const isMentor = role === 'mentor' || role === 'both';
 
   return (
     <Tab.Navigator
@@ -78,7 +80,7 @@ const TabNavigator = () => {
       {isAuthenticated && (
         <Tab.Screen
           name="Dashboard"
-          component={LearnerDashboardScreen}
+          component={isMentor ? MentorDashboardScreen : LearnerDashboardScreen}
           options={{
             tabBarLabel: 'Profile',
             tabBarIcon: ({ color }) => (

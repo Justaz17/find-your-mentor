@@ -13,6 +13,10 @@ import SearchScreen from '../screens/home/SearchScreen';
 import LearnerProfileScreen from '../screens/learner/LearnerDashboardScreen';
 import EditLearnerProfileScreen from '../screens/learner/EditLearnerProfileScreen';
 import OnboardingScreen from '../screens/learner/OnboardingScreen';
+import NotificationsScreen from '../screens/mentor/NotificationScreen';
+import SessionsScreen from '../screens/mentor/SessionScreen';
+import FinanceScreen from '../screens/mentor/FinanceScreen';
+import ReviewsScreen from '../screens/mentor/ReviewsScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -55,7 +59,9 @@ const StackNavigator = () => {
               headerShown: true,
               headerTitle: 'Your Availability',
               headerTintColor: Colors.primary,
+              headerBackTitle: '',
               headerStyle: { backgroundColor: Colors.background },
+              headerShadowVisible: false,
             }}
           />
           <Stack.Screen
@@ -65,7 +71,9 @@ const StackNavigator = () => {
               headerShown: true,
               headerTitle: 'Book a Session',
               headerTintColor: Colors.primary,
+              headerBackTitle: '',
               headerStyle: { backgroundColor: Colors.background },
+              headerShadowVisible: false,
             }}
           />
           <Stack.Screen
@@ -75,7 +83,9 @@ const StackNavigator = () => {
               headerShown: true,
               headerTitle: 'Confirm Booking',
               headerTintColor: Colors.primary,
+              headerBackTitle: '',
               headerStyle: { backgroundColor: Colors.background },
+              headerShadowVisible: false,
             }}
           />
           <Stack.Screen
@@ -84,6 +94,10 @@ const StackNavigator = () => {
             options={{ headerShown: false, gestureEnabled: false }}
             listeners={{ focus: () => clearPendingOnboarding() }}
           />
+          <Stack.Screen name="MentorNotifications" component={NotificationsScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="MentorSessions" component={SessionsScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="MentorFinance" component={FinanceScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="MentorReviews" component={ReviewsScreen} options={{ headerShown: false }} />
           <Stack.Screen
             name="LearnerProfile"
             component={LearnerProfileScreen}
@@ -96,7 +110,9 @@ const StackNavigator = () => {
               headerShown: false,
               headerTitle: 'Edit Profile',
               headerTintColor: Colors.primary,
+              headerBackTitle: '',
               headerStyle: { backgroundColor: Colors.background },
+              headerShadowVisible: false,
             }}
           />
         </Stack.Group>
@@ -110,7 +126,9 @@ const StackNavigator = () => {
             headerShown: true,
             headerTitle: 'Mentor Profile',
             headerTintColor: Colors.primary,
+              headerBackTitle: '',
             headerStyle: { backgroundColor: Colors.background },
+              headerShadowVisible: false,
           }}
         />
         <Stack.Screen
