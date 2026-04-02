@@ -1,9 +1,10 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { StyleSheet, Platform } from 'react-native';
+import { Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TabParamList } from './types';
 import { Colors, FontSize } from '../utils/constants';
+import { styles } from '../styles/TabNavigator.styles';
 import { useAuth } from '../context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -110,12 +111,5 @@ const TabNavigator = () => {
     </Tab.Navigator>
   );
 };
-
-const styles = StyleSheet.create({
-  tabLabel: {
-    fontSize: FontSize.xs,
-    fontWeight: '600',
-  },
-});
 
 export default TabNavigator;

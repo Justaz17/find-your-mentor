@@ -1,0 +1,190 @@
+import { StyleSheet } from 'react-native';
+import { Colors, FontSize, Spacing } from '../utils/constants';
+
+export const acc = StyleSheet.create({
+  wrap: {
+    backgroundColor: Colors.background,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    marginBottom: Spacing.sm,
+    overflow: 'hidden',
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: Spacing.md,
+    paddingVertical: 14,
+  },
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    gap: Spacing.sm,
+  },
+  iconWrap: {
+    width: 34,
+    height: 34,
+    borderRadius: 10,
+    backgroundColor: Colors.surface,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  iconWrapActive: {
+    backgroundColor: Colors.primaryLight,
+  },
+  headerText: { flex: 1 },
+  title: {
+    fontSize: FontSize.md,
+    fontWeight: '800',
+    color: Colors.text,
+  },
+  summary: {
+    fontSize: FontSize.xs,
+    color: Colors.textSecondary,
+    fontWeight: '600',
+    marginTop: 2,
+  },
+  body: {
+    paddingHorizontal: Spacing.md,
+    paddingBottom: Spacing.md,
+    borderTopWidth: 1,
+    borderTopColor: Colors.border,
+    paddingTop: Spacing.md,
+    gap: Spacing.md,
+  },
+});
+
+export const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: Colors.surface },
+
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: Spacing.lg,
+    paddingVertical: Spacing.md,
+    backgroundColor: Colors.background,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+  },
+  headerTitle: { fontSize: FontSize.md, fontWeight: '900', color: Colors.text },
+  cancelText: { fontSize: FontSize.md, color: Colors.textSecondary, fontWeight: '700' },
+  saveText: { fontSize: FontSize.md, color: Colors.primary, fontWeight: '900' },
+
+  content: {
+    padding: Spacing.lg,
+  },
+
+  labelRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'baseline',
+    marginBottom: Spacing.sm,
+  },
+  fieldLabel: { fontSize: FontSize.sm, fontWeight: '800', color: Colors.text },
+  hint: { fontSize: FontSize.xs, color: Colors.textSecondary, fontWeight: '600' },
+
+  input: {
+    backgroundColor: Colors.surface,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    paddingHorizontal: Spacing.md,
+    paddingVertical: 11,
+    fontSize: FontSize.md,
+    color: Colors.text,
+    fontWeight: '600',
+  },
+  textArea: { minHeight: 88, textAlignVertical: 'top' },
+
+  chipsRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  chip: {
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 999,
+    backgroundColor: Colors.surface,
+    borderWidth: 1,
+    borderColor: Colors.border,
+  },
+  chipActive: { backgroundColor: Colors.primary, borderColor: Colors.primary },
+  chipText: { fontSize: FontSize.sm, fontWeight: '700', color: Colors.text },
+  chipTextActive: { color: Colors.textLight },
+
+  priceRow: { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm },
+  priceInputWrap: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.surface,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    paddingHorizontal: Spacing.md,
+    gap: 6,
+  },
+  priceInput: { flex: 1, paddingVertical: 11, fontSize: FontSize.md, color: Colors.text, fontWeight: '600' },
+  priceSeparator: { fontSize: FontSize.lg, color: Colors.textSecondary, fontWeight: '700' },
+
+  interestCard: {
+    backgroundColor: Colors.surface,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    padding: Spacing.md,
+    marginBottom: Spacing.sm,
+  },
+  interestCardHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: Spacing.sm,
+  },
+  interestSkillName: { fontSize: FontSize.md, fontWeight: '800', color: Colors.text },
+  levelRow: { gap: Spacing.sm },
+  levelField: { marginBottom: Spacing.xs },
+  levelLabel: { fontSize: FontSize.xs, color: Colors.textSecondary, fontWeight: '700', marginBottom: 6 },
+
+  addSkillButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    paddingVertical: 12,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    borderColor: Colors.primary,
+    marginTop: Spacing.xs,
+  },
+  addSkillText: { fontSize: FontSize.sm, color: Colors.primary, fontWeight: '800' },
+
+  skillPicker: {
+    backgroundColor: Colors.surface,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    padding: Spacing.md,
+    marginTop: Spacing.sm,
+  },
+  skillPickerCategory: {
+    fontSize: FontSize.sm,
+    fontWeight: '900',
+    color: Colors.text,
+    marginTop: Spacing.sm,
+    marginBottom: 6,
+  },
+  skillPickerChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 999,
+    backgroundColor: Colors.primaryLight,
+    borderWidth: 1,
+    borderColor: Colors.border,
+  },
+  skillPickerChipText: { fontSize: FontSize.xs, color: Colors.primary, fontWeight: '700' },
+});

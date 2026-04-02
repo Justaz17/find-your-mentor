@@ -1,9 +1,10 @@
 // frontend/src/components/Calendar/BookedDatesCalendar.tsx
 
 import React, { useMemo } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { Colors, Spacing, FontSize } from '../../utils/constants';
+import { styles } from '../../styles/BookedDatesCalendar.styles';
 import { Booking } from '../../types/Booking';
 
 interface BookedDatesCalendarProps {
@@ -140,68 +141,5 @@ const BookedDatesCalendar = ({ bookings, selectedDate, onDateSelect, filter }: B
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    marginHorizontal: Spacing.lg,
-    marginVertical: Spacing.md,
-    borderRadius: 16,
-    backgroundColor: Colors.background,
-    overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: Colors.border,
-  },
-  header: {
-    paddingHorizontal: Spacing.lg,
-    paddingTop: Spacing.lg,
-    paddingBottom: Spacing.sm,
-  },
-  title: {
-    fontSize: FontSize.lg,
-    fontWeight: '700',
-    color: Colors.text,
-    marginBottom: Spacing.xs,
-  },
-  hint: {
-    fontSize: FontSize.sm,
-    color: Colors.textSecondary,
-  },
-  calendarWrapper: {
-    paddingHorizontal: Spacing.md,
-    paddingVertical: Spacing.md,
-  },
-  calendar: {
-    borderRadius: 12,
-  },
-  emptyState: {
-    paddingVertical: Spacing.lg,
-    paddingHorizontal: Spacing.lg,
-    alignItems: 'center',
-  },
-  emptyStateText: {
-    fontSize: FontSize.sm,
-    color: Colors.textSecondary,
-  },
-  selectedInfo: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: Spacing.lg,
-    paddingVertical: Spacing.md,
-    borderTopWidth: 1,
-    borderTopColor: Colors.border,
-    backgroundColor: Colors.primaryLight,
-  },
-  selectedLabel: {
-    fontSize: FontSize.sm,
-    fontWeight: '600',
-    color: Colors.textSecondary,
-  },
-  selectedDate: {
-    fontSize: FontSize.md,
-    fontWeight: '700',
-    color: Colors.primary,
-  },
-});
 
 export default BookedDatesCalendar;
