@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
-  StyleSheet,
   ActivityIndicator,
   RefreshControl,
   FlatList,
@@ -23,6 +22,7 @@ import { Booking } from '../../types/Booking';
 import { getMyBookings, cancelBooking } from '../../services/bookingService';
 import { Colors, Spacing, FontSize } from '../../utils/constants';
 import BookedDatesCalendar from '../../components/mentor/BookedDatesCalendar';
+import { styles } from '../../styles/BookingScreen.styles';
 
 type BookingScreenNavProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -378,93 +378,5 @@ const BookingScreen = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: Colors.surface },
-  centered: {
-    flex: 1, justifyContent: 'center', alignItems: 'center',
-    backgroundColor: Colors.surface, padding: Spacing.lg,
-  },
-  loadingText: { color: Colors.textSecondary, marginTop: Spacing.sm },
-  errorText: { color: Colors.textSecondary, textAlign: 'center', marginBottom: Spacing.lg },
-  header: {
-    backgroundColor: Colors.background,
-    paddingHorizontal: Spacing.lg,
-    paddingBottom: Spacing.md,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
-  },
-  title: { fontWeight: '800', color: Colors.text, marginBottom: Spacing.xs, letterSpacing: -0.3 },
-  subtitle: { color: Colors.textSecondary },
-  filterContainer: {
-    backgroundColor: Colors.background,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
-    paddingHorizontal: Spacing.lg,
-    paddingVertical: Spacing.sm,
-  },
-  filterTabs: { flexDirection: 'row', gap: Spacing.sm },
-  filterButtonWrapper: { position: 'relative' },
-  filterButton: { borderColor: Colors.border, borderWidth: 1 },
-  filterButtonActive: { borderColor: Colors.primary, backgroundColor: Colors.primaryLight },
-  filterLabel: { fontSize: FontSize.sm, fontWeight: '600', color: Colors.textSecondary },
-  filterLabelActive: { color: Colors.primary, fontWeight: '700' },
-  badge: {
-    position: 'absolute', top: -4, right: -4,
-    backgroundColor: Colors.warning, borderRadius: 8,
-    minWidth: 16, height: 16,
-    justifyContent: 'center', alignItems: 'center', paddingHorizontal: 3,
-  },
-  badgeText: { color: Colors.textLight, fontSize: 10, fontWeight: '800' },
-  listContent: { paddingHorizontal: Spacing.lg, paddingVertical: Spacing.md },
-  bookingTouchable: { marginBottom: Spacing.md },
-  bookingCard: { borderRadius: 16, borderColor: Colors.border },
-  bookingCardPending: { borderColor: Colors.warning, borderWidth: 1.5 },
-  headerRow: {
-    flexDirection: 'row', justifyContent: 'space-between',
-    alignItems: 'center', gap: Spacing.md,
-  },
-  headerLeft: { flex: 1 },
-  headerRight: { flexShrink: 1 },
-  serviceName: { fontWeight: '800', color: Colors.text, marginBottom: Spacing.xs },
-  dateText: { color: Colors.textSecondary, fontWeight: '500' },
-  pendingNotice: {
-    marginTop: Spacing.sm,
-    backgroundColor: Colors.warning + '18',
-    borderRadius: 8,
-    paddingHorizontal: Spacing.md,
-    paddingVertical: Spacing.xs,
-  },
-  pendingNoticeText: { fontSize: FontSize.xs, color: Colors.warning, fontWeight: '600' },
-  divider: { backgroundColor: Colors.border, marginVertical: Spacing.md },
-  detailSection: { marginBottom: Spacing.md },
-  sectionTitle: {
-    color: Colors.textSecondary, fontWeight: '700',
-    marginBottom: Spacing.xs, textTransform: 'uppercase',
-    fontSize: FontSize.xs, letterSpacing: 0.5,
-  },
-  detailText: { color: Colors.text, fontWeight: '600' },
-  paymentRow: {
-    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
-  },
-  priceText: { color: Colors.primary, fontWeight: '900' },
-  noteText: { color: Colors.text, lineHeight: 18, fontStyle: 'italic' },
-  actions: { gap: Spacing.sm, marginTop: Spacing.md },
-  actionButton: { borderColor: Colors.border, borderRadius: 12 },
-  primaryAction: { backgroundColor: Colors.primary, borderRadius: 12 },
-  actionButtonLabel: { fontSize: FontSize.sm, fontWeight: '700' },
-  dangerAction: { borderColor: Colors.error },
-  dangerActionLabel: { color: Colors.error },
-  emptyState: {
-    flex: 1, justifyContent: 'center',
-    alignItems: 'center', paddingVertical: Spacing.xxl,
-  },
-  emptyStateTitle: { fontWeight: '700', color: Colors.text, marginBottom: Spacing.xs },
-  emptyStateText: {
-    color: Colors.textSecondary, textAlign: 'center',
-    marginBottom: Spacing.lg, maxWidth: 280,
-  },
-  exploreButton: { borderRadius: 12 },
-});
 
 export default BookingScreen;
