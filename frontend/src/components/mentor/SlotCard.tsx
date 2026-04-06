@@ -1,9 +1,7 @@
-// frontend/src/components/Calendar/SlotCard.tsx
-
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Colors, FontSize, Spacing } from '../../utils/constants';
-import { styles } from '../../styles/SlotCard.styles';
 import { AvailabilitySlot } from '../../types/Availability';
 
 interface SlotCardProps {
@@ -15,67 +13,77 @@ interface SlotCardProps {
 const SlotCard = ({ slot, onPress, onDelete }: SlotCardProps) => {
   const startTime = new Date(slot.start_time);
   const endTime = new Date(slot.end_time);
-  
-  const timeStr = `${startTime.getHours().toString().padStart(2, '0')}:${startTime
-    .getMinutes()
-    .toString()
-    .padStart(2, '0')} - ${endTime.getHours().toString().padStart(2, '0')}:${endTime
-    .getMinutes()
-    .toString()
-    .padStart(2, '0')}`;
 
-  const dayStr = startTime.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+  const timeStr = startTime.toLocaleTimeString('en-IE', {
+    hour: '2-digit', minute: '2-digit',
+  }) + ' — ' + endTime.toLocaleTimeString('en-IE', {
+    hour: '2-digit', minute: '2-digit',
+  });
 
-  // Color based on status
-  const getStatusColor = (): string => {
-    switch (slot.status) {
-      case 'available':
-        return Colors.secondary; // Green
-      case 'booked':
-        return Colors.textSecondary; // Gray
-      case 'cancelled':
-        return Colors.error; // Red
-      default:
-        return Colors.border;
-    }
-  };
+  const dayStr = startTime.toLocaleDateString('en-IE', {
+    weekday: 'short', month: 'short', day: 'numeric',
+  });
 
-  const getStatusLabel = (): string => {
-    switch (slot.status) {
-      case 'available':
-        return '✓ Available';
-      case 'booked':
-        return '✗ Booked';
-      case 'cancelled':
-        return '⚠ Cancelled';
-      default:
-        return slot.status;
-    }
-  };
-
-  const statusColor = getStatusColor();
   const isAvailable = slot.status === 'available';
+  const isBooked = slot.status === 'booked';
+
+  const statusColor = isAvailable
+    ? Colors.secondary
+    : isBooked ? Colors.warning : Colors.error;
+
+  const statusLabel = isAvailable ? 'Available' : isBooked ? 'Booked' : 'Cancelled';
+  const statusIcon = isAvailable
+    ? 'check-circle-outline'
+    : isBooked ? 'clock-outline' : 'close-circle-outline';
 
   return (
     <TouchableOpacity
-      style={[
-        styles.card,
-        { borderLeftColor: statusColor, backgroundColor: isAvailable ? Colors.background : Colors.surface },
-      ]}
+      style={{
+        backgroundColor: Colors.background,
+        borderRadius: 14, padding: Spacing.md,
+        borderWidth: 1, borderColor: Colors.border,
+        borderLeftWidth: 3, borderLeftColor: statusColor,
+        gap: 6,
+      }}
       onPress={isAvailable ? onPress : undefined}
       disabled={!isAvailable}
       activeOpacity={0.7}
     >
-      <View style={styles.header}>
-        <Text style={styles.date}>{dayStr}</Text>
-        <Text style={[styles.status, { color: statusColor }]}>{getStatusLabel()}</Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Text style={{ fontSize: FontSize.sm, fontWeight: '800', color: Colors.text }}>
+          {dayStr}
+        </Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+          <MaterialCommunityIcons name={statusIcon as any} size={14} color={statusColor} />
+          <Text style={{ fontSize: FontSize.xs, fontWeight: '700', color: statusColor }}>
+            {statusLabel}
+          </Text>
+        </View>
       </View>
-      
-      <Text style={styles.time}>{timeStr}</Text>
+
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+        <MaterialCommunityIcons name="clock-outline" size={14} color={Colors.textSecondary} />
+        <Text style={{ fontSize: FontSize.sm, fontWeight: '700', color: Colors.textSecondary }}>
+          {timeStr}
+        </Text>
+      </View>
 
       {isAvailable && onDelete && (
-        <TouchableOpacity style={styles.deleteButton} onPress={onDelete}>
-          <Text style={styles.deleteText}>Delete</Text>
+        <TouchableOpacity
+          onPress={onDelete}
+          style={{
+            alignSelf: 'flex-end',
+            flexDirection: 'row', alignItems: 'center', gap: 4,
+            paddingHorizontal: 10, paddingVertical: 4,
+            borderRadius: 8, borderWidth: 1, borderColor: Colors.error + '40',
+            backgroundColor: Colors.error + '10',
+          }}
+          activeOpacity={0.7}
+        >
+          <MaterialCommunityIcons name="trash-can-outline" size={14} color={Colors.error} />
+          <Text style={{ fontSize: FontSize.xs, fontWeight: '800', color: Colors.error }}>
+            Delete
+          </Text>
         </TouchableOpacity>
       )}
     </TouchableOpacity>

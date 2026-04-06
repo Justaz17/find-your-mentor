@@ -2,12 +2,14 @@ export interface User {
   id: number;
   email: string;
   name: string;
+  role: 'learner' | 'mentor' | 'both';
 }
 
 export interface UserCreate {
   email: string;
   name: string;
   password: string;
+  role?: 'learner' | 'mentor';
 }
 
 export interface UserLogin {

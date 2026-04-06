@@ -15,6 +15,29 @@ from app.db.database import get_db
 router = APIRouter(prefix="/services", tags=["services"])
 
 
+@router.get("/me", response_model=List[MentorServiceOut])
+def get_my_services(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Get all services for the currently authenticated mentor."""
+    mentor = (
+        db.query(MentorProfile).filter(MentorProfile.user_id == current_user.id).first()
+    )
+    if not mentor:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Mentor profile not found",
+        )
+
+    services = (
+        db.query(MentorService)
+        .filter(MentorService.mentor_profile_id == mentor.id)
+        .all()
+    )
+    return services
+
+
 @router.post(
     "/me",
     response_model=MentorServiceOut,

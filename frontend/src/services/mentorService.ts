@@ -89,3 +89,8 @@ export const getMentorAvailability = async (mentorId: number): Promise<Availabil
   );
   return response.data;
 };
+
+export const getMyMentorProfile = async (): Promise<MentorProfile> => {
+  const response = await api.get<MentorProfile>('/mentors/me/profile');
+  return response.data;
+};

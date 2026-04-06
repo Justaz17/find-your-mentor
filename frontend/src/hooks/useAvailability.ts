@@ -49,15 +49,24 @@ export const useAvailability = (): UseAvailabilityReturn => {
     setError(null);
     try {
       const [slotsData, patternsData] = await Promise.all([
-        getMentorAvailabilitySlots(),
-        getMentorRecurringPatterns(),
+        getMentorAvailabilitySlots().catch((err: any) => {
+          if (err?.response?.status === 404) return [];
+          throw err;
+        }),
+        getMentorRecurringPatterns().catch((err: any) => {
+          if (err?.response?.status === 404) return [];
+          throw err;
+        }),
       ]);
       setSlots(slotsData);
       setPatterns(patternsData);
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to load availability';
+    } catch (err: any) {
+      const detail = err?.response?.data?.detail;
+      const message = typeof detail === 'string'
+        ? detail
+        : err?.message ||
+        'Failed to load availability';
       setError(message);
-      console.error('useAvailability error:', err);
     } finally {
       setIsLoading(false);
     }
@@ -74,22 +83,20 @@ export const useAvailability = (): UseAvailabilityReturn => {
       try {
         const newSlot = await createAvailabilitySlot(slotInput);
         setSlots((prev) => [...prev, newSlot]);
-      } catch (err) {
-        const message = err instanceof Error ? err.message : 'Failed to create slot';
+      } catch (err: any) {
+        const message = err?.response?.data?.detail || err?.message || 'Failed to create slot';
         setError(message);
         throw err;
       }
-    },
-    []
-  );
+    },[]);
 
   // Remove slot
   const removeSlot = useCallback(async (slotId: number) => {
     try {
       await deleteAvailabilitySlot(slotId);
       setSlots((prev) => prev.filter((slot) => slot.id !== slotId));
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to delete slot';
+    } catch (err: any) {
+      const message = err?.response?.data?.detail || err?.message || 'Failed to delete slot';
       setError(message);
       throw err;
     }
@@ -103,8 +110,8 @@ export const useAvailability = (): UseAvailabilityReturn => {
         setPatterns((prev) => [...prev, newPattern]);
         // Also refetch slots since pattern creates new slots
         await fetchAvailability();
-      } catch (err) {
-        const message = err instanceof Error ? err.message : 'Failed to create pattern';
+      } catch (err: any) {
+        const message = err?.response?.data?.detail || err?.message || 'Failed to create pattern';
         setError(message);
         throw err;
       }
@@ -120,8 +127,8 @@ export const useAvailability = (): UseAvailabilityReturn => {
         setPatterns((prev) =>
           prev.map((p) => (p.id === patternId ? updated : p))
         );
-      } catch (err) {
-        const message = err instanceof Error ? err.message : 'Failed to update pattern';
+      } catch (err: any) {
+        const message = err?.response?.data?.detail || err?.message || 'Failed to update pattern';
         setError(message);
         throw err;
       }
@@ -136,8 +143,8 @@ export const useAvailability = (): UseAvailabilityReturn => {
       setPatterns((prev) => prev.filter((p) => p.id !== patternId));
       // Refetch slots since pattern deletion removes generated slots
       await fetchAvailability();
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to delete pattern';
+    } catch (err: any) {
+      const message = err?.response?.data?.detail || err?.message || 'Failed to delete pattern';
       setError(message);
       throw err;
     }

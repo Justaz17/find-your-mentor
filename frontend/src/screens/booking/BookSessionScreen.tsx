@@ -20,7 +20,7 @@ import { MentorService, AvailabilitySlot } from '../../types/Mentor';
 import { getMentorServices } from '../../services/serviceService';
 import { getMentorAvailability } from '../../services/mentorService';
 import { Colors, Spacing, FontSize } from '../../utils/constants';
-import TimelinePickerComponent from '../../components/booking/TimeLinePicker';
+import TimelinePickerComponent from '../../components/booking/TimelinePicker';
 import { styles } from '../../styles/BookSessionScreen.styles';
 
 type BookSessionRouteProp = RouteProp<RootStackParamList, 'BookSession'>;

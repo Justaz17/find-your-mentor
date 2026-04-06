@@ -167,6 +167,23 @@ def get_my_profile(current_user: User = Depends(get_current_user)):
     return current_user
 
 
+@router.get("/me/profile", response_model=MentorProfileWithSkills)
+def get_my_mentor_profile(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Get the current user's mentor profile with skills and stats."""
+    mentor = (
+        db.query(MentorProfile).filter(MentorProfile.user_id == current_user.id).first()
+    )
+    if not mentor:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Mentor profile not found",
+        )
+    return build_mentor_dict(mentor, db)
+
+
 @router.post(
     "/me/profile", response_model=MentorProfileOut, status_code=status.HTTP_201_CREATED
 )
