@@ -12,7 +12,7 @@ class MentorServiceCreate(BaseModel):
     @field_validator("duration_minutes")
     @classmethod
     def validate_duration(cls, v):
-        allowed = [30, 60, 90, 120]
+        allowed = [30, 45, 60, 90, 120]
         if v not in allowed:
             raise ValueError(f"Duration must be one of {allowed} minutes")
         return v
@@ -55,7 +55,7 @@ class MentorServiceUpdate(BaseModel):
     @classmethod
     def validate_duration(cls, v):
         if v is not None:
-            allowed = [30, 60, 90, 120]
+            allowed = [30, 45, 60, 90, 120]
             if v not in allowed:
                 raise ValueError(f"Duration must be one of {allowed} minutes")
         return v

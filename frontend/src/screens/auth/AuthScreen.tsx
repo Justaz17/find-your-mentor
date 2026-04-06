@@ -9,7 +9,7 @@ import {
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
-import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
+import { useNavigation, useRoute, RouteProp, CommonActions } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Colors, Spacing, FontSize } from '../../utils/constants';
@@ -71,21 +71,26 @@ const AuthScreen = () => {
   };
 
   const handleRegister = async () => {
-    const validationError = getRegistrationErrors(name, email, password, confirmPassword);
-    if (validationError) { setError(validationError); return; }
+    console.log('wantsMentor:', wantsMentor);
+    console.log('role being sent:', wantsMentor ? 'mentor' : 'learner');
+  const validationError = getRegistrationErrors(name, email, password, confirmPassword);
+  if (validationError) { setError(validationError); return; }
 
-    setIsLoading(true);
-    setError(null);
-    try {
-      await register({ name, email, password });
-      const response = await login({ email, password });
-      await signIn(response.access_token, true); // true = new registration, trigger onboarding
-    } catch (err: any) {
-      setError(err.message || 'Registration failed. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  setIsLoading(true);
+  setError(null);
+  try {
+    await register({ name, email, password, role: wantsMentor ? 'mentor' : 'learner' });
+    const response = await login({ email, password });
+    await signIn(response.access_token, true);
+    navigation.dispatch(
+      CommonActions.reset({ index: 0, routes: [{ name: 'Main' as any }] })
+    );
+  } catch (err: any) {
+    setError(err.message || 'Registration failed. Please try again.');
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   const handleSubmit = () => {
     if (isLogin) handleLogin();

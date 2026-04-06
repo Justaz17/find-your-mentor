@@ -23,6 +23,7 @@ const getUserFromToken = (token: string): User | null => {
       id: decoded.user_id || 0,
       email: decoded.sub || '',
       name: decoded.name || decoded.sub?.split('@')[0] || '',
+      role: decoded.role || 'learner',
     };
   } catch {
     return null;
@@ -103,6 +104,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     </AuthContext.Provider>
   );
 };
+
 
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);

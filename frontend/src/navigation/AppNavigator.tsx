@@ -2,16 +2,26 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import StackNavigator from './StackNavigator';
 import { useAuth } from '../context/AuthContext';
+import MentorOnboardingNavigator from './MentorOnboardingNavigator';
 import OnboardingScreen from '../screens/learner/OnboardingScreen';
 
 const AppNavigator = () => {
-  const { isAuthenticated, isLoading, pendingOnboarding } = useAuth();
+  const { isAuthenticated, isLoading, pendingOnboarding, user } = useAuth();
+  console.log('AppNavigator user:', user?.role, 'pending:', pendingOnboarding);
 
-  // Don't render anything until auth state is loaded
   if (isLoading) return null;
 
-  // New user — show onboarding fullscreen before any navigation stack
-  if (isAuthenticated && pendingOnboarding) {
+  // New mentor — show onboarding outside NavigationContainer
+  if (isAuthenticated && pendingOnboarding && user?.role === 'mentor') {
+    return (
+      <NavigationContainer>
+        <MentorOnboardingNavigator />
+      </NavigationContainer>
+    );
+  }
+
+  // New learner — show onboarding outside NavigationContainer  
+  if (isAuthenticated && pendingOnboarding && user?.role === 'learner') {
     return <OnboardingScreen />;
   }
 

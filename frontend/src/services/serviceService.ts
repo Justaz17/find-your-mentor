@@ -6,13 +6,22 @@ export const getMentorServices = async (mentorId: number): Promise<MentorService
   return response.data;
 };
 
+export const getMyServices = async (): Promise<MentorService[]> => {
+  const response = await api.get<MentorService[]>('/services/me');
+  return response.data;
+};
+
 export const createService = async (data: {
   title: string;
   description?: string;
   duration_minutes: number;
   price: number;
+  is_active?: boolean;
 }): Promise<MentorService> => {
-  const response = await api.post<MentorService>('/services/me', data);
+  const response = await api.post<MentorService>('/services/me', {
+    ...data,
+    is_active: data.is_active ?? true,
+  });
   return response.data;
 };
 
