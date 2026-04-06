@@ -23,11 +23,13 @@ def booking_to_dict(b: Booking, learner_name: str) -> dict:
         "mentor_service_id": b.mentor_service_id,
         "service_title": b.mentor_service.title,
         "availability_slot_id": b.availability_slot_id,
-        # Use the booking's own times if they are set, fall back to slot times
+        # Using the booking's own times if they are set, falling back to slot times
         "slot_start": b.start_time or b.availability_slot.start_time,
         "slot_end": b.end_time or b.availability_slot.end_time,
         "start_time": b.start_time,
         "end_time": b.end_time,
+        "learner_confirmed": b.learner_confirmed,
+        "mentor_confirmed": b.mentor_confirmed,
         "learner_note": b.learner_note,
         "status": b.status,
         "payment_status": b.payment_status,
@@ -417,4 +419,58 @@ def complete_booking(
         "message": "Booking completed",
         "booking_id": booking.id,
         "status": booking.status,
+    }
+
+
+@router.post("/{booking_id}/learner-confirm")
+def learner_confirm(
+    booking_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    booking = db.query(Booking).filter(Booking.id == booking_id).first()
+    if not booking:
+        raise HTTPException(status_code=404, detail="Booking not found")
+    if booking.learner_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Not your booking")
+    if booking.status != "confirmed":
+        raise HTTPException(status_code=400, detail=f"Booking is {booking.status}")
+
+    booking.learner_confirmed = True
+    if booking.mentor_confirmed:
+        booking.status = "completed"
+        booking.payment_status = "paid"
+
+    db.commit()
+    return {
+        "message": "Attendance confirmed",
+        "booking_id": booking.id,
+        "completed": booking.status == "completed",
+    }
+
+
+@router.post("/{booking_id}/mentor-confirm")
+def mentor_confirm(
+    booking_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    booking = db.query(Booking).filter(Booking.id == booking_id).first()
+    if not booking:
+        raise HTTPException(status_code=404, detail="Booking not found")
+    if booking.mentor_service.mentor_profile.user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Not your booking")
+    if booking.status != "confirmed":
+        raise HTTPException(status_code=400, detail=f"Booking is {booking.status}")
+
+    booking.mentor_confirmed = True
+    if booking.learner_confirmed:
+        booking.status = "completed"
+        booking.payment_status = "paid"
+
+    db.commit()
+    return {
+        "message": "Session marked as completed",
+        "booking_id": booking.id,
+        "completed": booking.status == "completed",
     }

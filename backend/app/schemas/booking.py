@@ -63,6 +63,8 @@ class BookingOut(BaseModel):
     availability_slot_id: int
     slot_start: datetime
     slot_end: datetime
+    learner_confirmed: bool = False
+    mentor_confirmed: bool = False
     start_time: Optional[datetime] = (
         None  # the actual booked time within the availability window
     )

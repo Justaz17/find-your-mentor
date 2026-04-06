@@ -19,7 +19,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/types';
 import { Booking } from '../../types/Booking';
-import { getMyBookings, cancelBooking } from '../../services/bookingService';
+import { getMyBookings, cancelBooking, learnerConfirmBooking } from '../../services/bookingService';
 import { Colors, Spacing, FontSize } from '../../utils/constants';
 import BookedDatesCalendar from '../../components/mentor/BookedDatesCalendar';
 import { styles } from '../../styles/BookingScreen.styles';
@@ -38,7 +38,8 @@ const BookingScreen = () => {
   const [expandedBookingId, setExpandedBookingId] = useState<number | null>(null);
   const [selectedDateFromCalendar, setSelectedDateFromCalendar] = useState<string | null>(null);
   const [cancellingId, setCancellingId] = useState<number | null>(null);
-
+  const [attendingId, setAttendingId] = useState<number | null>(null);
+  
   const fetchBookings = useCallback(async () => {
     try {
       setError(null);
@@ -77,6 +78,18 @@ const BookingScreen = () => {
       setCancellingId(null);
     }
   };
+
+  const handleLearnerConfirm = async (bookingId: number) => {
+    setAttendingId(bookingId);
+    try {
+      await learnerConfirmBooking(bookingId);
+      await fetchBookings();
+    } catch (err: any) {
+      setError(err.message || 'Failed to confirm attendance');
+    } finally {
+      setAttendingId(null);
+    }
+};
 
   // Filter bookings
   const now = new Date();
@@ -339,6 +352,30 @@ const BookingScreen = () => {
                             Cancel Session
                           </Button>
                         )}
+                      {/* Confirm attendance — past confirmed sessions */}
+                      {isPast && item.status === 'confirmed' && !item.learner_confirmed && (
+                        <Button
+                          mode="contained"
+                          style={{ backgroundColor: Colors.secondary, borderRadius: 12 }}
+                          labelStyle={styles.actionButtonLabel}
+                          loading={attendingId === item.id}
+                          disabled={attendingId === item.id}
+                          onPress={() => handleLearnerConfirm(item.id)}
+                        >
+                          Confirm I attended
+                        </Button>
+                      )}
+
+                      {isPast && item.status === 'confirmed' && item.learner_confirmed && (
+                        <Button
+                          mode="outlined"
+                          style={styles.actionButton}
+                          labelStyle={[styles.actionButtonLabel, { color: Colors.secondary }]}
+                          disabled
+                        >
+                          Attendance confirmed.
+                        </Button>
+                      )}
                       </View>
                     </>
                   )}

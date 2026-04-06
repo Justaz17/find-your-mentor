@@ -19,12 +19,20 @@ export type RootStackParamList = {
   Search: { query?: string; category_id?: number };
   LearnerProfile: undefined;
   EditLearnerProfile: { profile?: LearnerProfile };
+  ManageServices: undefined;
+  MentorOnboarding: undefined;
+  MentorEditProfile: undefined;
+  SessionsList: { filter?: 'upcoming' | 'pending' | 'completed' };
+  Earnings: undefined;
+  Notifications: undefined;
+  Reviews: undefined;
 };
 
 export type TabParamList = {
   Home: undefined;
   Search: undefined;
   Bookings: undefined;
+  Notifications: undefined;
   Dashboard: undefined;
   Login: undefined;
 };
