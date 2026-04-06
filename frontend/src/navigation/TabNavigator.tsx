@@ -1,29 +1,25 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TabParamList } from './types';
-import { Colors, FontSize } from '../utils/constants';
+import { Colors } from '../utils/constants';
 import { styles } from '../styles/TabNavigator.styles';
 import { useAuth } from '../context/AuthContext';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from './types';
 import HomeScreen from '../screens/home/HomeScreen';
 import SearchScreen from '../screens/home/SearchScreen';
 import BookingScreen from '../screens/booking/BookingScreen';
 import LearnerDashboardScreen from '../screens/learner/LearnerDashboardScreen';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import MentorDashboardScreen from '../screens/mentor/MentorDashboardScreen';
+import NotificationsScreen from '../screens/mentor/NotificationScreen';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator<TabParamList>();
-
-// Dummy screen — never actually renders, tab press triggers navigation instead
 const NullScreen = () => null;
 
 const TabNavigator = () => {
   const insets = useSafeAreaInsets();
   const { isAuthenticated, user } = useAuth();
+  const isMentor = user?.role === 'mentor' || user?.role === 'both';
 
   return (
     <Tab.Navigator
@@ -42,7 +38,6 @@ const TabNavigator = () => {
         tabBarLabelStyle: styles.tabLabel,
       }}
     >
-      {/* Home — always visible */}
       <Tab.Screen
         name="Home"
         component={HomeScreen}
@@ -53,7 +48,6 @@ const TabNavigator = () => {
         }}
       />
 
-      {/* Search — always visible */}
       <Tab.Screen
         name="Search"
         component={SearchScreen}
@@ -64,7 +58,6 @@ const TabNavigator = () => {
         }}
       />
 
-      {/* Authenticated only */}
       {isAuthenticated && (
         <Tab.Screen
           name="Bookings"
@@ -77,10 +70,23 @@ const TabNavigator = () => {
         />
       )}
 
+      {isAuthenticated && isMentor && (
+        <Tab.Screen
+          name="Notifications"
+          component={NotificationsScreen}
+          options={{
+            tabBarLabel: 'Requests',
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name="bell-outline" size={24} color={color} />
+            ),
+          }}
+        />
+      )}
+
       {isAuthenticated && (
         <Tab.Screen
           name="Dashboard"
-          component={user?.role === 'mentor' || user?.role === 'both' ? MentorDashboardScreen : LearnerDashboardScreen}
+          component={isMentor ? MentorDashboardScreen : LearnerDashboardScreen}
           options={{
             tabBarLabel: 'Profile',
             tabBarIcon: ({ color }) => (
@@ -90,7 +96,6 @@ const TabNavigator = () => {
         />
       )}
 
-      {/* Guest only — opens Auth modal on press */}
       {!isAuthenticated && (
         <Tab.Screen
           name="Login"

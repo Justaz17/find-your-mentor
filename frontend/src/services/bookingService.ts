@@ -115,3 +115,20 @@ export const completeBooking = async (bookingId: number): Promise<any> => {
     throw new Error(error.response?.data?.detail || 'Failed to complete booking');
   }
 };
+export const learnerConfirmBooking = async (bookingId: number): Promise<any> => {
+  try {
+    const response = await axios.post(`/bookings/${bookingId}/learner-confirm`);
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.detail || 'Failed to confirm attendance');
+  }
+};
+
+export const mentorConfirmBooking = async (bookingId: number): Promise<any> => {
+  try {
+    const response = await axios.post(`/bookings/${bookingId}/mentor-confirm`);
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.detail || 'Failed to confirm session');
+  }
+};

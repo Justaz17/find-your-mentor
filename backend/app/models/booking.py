@@ -1,4 +1,13 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, Text, DateTime
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    Float,
+    ForeignKey,
+    Text,
+    DateTime,
+    Boolean,
+)
 from sqlalchemy.orm import relationship
 from app.db.database import Base
 from datetime import datetime, timezone
@@ -19,6 +28,10 @@ class Booking(Base):
     # Actual booked time within the availability window
     start_time = Column(DateTime(timezone=True), nullable=True)
     end_time = Column(DateTime(timezone=True), nullable=True)
+
+    # Confirmation flags to track if both parties have confirmed the booking
+    learner_confirmed = Column(Boolean, default=False, nullable=False)
+    mentor_confirmed = Column(Boolean, default=False, nullable=False)
 
     # Learner provides context to help mentor prepare
     learner_note = Column(Text, nullable=True)
