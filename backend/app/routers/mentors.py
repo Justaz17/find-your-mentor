@@ -3,6 +3,8 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func
 from typing import List, Optional
 
+from app import db
+from app.models.mentor_service import MentorService
 from app.schemas.mentor_profile import (
     MentorProfileCreate,
     MentorProfileOut,
@@ -18,7 +20,7 @@ from app.models.learner_profile import LearnerProfile, LearnerInterest
 from app.models.skill import Skill, MentorSkill
 from app.models.category import Category
 from app.models.review import Review
-from app.models.availability_slot import AvailabilitySlot
+from app.models.availability_slot import AvailabilitySlot, AvailabilitySlotStatus
 from app.models.booking import Booking
 from app.core.security import get_current_user, get_optional_user
 from app.db.database import get_db
@@ -109,6 +111,27 @@ def build_mentor_dict(mentor: MentorProfile, db: Session) -> dict:
         "relevance_score": None,
         "match_reasons": [],
     }
+
+
+def filter_bookable_mentors(query, db: Session):
+    """Filter out mentors with no active services or no future available slots."""
+    now = datetime.now(timezone.utc)
+    return query.filter(
+        MentorProfile.id.in_(
+            db.query(MentorService.mentor_profile_id)
+            .filter(MentorService.is_active == True)
+            .distinct()
+        )
+    ).filter(
+        MentorProfile.id.in_(
+            db.query(AvailabilitySlot.mentor_profile_id)
+            .filter(
+                AvailabilitySlot.status == AvailabilitySlotStatus.AVAILABLE,
+                AvailabilitySlot.start_time > now,
+            )
+            .distinct()
+        )
+    )
 
 
 def build_learner_dict(learner_profile: LearnerProfile, db: Session) -> dict:
@@ -274,6 +297,7 @@ def search_mentors(
     by relevance score with match reasons. Otherwise sorted by rating.
     """
     query = db.query(MentorProfile).filter(MentorProfile.is_visible == True)
+    query = filter_bookable_mentors(query, db)
 
     # Hard filter: category
     if category_id:
@@ -391,6 +415,7 @@ def list_mentors(
     Prefer /mentors/search for new frontend work.
     """
     query = db.query(MentorProfile).filter(MentorProfile.is_visible == True)
+    query = filter_bookable_mentors(query, db)
 
     if skill:
         query = query.join(MentorSkill).join(Skill).filter(Skill.name == skill)

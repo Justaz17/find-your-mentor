@@ -55,6 +55,7 @@ class BookingOut(BaseModel):
     """Schema for booking output"""
 
     id: int
+    mentor_id: int
     learner_id: int
     learner_name: str
     mentor_service_id: int
@@ -62,6 +63,12 @@ class BookingOut(BaseModel):
     availability_slot_id: int
     slot_start: datetime
     slot_end: datetime
+    start_time: Optional[datetime] = (
+        None  # the actual booked time within the availability window
+    )
+    end_time: Optional[datetime] = (
+        None  # the actual booked time within the availability window
+    )
     learner_note: Optional[str]
     status: (
         str  # pending, confirmed, completed, cancelled_by_learner, cancelled_by_mentor

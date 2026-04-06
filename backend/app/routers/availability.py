@@ -7,6 +7,8 @@ from app.models.mentor_profile import MentorProfile
 from app.models.availability_slot import AvailabilitySlot, AvailabilitySlotStatus
 from app.core.security import get_current_user
 from app.db.database import get_db
+from app.models.booking import Booking
+from app.models.mentor_service import MentorService
 
 router = APIRouter(prefix="/availability", tags=["availability"])
 
@@ -81,6 +83,47 @@ def create_availability_slot(
     db.commit()
     db.refresh(new_slot)
     return new_slot
+
+
+@router.get("/mentors/{mentor_id}/booked-times")
+def get_booked_times(
+    mentor_id: int,
+    date: str,  # YYYY-MM-DD
+    db: Session = Depends(get_db),
+):
+    """Get booked time ranges for a mentor on a specific date."""
+    from datetime import datetime, timezone
+
+    try:
+        date_obj = datetime.strptime(date, "%Y-%m-%d").date()
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid date format")
+
+    # Get all confirmed/pending bookings for this mentor on this date
+    bookings = (
+        db.query(Booking)
+        .join(MentorService)
+        .join(MentorProfile)
+        .filter(
+            MentorProfile.id == mentor_id,
+            Booking.status.in_(["pending", "confirmed"]),
+            Booking.start_time.isnot(None),
+        )
+        .all()
+    )
+
+    # Filter to the requested date and return time ranges
+    booked_ranges = []
+    for b in bookings:
+        if b.start_time.date() == date_obj:
+            booked_ranges.append(
+                {
+                    "start_time": b.start_time.isoformat(),
+                    "end_time": b.end_time.isoformat(),
+                }
+            )
+
+    return booked_ranges
 
 
 @router.get(
