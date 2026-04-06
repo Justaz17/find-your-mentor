@@ -74,6 +74,8 @@ const BookingConfirmationScreen = () => {
       await createBooking({
         mentor_service_id: serviceId,
         availability_slot_id: slotId,
+        start_time: slotStart,
+        end_time: slotEnd,
         learner_note: learnerNote.trim() || undefined,
       });
       setIsBooked(true);

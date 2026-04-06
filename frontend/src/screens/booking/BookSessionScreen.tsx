@@ -18,7 +18,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RootStackParamList } from '../../navigation/types';
 import { MentorService, AvailabilitySlot } from '../../types/Mentor';
 import { getMentorServices } from '../../services/serviceService';
-import { getMentorAvailability } from '../../services/mentorService';
+import { getMentorAvailability, getMentorBookedTimes } from '../../services/mentorService';
 import { Colors, Spacing, FontSize } from '../../utils/constants';
 import TimelinePickerComponent from '../../components/booking/TimelinePicker';
 import { styles } from '../../styles/BookSessionScreen.styles';
@@ -47,6 +47,7 @@ const BookSessionScreen = () => {
   const [selectedEndTime, setSelectedEndTime] = useState<string | null>(null);
   const [selectedSlotId, setSelectedSlotId] = useState<number | null>(null);
 
+  const [bookedTimes, setBookedTimes] = useState<{ start_time: string; end_time: string }[]>([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -65,6 +66,13 @@ const BookSessionScreen = () => {
     };
     fetchData();
   }, [mentorId]);
+
+  useEffect(() => {
+    if (!selectedDate) return;
+    getMentorBookedTimes(mentorId, selectedDate)
+      .then(setBookedTimes)
+      .catch(() => setBookedTimes([]));
+  }, [selectedDate, mentorId]);
 
   // Group slots by local date to avoid UTC shifting
   const slotsByDate = useMemo(() => {
@@ -145,7 +153,56 @@ const BookSessionScreen = () => {
       minute: '2-digit',
     });
   };
+  const splitSlotsAroundBookings = (
+    rawSlots: AvailabilitySlot[],
+    booked: { start_time: string; end_time: string }[]
+  ): AvailabilitySlot[] => {
+    if (!booked.length) return rawSlots;
 
+    const result: AvailabilitySlot[] = [];
+
+    for (const slot of rawSlots) {
+      let freeStart = new Date(slot.start_time).getTime();
+      const slotEnd = new Date(slot.end_time).getTime();
+
+      // Sort bookings that overlap with this slot by start time
+      const overlapping = booked
+        .filter(b => {
+          const bStart = new Date(b.start_time).getTime();
+          const bEnd = new Date(b.end_time).getTime();
+          return bStart < slotEnd && bEnd > freeStart;
+        })
+        .sort((a, b) => new Date(a.start_time).getTime() - new Date(b.start_time).getTime());
+
+      for (const booking of overlapping) {
+        const bStart = new Date(booking.start_time).getTime();
+        const bEnd = new Date(booking.end_time).getTime();
+
+        if (bStart > freeStart) {
+          // There's a free window before this booking
+          result.push({
+            ...slot,
+            id: slot.id * 1000 + result.length, // synthetic id
+            start_time: new Date(freeStart).toISOString(),
+            end_time: new Date(bStart).toISOString(),
+          });
+        }
+        freeStart = Math.max(freeStart, bEnd);
+      }
+
+      // Remaining free time after last booking
+      if (freeStart < slotEnd) {
+        result.push({
+          ...slot,
+          id: slot.id * 1000 + result.length,
+          start_time: new Date(freeStart).toISOString(),
+          end_time: new Date(slotEnd).toISOString(),
+        });
+      }
+    }
+
+    return result;
+  };
   const handleTimeSelected = (startTime: string, endTime: string) => {
     setSelectedStartTime(startTime);
     setSelectedEndTime(endTime);
@@ -341,10 +398,17 @@ const BookSessionScreen = () => {
       {/* Step 3: Select Time */}
       {step >= 3 && selectedDate && selectedService && (
         <TimelinePickerComponent
-          availabilitySlots={slotsByDate[selectedDate] || []}
+          availabilitySlots={splitSlotsAroundBookings(
+            slotsByDate[selectedDate] || [],
+            bookedTimes
+          ).filter(slot => {
+            const durationMins = (new Date(slot.end_time).getTime() - new Date(slot.start_time).getTime()) / 60000;
+            return durationMins >= selectedService.duration_minutes;
+          })}
           selectedDate={selectedDate}
           serviceDurationMinutes={selectedService.duration_minutes}
           onTimeSelected={handleTimeSelected}
+          bookedTimes={[]}
         />
       )}
 

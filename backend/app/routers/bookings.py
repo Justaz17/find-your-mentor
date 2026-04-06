@@ -15,17 +15,19 @@ router = APIRouter(prefix="/bookings", tags=["bookings"])
 
 
 def booking_to_dict(b: Booking, learner_name: str) -> dict:
-    """Shared serialiser — keeps all endpoints consistent."""
     return {
         "id": b.id,
         "learner_id": b.learner_id,
         "learner_name": learner_name,
-        "mentor_id": b.mentor_service.mentor_profile.user_id,  # ← added
+        "mentor_id": b.mentor_service.mentor_profile.user_id,
         "mentor_service_id": b.mentor_service_id,
         "service_title": b.mentor_service.title,
         "availability_slot_id": b.availability_slot_id,
-        "slot_start": b.availability_slot.start_time,
-        "slot_end": b.availability_slot.end_time,
+        # Use the booking's own times if they are set, fall back to slot times
+        "slot_start": b.start_time or b.availability_slot.start_time,
+        "slot_end": b.end_time or b.availability_slot.end_time,
+        "start_time": b.start_time,
+        "end_time": b.end_time,
         "learner_note": b.learner_note,
         "status": b.status,
         "payment_status": b.payment_status,
@@ -44,16 +46,7 @@ def create_booking(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    """
-    Book a session. Validates:
-    - Service exists and is active
-    - Availability slot exists
-    - Service duration fits in slot
-    - Not booking own service
-    - Slot is in the future
-    - No duplicate bookings for same slot
-    """
-
+    # ── Validate service ──────────────────────────────────────────────
     service = (
         db.query(MentorService)
         .filter(
@@ -74,9 +67,31 @@ def create_booking(
             detail="You cannot book your own service",
         )
 
-    slot = None
+    # ── Resolve booking times ─────────────────────────────────────────
+    if booking_data.start_time and booking_data.end_time:
+        # New sub-slot booking — find the availability window that contains these times
+        booking_start = booking_data.start_time
+        booking_end = booking_data.end_time
 
-    if booking_data.availability_slot_id and booking_data.availability_slot_id > 0:
+        slot = (
+            db.query(AvailabilitySlot)
+            .filter(
+                AvailabilitySlot.mentor_profile_id == service.mentor_profile_id,
+                AvailabilitySlot.status == AvailabilitySlotStatus.AVAILABLE,
+                AvailabilitySlot.start_time <= booking_start,
+                AvailabilitySlot.end_time >= booking_end,
+            )
+            .first()
+        )
+
+        if not slot:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="No available slot covers the requested time",
+            )
+
+    elif booking_data.availability_slot_id:
+        # Legacy slot ID booking
         slot = (
             db.query(AvailabilitySlot)
             .filter(
@@ -86,63 +101,101 @@ def create_booking(
             )
             .first()
         )
-    elif booking_data.start_time and booking_data.end_time:
-        slot = (
-            db.query(AvailabilitySlot)
-            .filter(
-                AvailabilitySlot.start_time == booking_data.start_time,
-                AvailabilitySlot.end_time == booking_data.end_time,
-                AvailabilitySlot.status == AvailabilitySlotStatus.AVAILABLE,
-                AvailabilitySlot.mentor_profile_id == service.mentor_profile_id,
-            )
-            .first()
-        )
 
-    if not slot:
+        if not slot:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Slot not available",
+            )
+
+        booking_start = slot.start_time
+        booking_end = slot.end_time
+    else:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Slot not available or doesn't exist for the selected time",
+            detail="Either availability_slot_id or start_time/end_time must be provided",
         )
 
-    if slot.start_time <= datetime.now(timezone.utc):
+    # ── Validate timing ───────────────────────────────────────────────
+    if booking_start <= datetime.now(timezone.utc):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Cannot book a slot in the past",
         )
 
-    slot_duration_minutes = int((slot.end_time - slot.start_time).total_seconds() / 60)
-    if service.duration_minutes > slot_duration_minutes:
+    # ── Validate service duration fits ────────────────────────────────
+    requested_minutes = int((booking_end - booking_start).total_seconds() / 60)
+    if requested_minutes < service.duration_minutes:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Service duration ({service.duration_minutes}min) exceeds slot duration ({slot_duration_minutes}min)",
+            detail=f"Requested time ({requested_minutes}min) is less than service duration ({service.duration_minutes}min)",
         )
 
-    existing_booking = (
+    # ── Check for overlapping bookings within this window ─────────────
+    overlapping = (
         db.query(Booking)
         .filter(
-            Booking.learner_id == current_user.id,
             Booking.availability_slot_id == slot.id,
-            Booking.status.in_(["confirmed", "completed"]),
+            Booking.status.in_(["pending", "confirmed"]),
+            Booking.start_time.isnot(None),
+            Booking.end_time.isnot(None),
+            Booking.start_time < booking_end,
+            Booking.end_time > booking_start,
         )
         .first()
     )
-    if existing_booking:
+    if overlapping:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail="You already have a booking for this time slot",
+            detail="This time is already booked",
         )
 
+    # ── Check learner doesn't double book ─────────────────────────────
+    learner_overlap = (
+        db.query(Booking)
+        .join(AvailabilitySlot)
+        .filter(
+            Booking.learner_id == current_user.id,
+            Booking.status.in_(["pending", "confirmed"]),
+            Booking.start_time.isnot(None),
+            Booking.end_time.isnot(None),
+            Booking.start_time < booking_end,
+            Booking.end_time > booking_start,
+        )
+        .first()
+    )
+    if learner_overlap:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="You already have a booking during this time",
+        )
+
+    # ── Create booking with specific times ────────────────────────────
     new_booking = Booking(
         learner_id=current_user.id,
         mentor_service_id=service.id,
         availability_slot_id=slot.id,
+        start_time=booking_start,
+        end_time=booking_end,
         learner_note=booking_data.learner_note,
         status="pending",
         payment_status="pending",
         amount_paid=service.price,
     )
 
-    slot.status = AvailabilitySlotStatus.BOOKED
+    # ── Only mark slot as fully booked if no time remains ─────────────
+    slot_minutes = int((slot.end_time - slot.start_time).total_seconds() / 60)
+    booked_minutes = (
+        db.query(Booking)
+        .filter(
+            Booking.availability_slot_id == slot.id,
+            Booking.status.in_(["pending", "confirmed"]),
+        )
+        .count()
+    ) * service.duration_minutes + service.duration_minutes
+
+    if booked_minutes >= slot_minutes:
+        slot.status = AvailabilitySlotStatus.BOOKED
 
     db.add(new_booking)
     db.commit()
@@ -229,6 +282,20 @@ def approve_booking(
     }
 
 
+def restore_slot_if_no_bookings(slot: AvailabilitySlot, db: Session):
+    """Only restore slot to available if no other active bookings exist."""
+    active_bookings = (
+        db.query(Booking)
+        .filter(
+            Booking.availability_slot_id == slot.id,
+            Booking.status.in_(["pending", "confirmed"]),
+        )
+        .count()
+    )
+    if active_bookings == 0:
+        slot.status = AvailabilitySlotStatus.AVAILABLE
+
+
 @router.post("/{booking_id}/deny")
 def deny_booking(
     booking_id: int,
@@ -255,7 +322,7 @@ def deny_booking(
         )
 
     booking.status = "cancelled_by_mentor"
-    booking.availability_slot.status = AvailabilitySlotStatus.AVAILABLE
+    restore_slot_if_no_bookings(booking.availability_slot, db)
     db.commit()
 
     return {
@@ -306,7 +373,7 @@ def cancel_booking(
         booking.payment_status = "pending"
 
     booking.status = "cancelled_by_learner"
-    booking.availability_slot.status = AvailabilitySlotStatus.AVAILABLE
+    restore_slot_if_no_bookings(booking.availability_slot, db)
     db.commit()
 
     return {

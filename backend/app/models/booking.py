@@ -16,6 +16,9 @@ class Booking(Base):
     availability_slot_id = Column(
         Integer, ForeignKey("availability_slots.id"), nullable=False
     )
+    # Actual booked time within the availability window
+    start_time = Column(DateTime(timezone=True), nullable=True)
+    end_time = Column(DateTime(timezone=True), nullable=True)
 
     # Learner provides context to help mentor prepare
     learner_note = Column(Text, nullable=True)
