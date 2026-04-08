@@ -1,0 +1,114 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.13.2, pytest-9.0.3, pluggy-1.6.0 -- C:\Users\sxkas\find-your-mentor\backend\venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\sxkas\find-your-mentor\backend
+plugins: anyio-4.12.1
+collecting ... collected 67 items
+
+tests/test_algorithm.py::TestWeightIntegrity::test_weights_sum_to_exactly_100 PASSED [  1%]
+tests/test_algorithm.py::TestWeightIntegrity::test_all_weight_keys_present PASSED [  2%]
+tests/test_algorithm.py::TestWeightIntegrity::test_all_weights_are_positive PASSED [  4%]
+tests/test_algorithm.py::TestSkillMatchDimension::test_perfect_skill_match_scores_higher_than_no_match PASSED [  5%]
+tests/test_algorithm.py::TestSkillMatchDimension::test_perfect_skill_match_awards_full_weight PASSED [  7%]
+tests/test_algorithm.py::TestBayesianRatingDimension::test_more_reviews_same_rating_yields_higher_score PASSED [  8%]
+tests/test_algorithm.py::TestBayesianRatingDimension::test_bayesian_formula_rating5_reviews1 PASSED [ 10%]
+tests/test_algorithm.py::TestBayesianRatingDimension::test_bayesian_formula_rating_4_5_reviews_20 PASSED [ 11%]
+tests/test_algorithm.py::TestBayesianRatingDimension::test_mentor_with_zero_reviews_gets_no_rating_score PASSED [ 13%]
+tests/test_algorithm.py::TestSortBehaviour::test_sort_order_is_descending_by_relevance_score PASSED [ 14%]
+tests/test_algorithm.py::TestSortBehaviour::test_all_scores_are_between_0_and_100 PASSED [ 16%]
+tests/test_algorithm.py::TestSortBehaviour::test_no_learner_profile_falls_back_to_rating_sort PASSED [ 17%]
+tests/test_auth.py::TestValidRegistration::test_valid_learner_registration PASSED [ 19%]
+tests/test_auth.py::TestValidRegistration::test_valid_mentor_registration PASSED [ 20%]
+tests/test_auth.py::TestValidRegistration::test_valid_email_with_plus_tag_accepted PASSED [ 22%]
+tests/test_auth.py::TestDuplicateEmail::test_duplicate_email_rejected PASSED [ 23%]
+tests/test_auth.py::TestMissingFields::test_missing_password_returns_422 PASSED [ 25%]
+tests/test_auth.py::TestMissingFields::test_missing_email_returns_422 PASSED [ 26%]
+tests/test_auth.py::TestMissingFields::test_missing_name_returns_422 PASSED [ 28%]
+tests/test_auth.py::TestInvalidEmailFormat::test_invalid_email_no_at_symbol PASSED [ 29%]
+tests/test_auth.py::TestInvalidEmailFormat::test_invalid_email_no_local_part PASSED [ 31%]
+tests/test_auth.py::TestInvalidEmailFormat::test_invalid_email_no_domain PASSED [ 32%]
+tests/test_auth.py::TestValidLogin::test_login_returns_access_token PASSED [ 34%]
+tests/test_auth.py::TestValidLogin::test_login_token_contains_expected_claims PASSED [ 35%]
+tests/test_auth.py::TestWrongCredentials::test_wrong_password_rejected_with_401 PASSED [ 37%]
+tests/test_auth.py::TestWrongCredentials::test_nonexistent_email_rejected_with_401 PASSED [ 38%]
+tests/test_auth.py::TestWrongCredentials::test_empty_password_api_behaviour XFAIL [ 40%]
+tests/test_auth.py::TestWrongCredentials::test_single_character_password_boundary XFAIL [ 41%]
+tests/test_availability.py::TestSlotCreation::test_valid_slot_creation_succeeds PASSED [ 43%]
+tests/test_availability.py::TestSlotCreation::test_slot_in_past_rejected FAILED [ 44%]
+tests/test_availability.py::TestSlotCreation::test_end_time_before_start_time_rejected PASSED [ 46%]
+tests/test_availability.py::TestSlotCreation::test_zero_duration_slot_rejected PASSED [ 47%]
+tests/test_availability.py::TestSlotOverlap::test_overlapping_slot_rejected_by_allen_check PASSED [ 49%]
+tests/test_availability.py::TestSlotOverlap::test_adjacent_slots_accepted PASSED [ 50%]
+tests/test_availability.py::TestRecurringPatterns::test_valid_recurring_pattern_created PASSED [ 52%]
+tests/test_availability.py::TestRecurringPatterns::test_recurring_pattern_generates_correct_number_of_slots PASSED [ 53%]
+tests/test_bookings.py::TestBookingSubmission::test_submit_booking_within_availability_window_succeeds PASSED [ 55%]
+tests/test_bookings.py::TestBookingSubmission::test_submit_booking_outside_availability_window_rejected PASSED [ 56%]
+tests/test_bookings.py::TestBookingSubmission::test_submit_booking_end_before_start_rejected PASSED [ 58%]
+tests/test_bookings.py::TestBookingSubmission::test_unauthenticated_booking_rejected PASSED [ 59%]
+tests/test_bookings.py::TestBookingOverlap::test_partial_overlap_booking_rejected PASSED [ 61%]
+tests/test_bookings.py::TestBookingOverlap::test_full_containment_booking_rejected PASSED [ 62%]
+tests/test_bookings.py::TestBookingOverlap::test_adjacent_booking_accepted PASSED [ 64%]
+tests/test_bookings.py::TestApprovalWorkflow::test_mentor_approves_booking_transitions_to_confirmed PASSED [ 65%]
+tests/test_bookings.py::TestApprovalWorkflow::test_learner_cannot_approve_booking PASSED [ 67%]
+tests/test_bookings.py::TestCancellationPolicy::test_cancel_pending_booking_succeeds PASSED [ 68%]
+tests/test_bookings.py::TestCancellationPolicy::test_cancel_confirmed_booking_applies_cancellation_policy PASSED [ 70%]
+tests/test_bookings.py::TestDualConfirmationFlow::test_learner_confirms_attendance_sets_flag PASSED [ 71%]
+tests/test_bookings.py::TestDualConfirmationFlow::test_mentor_confirms_attendance_alone_does_not_complete_booking PASSED [ 73%]
+tests/test_bookings.py::TestDualConfirmationFlow::test_both_confirmations_transition_to_completed_and_paid PASSED [ 74%]
+tests/test_bookings.py::TestDualConfirmationFlow::test_learner_cannot_confirm_mentor_attendance PASSED [ 76%]
+tests/test_bookings.py::TestDualConfirmationFlow::test_mentor_cannot_confirm_learner_attendance PASSED [ 77%]
+tests/test_integration.py::TestFullBookingLifecycle::test_full_flow_register_to_completed_and_paid PASSED [ 79%]
+tests/test_integration.py::TestConcurrentOverlapProtection::test_second_learner_overlapping_booking_rejected PASSED [ 80%]
+tests/test_integration.py::TestMentorDenialRestoresSlot::test_denied_booking_restores_slot_to_available PASSED [ 82%]
+tests/test_security.py::TestTokenIntegrity::test_no_token_returns_401 PASSED [ 83%]
+tests/test_security.py::TestTokenIntegrity::test_tampered_token_returns_401 PASSED [ 85%]
+tests/test_security.py::TestTokenIntegrity::test_expired_token_returns_401 PASSED [ 86%]
+tests/test_security.py::TestInjectionAttacks::test_sql_injection_in_email_login_handled_safely PASSED [ 88%]
+tests/test_security.py::TestInjectionAttacks::test_xss_in_bio_field_stored_safely PASSED [ 89%]
+tests/test_security.py::TestInjectionAttacks::test_oversized_bio_handled_without_500 PASSED [ 91%]
+tests/test_security.py::TestBOLA::test_learner_cannot_approve_another_users_booking PASSED [ 92%]
+tests/test_security.py::TestBOLA::test_user_cannot_confirm_another_users_mentor_attendance PASSED [ 94%]
+tests/test_security.py::TestBOLA::test_mentor_cannot_confirm_another_users_learner_attendance PASSED [ 95%]
+tests/test_security.py::TestFunctionLevelAuth::test_learner_accessing_mentor_bookings_endpoint PASSED [ 97%]
+tests/test_security.py::TestFunctionLevelAuth::test_unauthenticated_access_to_profile_endpoint_rejected PASSED [ 98%]
+tests/test_security.py::TestFunctionLevelAuth::test_unauthenticated_booking_creation_rejected PASSED [100%]
+
+================================== FAILURES ===================================
+_________________ TestSlotCreation.test_slot_in_past_rejected _________________
+
+self = <tests.test_availability.TestSlotCreation object at 0x00000209F26FB110>
+session = <requests.sessions.Session object at 0x00000209F270BB70>
+registered_mentor = {'email': 'mentor.uq6c0ml1@test.ie', 'headers': {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWI...c1NjkyMzA0fQ.SAeh5_cKLc9r9R_-i0iO_13Kn9eC0OTe15BFA76M4Dc'}, 'mentor_profile_id': 27, 'password': 'MentorPass123!', ...}
+
+    def test_slot_in_past_rejected(self, session, registered_mentor):
+        """
+        A slot with both start and end times in the past should be rejected.
+        Allowing past slots creates dead data ù learners could never book them ù
+        and pollutes the mentor's availability view.
+    
+        NOTE: If this test FAILS (API returns 201), it is a documented finding:
+        server-side past-date validation is absent from the availability schema.
+        The booking endpoint DOES block past bookings, but the slot creation
+        endpoint does not. Recommendation: add @field_validator to enforce
+        start_time > now() in AvailabilitySlotCreate.
+        """
+        resp = session.post(
+            f"{BASE_URL}/availability/mentors/me/availability",
+            headers=registered_mentor["headers"],
+            json={
+                "start_time": "2020-01-01T10:00:00Z",
+                "end_time": "2020-01-01T11:00:00Z",
+            },
+        )
+>       assert resp.status_code in (400, 422), (
+            f"Past slot was accepted with {resp.status_code}. "
+            "Finding: no server-side future-date validation on availability slots."
+        )
+E       AssertionError: Past slot was accepted with 201. Finding: no server-side future-date validation on availability slots.
+E       assert 201 in (400, 422)
+E        +  where 201 = <Response [201]>.status_code
+
+tests\test_availability.py:72: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_availability.py::TestSlotCreation::test_slot_in_past_rejected
+================== 1 failed, 64 passed, 2 xfailed in 31.83s ===================

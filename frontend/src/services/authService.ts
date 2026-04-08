@@ -23,7 +23,7 @@ export const login = async (credentials: UserLogin): Promise<AuthResponse> => {
  * Get current user profile using stored token
  * GET /mentors/me (or a dedicated user endpoint if you add one)
  */
-export const getCurrentUser = async (): Promise<User> => {
-  const response = await api.get<User>('/auth/me');
+export const getCurrentUser = async (): Promise<{ user: User; access_token: string }> => {
+  const response = await api.get<{ user: User; access_token: string }>('/auth/me');
   return response.data;
 };

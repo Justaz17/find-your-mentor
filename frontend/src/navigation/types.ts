@@ -34,5 +34,6 @@ export type TabParamList = {
   Bookings: undefined;
   Notifications: undefined;
   Dashboard: undefined;
+  LearnerDashboard: undefined;
   Login: undefined;
 };

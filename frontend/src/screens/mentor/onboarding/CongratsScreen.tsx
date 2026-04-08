@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View, Text, ScrollView, TouchableOpacity,
 } from 'react-native';
@@ -11,7 +11,7 @@ import OnboardingProgress from '../../../components/common/OnboardingProgress';
 import { MentorOnboardingParamList } from '../../../navigation/MentorOnboardingNavigator';
 import { useAuth } from '../../../context/AuthContext';
 import { styles } from '../../../styles/HomeScreen.styles';
-import { createOrUpdateMentorProfile } from '../../../services/mentorService';
+import { getCurrentUser } from '../../../services/authService';
 
 
 type Nav = NativeStackNavigationProp<MentorOnboardingParamList>;
@@ -43,12 +43,35 @@ const STEPS = [
 const CongratsScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<Nav>();
-  const { clearPendingOnboarding } = useAuth();
+  const { clearPendingOnboarding, user, updateUser,signIn } = useAuth();
+  const [shouldExit, setShouldExit] = React.useState(false);
+  
 
-  const handleSetupLater = async () => {
+  console.log('CongratsScreen user role:', user?.role);
+
+  useEffect(() => {
+      if (shouldExit) {
+        clearPendingOnboarding();
+      }
+    }, [shouldExit]);
+  
+const handleSetupLater = async () => {
   await clearPendingOnboarding();
-};
 
+  try {
+    const { user: freshUser, access_token } = await getCurrentUser();
+    await signIn(access_token,false); // Update token and user in context without marking as new user
+    console.log('Fetched user role after onboarding:', freshUser.role);
+    updateUser(freshUser);  // Update the context with fresh user data
+    console.log('Updated user role:', freshUser.role);
+  } catch (error) {
+    console.error('Failed to refresh user:', error);
+  }
+  
+  setTimeout(() => {
+    navigation.navigate('Main' as any);
+  }, 100);
+};
   return (
     <View style={{ flex: 1, backgroundColor: Colors.background }}>
       {/* Header */}

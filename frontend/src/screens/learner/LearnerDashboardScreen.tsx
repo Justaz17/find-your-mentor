@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import {
   View, Text, ScrollView,
-  TouchableOpacity, ActivityIndicator,
+  TouchableOpacity, ActivityIndicator, Modal,
 } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -71,6 +71,46 @@ const LearnerDashboardScreen = () => {
   const [profile, setProfile] = useState<LearnerProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [hasProfile, setHasProfile] = useState(true);
+  const [showBecomeMentorConfirm, setShowBecomeMentorConfirm] = useState(false);
+
+  // If mentor-only, show "Create learner profile" immediately
+  if (user?.role === 'mentor') {
+    return (
+      <View style={{ flex: 1, backgroundColor: Colors.background }}>
+        <View style={{ paddingTop: insets.top + Spacing.md, paddingHorizontal: Spacing.lg, paddingBottom: Spacing.lg }}>
+          <Text style={{ fontSize: FontSize.xxl, fontWeight: '900', color: Colors.text }}>
+            Learner Profile
+          </Text>
+        </View>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: Spacing.lg }}>
+          <View style={{ alignItems: 'center', gap: Spacing.lg }}>
+            <MaterialCommunityIcons name="account-plus" size={48} color={Colors.primary} />
+            <Text style={{ fontSize: FontSize.lg, fontWeight: '900', color: Colors.text, textAlign: 'center' }}>
+              Create your learner profile
+            </Text>
+            <Text style={{ fontSize: FontSize.sm, color: Colors.textSecondary, textAlign: 'center' }}>
+              Start booking sessions with mentors by creating a learner profile.
+            </Text>
+            <TouchableOpacity
+              style={{
+                backgroundColor: Colors.primary,
+                paddingVertical: 12,
+                paddingHorizontal: 24,
+                borderRadius: 8,
+                marginTop: Spacing.md,
+              }}
+              onPress={() => navigation.navigate('Onboarding' as never)}
+              activeOpacity={0.85}
+            >
+              <Text style={{ color: '#fff', fontSize: FontSize.sm, fontWeight: '700' }}>
+                Get started
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    );
+  }
 
   useFocusEffect(
     useCallback(() => {
@@ -127,6 +167,15 @@ const LearnerDashboardScreen = () => {
     return Colors.primary;
   };
 
+  const handleBecomeMentor = () => {
+    setShowBecomeMentorConfirm(true);
+  };
+
+  const confirmBecomeMentor = () => {
+    setShowBecomeMentorConfirm(false);
+    navigation.navigate('MentorOnboarding' as never);
+  };
+
   if (isLoading) {
     return (
       <View style={styles.centred}>
@@ -136,190 +185,236 @@ const LearnerDashboardScreen = () => {
   }
 
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={{ paddingBottom: insets.bottom + Spacing.xxl }}
-      showsVerticalScrollIndicator={false}
-    >
-      {/* ── Banner + Avatar ──────────────────────────────────────── */}
-      <View style={styles.bannerWrap}>
-        <LinearGradient
-          colors={['#6C3AED', '#3B82F6']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={[styles.banner, { paddingTop: insets.top }]}
-        />
+    <>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={{ paddingBottom: insets.bottom + Spacing.xxl }}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* ── Banner + Avatar ──────────────────────────────────────── */}
+        <View style={styles.bannerWrap}>
+          <LinearGradient
+            colors={['#6C3AED', '#3B82F6']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={[styles.banner, { paddingTop: insets.top }]}
+          />
 
-        {hasProfile && (
-          <TouchableOpacity
-            style={[styles.editButton, { top: insets.top + 12 }]}
-            onPress={() => navigation.navigate('EditLearnerProfile', { profile: profile ?? undefined })}
-            activeOpacity={0.85}
-          >
-            <MaterialCommunityIcons name="pencil-outline" size={14} color="#fff" />
-            <Text style={styles.editButtonText}>Edit</Text>
-          </TouchableOpacity>
-        )}
+          {hasProfile && (
+            <TouchableOpacity
+              style={[styles.editButton, { top: insets.top + 12 }]}
+              onPress={() => navigation.navigate('EditLearnerProfile', { profile: profile ?? undefined })}
+              activeOpacity={0.85}
+            >
+              <MaterialCommunityIcons name="pencil-outline" size={14} color="#fff" />
+              <Text style={styles.editButtonText}>Edit</Text>
+            </TouchableOpacity>
+          )}
 
-        <View style={[styles.avatarWrap, { backgroundColor: avatarColor }]}>
-          <Text style={styles.avatarText}>{initials}</Text>
+          <View style={[styles.avatarWrap, { backgroundColor: avatarColor }]}>
+            <Text style={styles.avatarText}>{initials}</Text>
+          </View>
         </View>
-      </View>
 
-      {/* ── Identity block ───────────────────────────────────────── */}
-      <View style={styles.identityBlock}>
-        <Text style={styles.name}>{user?.name ?? 'Your Name'}</Text>
-        <Text style={styles.email}>{user?.email}</Text>
+        {/* ── Identity block ───────────────────────────────────────── */}
+        <View style={styles.identityBlock}>
+          <Text style={styles.name}>{user?.name ?? 'Your Name'}</Text>
+          <Text style={styles.email}>{user?.email}</Text>
 
-        {profile?.experience_level && (
-          <View style={[
-            styles.levelBadge,
-            { backgroundColor: levelColour(profile.experience_level) + '22',
-              borderColor: levelColour(profile.experience_level) }
-          ]}>
-            <Text style={[styles.levelBadgeText, { color: levelColour(profile.experience_level) }]}>
-              {profile.experience_level.charAt(0).toUpperCase() + profile.experience_level.slice(1)}
+          {profile?.experience_level && (
+            <View style={[
+              styles.levelBadge,
+              { backgroundColor: levelColour(profile.experience_level) + '22',
+                borderColor: levelColour(profile.experience_level) }
+            ]}>
+              <Text style={[styles.levelBadgeText, { color: levelColour(profile.experience_level) }]}>
+                {profile.experience_level.charAt(0).toUpperCase() + profile.experience_level.slice(1)}
+              </Text>
+            </View>
+          )}
+
+          <View style={styles.metaRow}>
+            {!!profile?.location && (
+              <InfoChip icon="map-marker-outline" label={profile.location} />
+            )}
+            {!!profile?.preferred_languages && (
+              <InfoChip icon="translate" label={profile.preferred_languages} />
+            )}
+            {!!profile?.preferred_category_name && (
+              <InfoChip icon="tag-outline" label={profile.preferred_category_name} />
+            )}
+          </View>
+
+          {/* Mentor buttons */}
+          {user?.role === 'both' ? (
+            <TouchableOpacity style={[styles.signOutButton, { backgroundColor: Colors.primary }]} onPress={() => navigation.getParent()?.navigate('Dashboard' as never)} activeOpacity={0.85}>
+              <MaterialCommunityIcons name="briefcase" size={16} color="#fff" />
+              <Text style={[styles.signOutText, { color: '#fff' }]}>View Mentor Profile</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity style={[styles.signOutButton, { backgroundColor: Colors.primary }]} onPress={handleBecomeMentor} activeOpacity={0.85}>
+              <MaterialCommunityIcons name="briefcase-plus" size={16} color="#fff" />
+              <Text style={[styles.signOutText, { color: '#fff' }]}>Become a Mentor</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+
+        {/* ── No profile state ─────────────────────────────────────── */}
+        {!hasProfile && (
+          <View style={styles.noProfileCard}>
+            <MaterialCommunityIcons name="account-edit-outline" size={40} color={Colors.primary} style={{ marginBottom: Spacing.sm }} />
+            <Text style={styles.noProfileTitle}>Complete your learner profile</Text>
+            <Text style={styles.noProfileSubtitle}>
+              Add your skills, goals, and preferences so we can match you with the right mentors.
             </Text>
+            <TouchableOpacity
+              style={styles.createButton}
+              onPress={() => navigation.navigate('EditLearnerProfile', {})}
+              activeOpacity={0.85}
+            >
+              <Text style={styles.createButtonText}>Create my profile</Text>
+            </TouchableOpacity>
           </View>
         )}
 
-        <View style={styles.metaRow}>
-          {!!profile?.location && (
-            <InfoChip icon="map-marker-outline" label={profile.location} />
-          )}
-          {!!profile?.preferred_languages && (
-            <InfoChip icon="translate" label={profile.preferred_languages} />
-          )}
-          {!!profile?.preferred_category_name && (
-            <InfoChip icon="tag-outline" label={profile.preferred_category_name} />
-          )}
-        </View>
-      </View>
+        {/* ── Profile sections ─────────────────────────────────────── */}
+        {hasProfile && profile && (
+          <>
+            {!!profile.bio && (
+              <SectionCard title="About">
+                <Text style={styles.bio}>{profile.bio}</Text>
+              </SectionCard>
+            )}
 
-      {/* ── No profile state ─────────────────────────────────────── */}
-      {!hasProfile && (
-        <View style={styles.noProfileCard}>
-          <MaterialCommunityIcons name="account-edit-outline" size={40} color={Colors.primary} style={{ marginBottom: Spacing.sm }} />
-          <Text style={styles.noProfileTitle}>Complete your learner profile</Text>
-          <Text style={styles.noProfileSubtitle}>
-            Add your skills, goals, and preferences so we can match you with the right mentors.
-          </Text>
-          <TouchableOpacity
-            style={styles.createButton}
-            onPress={() => navigation.navigate('EditLearnerProfile', {})}
-            activeOpacity={0.85}
-          >
-            <Text style={styles.createButtonText}>Create my profile</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-
-      {/* ── Profile sections ─────────────────────────────────────── */}
-      {hasProfile && profile && (
-        <>
-          {!!profile.bio && (
-            <SectionCard title="About">
-              <Text style={styles.bio}>{profile.bio}</Text>
-            </SectionCard>
-          )}
-
-          {profile.interests.length > 0 && (
-            <SectionCard title="Skills I want to learn">
-              {profile.interests.map(interest => (
-                <View key={interest.id} style={styles.interestRow}>
-                  <View style={styles.interestLeft}>
-                    <Text style={styles.interestName}>{interest.skill_name}</Text>
-                    {interest.current_level && (
-                      <Text style={styles.interestLevel}>
-                        {interest.current_level}
-                        {interest.target_level ? ` → ${interest.target_level}` : ''}
-                      </Text>
+            {profile.interests.length > 0 && (
+              <SectionCard title="Skills I want to learn">
+                {profile.interests.map(interest => (
+                  <View key={interest.id} style={styles.interestRow}>
+                    <View style={styles.interestLeft}>
+                      <Text style={styles.interestName}>{interest.skill_name}</Text>
+                      {interest.current_level && (
+                        <Text style={styles.interestLevel}>
+                          {interest.current_level}
+                          {interest.target_level ? ` → ${interest.target_level}` : ''}
+                        </Text>
+                      )}
+                    </View>
+                    {interest.target_level && (
+                      <View style={[
+                        styles.smallBadge,
+                        { backgroundColor: levelColour(interest.target_level) + '22',
+                          borderColor: levelColour(interest.target_level) }
+                      ]}>
+                        <Text style={[styles.smallBadgeText, { color: levelColour(interest.target_level) }]}>
+                          {interest.target_level}
+                        </Text>
+                      </View>
                     )}
                   </View>
-                  {interest.target_level && (
-                    <View style={[
-                      styles.smallBadge,
-                      { backgroundColor: levelColour(interest.target_level) + '22',
-                        borderColor: levelColour(interest.target_level) }
-                    ]}>
-                      <Text style={[styles.smallBadgeText, { color: levelColour(interest.target_level) }]}>
-                        {interest.target_level}
-                      </Text>
-                    </View>
-                  )}
-                </View>
-              ))}
-            </SectionCard>
-          )}
-
-          {goalLabels.length > 0 && (
-            <SectionCard title="Learning goals">
-              <View style={styles.chipsRow}>
-                {goalLabels.map(label => (
-                  <View key={label} style={styles.goalChip}>
-                    <Text style={styles.goalChipText}>{label}</Text>
-                  </View>
                 ))}
-              </View>
-              {!!profile.goal_description && (
-                <Text style={styles.goalDescription}>{profile.goal_description}</Text>
+              </SectionCard>
+            )}
+
+            {goalLabels.length > 0 && (
+              <SectionCard title="Learning goals">
+                <View style={styles.chipsRow}>
+                  {goalLabels.map(label => (
+                    <View key={label} style={styles.goalChip}>
+                      <Text style={styles.goalChipText}>{label}</Text>
+                    </View>
+                  ))}
+                </View>
+                {!!profile.goal_description && (
+                  <Text style={styles.goalDescription}>{profile.goal_description}</Text>
+                )}
+              </SectionCard>
+            )}
+
+            <SectionCard title="Preferences">
+              <PreferenceRow
+                icon="currency-eur"
+                label="Budget"
+                value={formatBudget()}
+              />
+              <PreferenceRow
+                icon="monitor-cellphone"
+                label="Session format"
+                value={formatFormat(profile.preferred_session_format)}
+              />
+              {availabilityLabels.length > 0 && (
+                <View style={styles.prefRow}>
+                  <MaterialCommunityIcons
+                    name="clock-outline"
+                    size={20}
+                    color={Colors.textSecondary}
+                    style={styles.prefIconEl}
+                  />
+                  <View style={styles.prefText}>
+                    <Text style={styles.prefLabel}>Availability</Text>
+                    <View style={styles.chipsRow}>
+                      {availabilityLabels.map(label => (
+                        <View key={label} style={styles.availChip}>
+                          <Text style={styles.availChipText}>{label}</Text>
+                        </View>
+                      ))}
+                    </View>
+                  </View>
+                </View>
               )}
             </SectionCard>
-          )}
 
-          <SectionCard title="Preferences">
-            <PreferenceRow
-              icon="currency-eur"
-              label="Budget"
-              value={formatBudget()}
-            />
-            <PreferenceRow
-              icon="monitor-cellphone"
-              label="Session format"
-              value={formatFormat(profile.preferred_session_format)}
-            />
-            {availabilityLabels.length > 0 && (
-              <View style={styles.prefRow}>
-                <MaterialCommunityIcons
-                  name="clock-outline"
-                  size={20}
-                  color={Colors.textSecondary}
-                  style={styles.prefIconEl}
-                />
-                <View style={styles.prefText}>
-                  <Text style={styles.prefLabel}>Availability</Text>
-                  <View style={styles.chipsRow}>
-                    {availabilityLabels.map(label => (
-                      <View key={label} style={styles.availChip}>
-                        <Text style={styles.availChipText}>{label}</Text>
-                      </View>
-                    ))}
-                  </View>
-                </View>
+            <View style={styles.explainerCard}>
+              <View style={styles.explainerTitleRow}>
+                <MaterialCommunityIcons name="lightning-bolt" size={16} color={Colors.primary} />
+                <Text style={styles.explainerTitle}>How this powers your matches</Text>
               </View>
-            )}
-          </SectionCard>
-
-          <View style={styles.explainerCard}>
-            <View style={styles.explainerTitleRow}>
-              <MaterialCommunityIcons name="lightning-bolt" size={16} color={Colors.primary} />
-              <Text style={styles.explainerTitle}>How this powers your matches</Text>
+              <Text style={styles.explainerText}>
+                When you search for mentors, every mentor is scored against your profile.
+                Skills carry the most weight (35%), followed by goals (15%), budget (10%),
+                language match (10%), and availability overlap (10%).
+              </Text>
             </View>
-            <Text style={styles.explainerText}>
-              When you search for mentors, every mentor is scored against your profile.
-              Skills carry the most weight (35%), followed by goals (15%), budget (10%),
-              language match (10%), and availability overlap (10%).
-            </Text>
-          </View>
-        </>
-      )}
+          </>
+        )}
 
-      {/* ── Sign out ─────────────────────────────────────────────── */}
-      <TouchableOpacity style={styles.signOutButton} onPress={signOut} activeOpacity={0.85}>
-        <MaterialCommunityIcons name="logout" size={16} color={Colors.error} />
-        <Text style={styles.signOutText}>Sign out</Text>
-      </TouchableOpacity>
-    </ScrollView>
+        {/* ── Sign out ─────────────────────────────────────────────── */}
+        <TouchableOpacity style={styles.signOutButton} onPress={signOut} activeOpacity={0.85}>
+          <MaterialCommunityIcons name="logout" size={16} color={Colors.error} />
+          <Text style={styles.signOutText}>Sign out</Text>
+        </TouchableOpacity>
+      </ScrollView>
+
+      {/* Become Mentor Confirmation Modal */}
+      <Modal
+        visible={showBecomeMentorConfirm}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setShowBecomeMentorConfirm(false)}
+      >
+        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' }}>
+          <View style={{ backgroundColor: '#fff', borderRadius: 12, padding: Spacing.lg, width: '80%' }}>
+            <Text style={{ fontSize: 18, fontWeight: '700', marginBottom: Spacing.md }}>Become a Mentor?</Text>
+            <Text style={{ fontSize: 14, color: Colors.textSecondary, marginBottom: Spacing.lg }}>
+              You'll be guided through setting up your mentor profile. You can't exit until it's complete.
+            </Text>
+            <View style={{ flexDirection: 'row', gap: Spacing.md }}>
+              <TouchableOpacity
+                style={{ flex: 1, paddingVertical: Spacing.md, borderRadius: 8, borderWidth: 1, borderColor: Colors.primary, alignItems: 'center' }}
+                onPress={() => setShowBecomeMentorConfirm(false)}
+              >
+                <Text style={{ color: Colors.primary, fontWeight: '600' }}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{ flex: 1, paddingVertical: Spacing.md, borderRadius: 8, backgroundColor: Colors.primary, alignItems: 'center' }}
+                onPress={confirmBecomeMentor}
+              >
+                <Text style={{ color: '#fff', fontWeight: '600' }}>Let's go</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    </>
   );
 };
 
