@@ -12,6 +12,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useMentorDashboard } from '../../hooks/useMentorDashboard';
 import { useMentorProfile } from '../../hooks/useMentorProfile';
 import { RootStackParamList } from '../../navigation/types';
+import { CommonActions } from '@react-navigation/native';
 
 
 
@@ -106,9 +107,52 @@ const MentorDashboardScreen = () => {
         <Text style={{ fontSize: FontSize.xs, fontWeight: '700', color: Colors.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5 }}>
           Mentor Dashboard
         </Text>
-        <Text style={{ fontSize: FontSize.xxl, fontWeight: '900', color: Colors.text, marginTop: 2 }}>
-          Hi, {user?.name?.split(' ')[0]}
-        </Text>
+
+        {/* Name + Switch */}
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 2, marginBottom: Spacing.md }}>
+          <Text style={{ fontSize: FontSize.xxl, fontWeight: '900', color: Colors.text }}>
+            Hi, {user?.name?.split(' ')[0]}
+          </Text>
+          {user?.role === 'both' ? (
+            <TouchableOpacity
+              style={{
+                paddingVertical: 8,
+                paddingHorizontal: 12,
+                borderRadius: 8,
+                backgroundColor: Colors.primary,
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 6,
+              }}
+              onPress={() => navigation.navigate('LearnerDashboard' as never)}
+              activeOpacity={0.7}
+            >
+              <MaterialCommunityIcons name="account" size={14} color="#fff" />
+              <Text style={{ fontSize: FontSize.xs, fontWeight: '700', color: '#fff' }}>
+                Learner
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={{
+                paddingVertical: 8,
+                paddingHorizontal: 12,
+                borderRadius: 8,
+                backgroundColor: Colors.primary,
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 6,
+              }}
+              onPress={() => navigation.navigate('Onboarding', {})}
+              activeOpacity={0.7}
+            >
+              <MaterialCommunityIcons name="account-plus" size={14} color="#fff" />
+              <Text style={{ fontSize: FontSize.xs, fontWeight: '700', color: '#fff' }}>
+                Setup learner
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
 
         {stats.pending.length > 0 && (
           <View style={{

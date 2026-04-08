@@ -178,6 +178,11 @@ const SearchScreen = () => {
     low: number,
     high: number,
   ) => {
+    //dont search if query is just 1 character long 
+    if (q.trim() && q.trim().length < 2) {
+        setResults([]);
+        return;
+      }
     if (abortRef.current) abortRef.current.abort();
     abortRef.current = new AbortController();
     setIsLoading(true);
@@ -292,7 +297,7 @@ const SearchScreen = () => {
             <MaterialCommunityIcons name="magnify" size={20} color={Colors.textSecondary} />
             <TextInput
               style={styles.searchInput}
-              placeholder="Search skills, topics..."
+              placeholder="Search mentors, skills..."
               placeholderTextColor={Colors.textSecondary}
               value={query}
               onChangeText={setQuery}

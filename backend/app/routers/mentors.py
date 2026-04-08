@@ -275,7 +275,7 @@ def search_mentors(
     # Layer 1: hard filters
     category_id: Optional[int] = Query(None, description="Filter by category ID"),
     skill: Optional[str] = Query(
-        None, description="Filter by skill name (partial match)"
+        None, description="Filter by skill name or mentor name (partial match)"
     ),
     language: Optional[str] = Query(None, description="Filter by language"),
     min_price: Optional[float] = Query(None, description="Minimum hourly rate"),
@@ -305,20 +305,27 @@ def search_mentors(
             query.join(MentorSkill, MentorSkill.mentor_profile_id == MentorProfile.id)
             .join(Skill, Skill.id == MentorSkill.skill_id)
             .filter(Skill.category_id == category_id)
-            .distinct()
+            .distinct(MentorProfile.id)
         )
 
-    # Hard filter: skill name (partial, case-insensitive)
+    # Hard filter: skill name OR mentor name (partial, case-insensitive)
     if skill:
-        if not category_id:  # avoid double join
-            query = (
-                query.join(
-                    MentorSkill, MentorSkill.mentor_profile_id == MentorProfile.id
-                )
-                .join(Skill, Skill.id == MentorSkill.skill_id)
-                .distinct()
-            )
-        query = query.filter(Skill.name.ilike(f"%{skill}%"))
+        skill_query = (
+            db.query(MentorProfile.id)
+            .join(MentorSkill, MentorSkill.mentor_profile_id == MentorProfile.id)
+            .join(Skill, Skill.id == MentorSkill.skill_id)
+            .filter(Skill.name.ilike(f"%{skill}%"))
+            .distinct(MentorProfile.id)
+        )
+
+        mentor_name_query = (
+            db.query(MentorProfile.id)
+            .join(User, User.id == MentorProfile.user_id)
+            .filter(User.name.ilike(f"%{skill}%"))
+        )
+
+        matching_ids = [row[0] for row in skill_query.union(mentor_name_query).all()]
+        query = query.filter(MentorProfile.id.in_(matching_ids))
 
     # Hard filter: price range
     if min_price is not None:

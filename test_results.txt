@@ -1,0 +1,210 @@
+Find Your Mentor -- API Test Results
+Generated: 2026-04-07 16:27:17 UTC
+Target   : http://192.168.1.17:8000
+Emails   : ciaran.kelly.462080@test.ie / sinead.murphy.462080@test.ie
+
+======================================================================
+  FINAL SUMMARY -- FIND YOUR MENTOR API TEST SUITE
+======================================================================
+  Total tests   : 36
+  Passed        : 36
+  Failed        : 0
+  Pass rate     : 100.0%
+----------------------------------------------------------------------
+  PERFORMANCE RESULTS
+    GET /mentors/search (x10)
+      Min  : 59.8 ms
+      Avg  : 71.6 ms
+      Max  : 86.1 ms
+
+    POST /auth/login (x5)
+      Min  : 388.5 ms
+      Avg  : 451.4 ms
+      Max  : 507.0 ms
+
+    POST /bookings (single)
+      Response time : 33.2 ms
+----------------------------------------------------------------------
+  INDIVIDUAL RESULTS
+
+   1. [PASS] Register learner (Ciaran Kelly)
+       Expected : HTTP 200 or 201, user object returned
+       Got      : HTTP 201 -- {'id': 56, 'email': 'ciaran.kelly.462080@test.ie', 'name': 'Ciaran Kelly', 'role': 'learner'}
+       Time     : 535.0 ms
+
+   2. [PASS] Register mentor (Sinead Murphy)
+       Expected : HTTP 200 or 201, user object returned
+       Got      : HTTP 201 -- {'id': 57, 'email': 'sinead.murphy.462080@test.ie', 'name': 'Sinead Murphy', 'role': 'mentor'}
+       Time     : 475.0 ms
+
+   3. [PASS] Login with correct credentials
+       Expected : HTTP 200, access_token present
+       Got      : HTTP 200 -- {'has_token': True}
+       Time     : 521.0 ms
+
+   4. [PASS] Login with wrong password
+       Expected : HTTP 401/403/400, login rejected
+       Got      : HTTP 401 -- {'detail': 'Invalid email or password'}
+       Time     : 475.9 ms
+
+   5. [PASS] Login with nonexistent email
+       Expected : HTTP 401/403/404/400, login rejected
+       Got      : HTTP 401 -- {'detail': 'Invalid email or password'}
+       Time     : 7.3 ms
+
+   6. [PASS] Protected endpoint with no token
+       Expected : HTTP 401 or 403
+       Got      : HTTP 401 -- {'detail': 'Authentication required'}
+       Time     : 5.0 ms
+
+   7. [PASS] Protected endpoint with tampered/invalid JWT
+       Expected : HTTP 401 or 403
+       Got      : HTTP 401 -- {'detail': 'Invalid authentication token'}
+       Time     : 3.5 ms
+
+   8. [PASS] Password not returned in registration response
+       Expected : Response body does not contain the plaintext password
+       Got      : HTTP 201 -- {'body_contains_password': False}
+       Time     : 373.5 ms
+
+   9. [PASS] SQL injection in email field
+       Expected : Handled safely, no 500 error
+       Got      : HTTP 401 -- {'detail': 'Invalid email or password'}
+       Time     : 7.2 ms
+
+  10. [PASS] Create mentor profile with full details
+       Expected : HTTP 200 or 201
+       Got      : HTTP 201 -- {'id': 25, 'user_id': 57, 'bio': 'Experienced software engineer with a passion for teaching. I specialise in Python, dat
+       Time     : 23.3 ms
+
+  11. [PASS] Oversized bio field (10,000 characters)
+       Expected : Handled safely (any non-5xx response)
+       Got      : HTTP 201 -- {'detail': ''}
+       Time     : 19.9 ms
+
+  12. [PASS] Create valid mentor service (60 min, EUR45)
+       Expected : HTTP 200 or 201, service created
+       Got      : HTTP 201 -- {'id': 35, 'mentor_profile_id': 25, 'title': 'Python Mentoring Session', 'description': 'One-to-one Python coaching cove
+       Time     : 13.7 ms
+
+  13. [PASS] Create service with invalid duration (75 min -- not in [30,45,60,90,120])
+       Expected : HTTP 400 or 422, validation error
+       Got      : HTTP 422 -- {'detail': [{'type': 'value_error', 'loc': ['body', 'duration_minutes'], 'msg': 'Value error, Duration must be one of [3
+       Time     : 7.0 ms
+
+  14. [PASS] Create availability slot (2026-06-10 10:00-13:00 UTC)
+       Expected : HTTP 200 or 201, slot created
+       Got      : HTTP 201 -- {'id': 340, 'mentor_profile_id': 25, 'start_time': '2026-06-10T11:00:00+01:00', 'end_time': '2026-06-10T14:00:00+01:00',
+       Time     : 16.1 ms
+
+  15. [PASS] Create overlapping availability slot (rejected)
+       Expected : HTTP 400/409/422, overlap detected
+       Got      : HTTP 400 -- {'detail': 'Slot overlaps with existing availability'}
+       Time     : 9.5 ms
+
+  16. [PASS] Search all mentors
+       Expected : HTTP 200, list returned
+       Got      : HTTP 200 -- {'count': 7}
+       Time     : 56.6 ms
+
+  17. [PASS] Search mentors with skill filter (Python)
+       Expected : HTTP 200, filtered list returned
+       Got      : HTTP 200 -- {'count': 3}
+       Time     : 25.8 ms
+
+  18. [PASS] Search mentors with price filter (max EUR100)
+       Expected : HTTP 200, filtered list returned
+       Got      : HTTP 200 -- {'count': 7}
+       Time     : 55.0 ms
+
+  19. [PASS] Submit booking as learner (10:00-11:00) with note
+       Expected : HTTP 200 or 201, booking created with status=pending
+       Got      : HTTP 201 -- {'id': 13, 'mentor_id': 57, 'learner_id': 56, 'learner_name': 'Ciaran Kelly', 'mentor_service_id': 35, 'service_title': 
+       Time     : 33.2 ms
+
+  20. [PASS] Overlapping booking rejected (10:30-11:30 conflicts with 10:00-11:00)
+       Expected : HTTP 400/409/422, conflict detected
+       Got      : HTTP 409 -- {'detail': 'This time is already booked'}
+       Time     : 15.2 ms
+
+  21. [PASS] Booking submission with no auth token rejected
+       Expected : HTTP 401 or 403
+       Got      : HTTP 401 -- {'detail': 'Authentication required'}
+       Time     : 6.7 ms
+
+  22. [PASS] Mentor approves booking -> status becomes confirmed
+       Expected : HTTP 200, status=confirmed
+       Got      : HTTP 200 -- {'message': 'Booking approved', 'booking_id': 13, 'status': 'confirmed'}
+       Time     : 19.3 ms
+
+  23. [PASS] Learner confirms attendance
+       Expected : HTTP 200, attendance confirmed
+       Got      : HTTP 200 -- {'message': 'Attendance confirmed', 'booking_id': 13, 'completed': False}
+       Time     : 22.5 ms
+
+  24. [PASS] Mentor confirms attendance
+       Expected : HTTP 200, session marked complete
+       Got      : HTTP 200 -- {'message': 'Session marked as completed', 'booking_id': 13, 'completed': True}
+       Time     : 16.1 ms
+
+  25. [PASS] After dual confirmation: status=completed and payment_status=paid
+       Expected : status=completed, payment_status=paid
+       Got      : HTTP 200 -- {'status': 'completed', 'payment_status': 'paid'}
+       Time     : 10.6 ms
+
+  26. [PASS] Access another user's booking (learner tries to approve mentor booking)
+       Expected : HTTP 403 or 404
+       Got      : HTTP 403 -- {'detail': 'You can only approve your own bookings'}
+       Time     : 13.0 ms
+
+  27. [PASS] Auth Boundary: Learner cannot approve a booking
+       Expected : HTTP 403/404/400 -- learner is not the mentor
+       Got      : HTTP 403 -- {'detail': 'You can only approve your own bookings'}
+       Time     : 10.3 ms
+
+  28. [PASS] Auth Boundary: Learner cannot confirm mentor attendance
+       Expected : HTTP 403/404/400 -- not the mentor
+       Got      : HTTP 403 -- {'detail': 'Not your booking'}
+       Time     : 10.0 ms
+
+  29. [PASS] Auth Boundary: Learner accesses /bookings/mentor/me (no mentor role)
+       Expected : HTTP 403/404 or empty list []
+       Got      : HTTP 200 -- {'result': 'list with 0 items'}
+       Time     : 10.9 ms
+
+  30. [PASS] Performance: GET /mentors/search x 10
+       Expected : All 10 requests complete, avg < 2000 ms
+       Got      : HTTP 200 -- {'min_ms': 59.8, 'avg_ms': 71.6, 'max_ms': 86.1, 'samples': [62.3, 86.1, 79.8, 66.7, 59.8, 69.4, 82.7, 77.0, 71.0, 61.4]
+       Time     : 71.6 ms
+
+  31. [PASS] Performance: POST /auth/login x 5
+       Expected : All 5 requests complete, avg < 2000 ms
+       Got      : HTTP 200 -- {'min_ms': 388.5, 'avg_ms': 451.4, 'max_ms': 507.0, 'samples': [490.9, 396.3, 507.0, 388.5, 474.4]}
+       Time     : 451.4 ms
+
+  32. [PASS] Performance: POST /bookings single request
+       Expected : Booking submission completes in < 3000 ms
+       Got      : HTTP N/A -- {'booking_response_time_ms': 33.2}
+       Time     : 33.2 ms
+
+  33. [PASS] Register with missing password field
+       Expected : HTTP 422 Unprocessable Entity
+       Got      : HTTP 422 -- {'detail': [{'type': 'missing', 'loc': ['body', 'password'], 'msg': 'Field required', 'input': {'email': 'missing.pw.462
+       Time     : 5.1 ms
+
+  34. [PASS] Register with missing email field
+       Expected : HTTP 422 Unprocessable Entity
+       Got      : HTTP 422 -- {'detail': [{'type': 'missing', 'loc': ['body', 'email'], 'msg': 'Field required', 'input': {'name': 'Test User', 'passw
+       Time     : 6.6 ms
+
+  35. [PASS] Register with invalid email format ('notanemail')
+       Expected : HTTP 422 Unprocessable Entity
+       Got      : HTTP 422 -- {'detail': [{'type': 'value_error', 'loc': ['body', 'email'], 'msg': 'value is not a valid email address: An email addre
+       Time     : 8.4 ms
+
+  36. [PASS] Booking with end_time before start_time rejected
+       Expected : HTTP 400 or 422
+       Got      : HTTP 422 -- {'detail': [{'type': 'value_error', 'loc': ['body', 'end_time'], 'msg': 'Value error, end_time must be after start_time'
+       Time     : 8.6 ms
+
+======================================================================

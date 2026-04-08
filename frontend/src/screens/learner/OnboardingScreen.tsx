@@ -18,6 +18,8 @@ import { getCategories } from '../../services/mentorService';
 import LocationPicker from '../../components/common/LocationPicker';
 import LanguagePicker from '../../components/common/LanguagePicker';
 import { styles } from '../../styles/OnboardingScreen.styles';
+import { getCurrentUser } from '../../services/authService';
+import { useNavigation } from '@react-navigation/native';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -79,11 +81,12 @@ const FieldLabel = ({ text, hint }: { text: string; hint?: string }) => (
 // ── Main screen ───────────────────────────────────────────────────────────
 const OnboardingScreen = () => {
   const insets = useSafeAreaInsets();
-  const { clearPendingOnboarding } = useAuth();
+  const { clearPendingOnboarding,signIn } = useAuth();
   const [step, setStep] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [showSkillPicker, setShowSkillPicker] = useState(false);
+  const navigation = useNavigation();
 
   const progressAnim = useRef(new Animated.Value(0)).current;
 
@@ -172,35 +175,51 @@ const OnboardingScreen = () => {
   };
 
   const handleSave = async () => {
-    setIsSaving(true);
-    try {
-      const payload: LearnerProfileCreate = {
-        bio: bio.trim() || undefined,
-        preferred_category_id: selectedCategoryId,
-        preferred_languages: preferredLanguages || undefined,
-        preferred_session_format: selectedFormat,
-        min_price: minPrice ? parseFloat(minPrice) : null,
-        max_price: maxPrice ? parseFloat(maxPrice) : null,
-        experience_level: selectedLevel,
-        location: location || undefined,
-        goal_tags: selectedGoals.size > 0 ? Array.from(selectedGoals).join(',') : undefined,
-        goal_description: goalDescription.trim() || undefined,
-        availability_preference: selectedAvailability.size > 0 ? Array.from(selectedAvailability).join(',') : undefined,
-        interests: interests.map(i => ({
-          skill_id: i.skill_id,
-          current_level: i.current_level,
-          target_level: i.target_level,
-        })),
-      };
-      await saveMyLearnerProfile(payload);
-      clearPendingOnboarding();
-    } catch (e: any) {
-      // Still dismiss on error — they can complete profile later
-      clearPendingOnboarding();
-    } finally {
-      setIsSaving(false);
-    }
-  };
+  setIsSaving(true);
+  try {
+    const payload: LearnerProfileCreate = {
+      bio: bio.trim() || undefined,
+      preferred_category_id: selectedCategoryId,
+      preferred_languages: preferredLanguages || undefined,
+      preferred_session_format: selectedFormat,
+      min_price: minPrice ? parseFloat(minPrice) : null,
+      max_price: maxPrice ? parseFloat(maxPrice) : null,
+      experience_level: selectedLevel,
+      location: location || undefined,
+      goal_tags: selectedGoals.size > 0 ? Array.from(selectedGoals).join(',') : undefined,
+      goal_description: goalDescription.trim() || undefined,
+      availability_preference: selectedAvailability.size > 0 ? Array.from(selectedAvailability).join(',') : undefined,
+      interests: interests.map(i => ({
+        skill_id: i.skill_id,
+        current_level: i.current_level,
+        target_level: i.target_level,
+      })),
+    };
+    await saveMyLearnerProfile(payload);
+    console.log('Profile saved');
+    
+    // Refresh user token with updated role
+    console.log('Calling getCurrentUser');
+    const { user: freshUser, access_token } = await getCurrentUser();
+    console.log('Fresh user role:', freshUser.role, 'Token exists:', !!access_token);
+    
+    console.log('Calling signIn');
+    await signIn(access_token, false);
+    console.log('signIn done');
+    
+    await clearPendingOnboarding();
+    console.log('clearPendingOnboarding done');
+
+     setTimeout(() => {
+      navigation.navigate('Main' as never);
+    }, 100);
+  } catch (e: any) {
+    console.error('Error in handleSave:', e?.message || e);
+    await clearPendingOnboarding();
+  } finally {
+    setIsSaving(false);
+  }
+};
 
   const currentStep = STEPS[step];
 

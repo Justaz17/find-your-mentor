@@ -6,15 +6,17 @@ import MentorOnboardingNavigator from './MentorOnboardingNavigator';
 import OnboardingScreen from '../screens/learner/OnboardingScreen';
 
 const AppNavigator = () => {
-  const { isAuthenticated, isLoading, pendingOnboarding, user } = useAuth();
-  console.log('AppNavigator user:', user?.role, 'pending:', pendingOnboarding);
+  const auth = useAuth();
+  console.log('AppNavigator hook called, pendingOnboarding:', auth.pendingOnboarding);
+  const { isAuthenticated, isLoading, pendingOnboarding, user } = auth;
+  console.log('AppNavigator render:', { isAuthenticated, pendingOnboarding, role: user?.role });
 
   if (isLoading) return null;
 
   // New mentor — show onboarding outside NavigationContainer
-  if (isAuthenticated && pendingOnboarding && user?.role === 'mentor') {
+  if (isAuthenticated && pendingOnboarding && (user?.role === 'mentor' || user?.role === 'both')){
     return (
-      <NavigationContainer>
+      <NavigationContainer key="mentor-onboarding">
         <MentorOnboardingNavigator />
       </NavigationContainer>
     );
@@ -26,7 +28,7 @@ const AppNavigator = () => {
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer key="main-app">
       <StackNavigator />
     </NavigationContainer>
   );

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback, useMemo } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { User } from '../types/User';
 import { jwtDecode } from 'jwt-decode';
@@ -12,6 +12,7 @@ interface AuthContextType {
   signIn: (token: string, isNewUser?: boolean) => Promise<void>;
   signOut: () => Promise<void>;
   clearPendingOnboarding: () => void | Promise<void>;
+  updateUser: (userData: User) => void; 
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -36,6 +37,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [pendingOnboarding, setPendingOnboarding] = useState(false);
 
+
+  const updateUser = useCallback((userData: User) => {
+  setUser(userData);
+}, []);
+
   useEffect(() => {
     const loadToken = async () => {
       try {
@@ -43,8 +49,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (storedToken) {
           const userData = getUserFromToken(storedToken);
           if (userData) {
-            // Load pending_onboarding BEFORE setting isLoading false
-            // so StackNavigator gets the correct initialRouteName on first render
             const pending = await AsyncStorage.getItem('pending_onboarding');
             setToken(storedToken);
             setUser(userData);
@@ -64,7 +68,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     loadToken().then(() => clearTimeout(timeout));
   }, []);
 
-  const signIn = async (newToken: string, isNewUser = false) => {
+  const signIn = useCallback(async (newToken: string, isNewUser = false) => {
     const userData = getUserFromToken(newToken);
     if (userData) {
       await AsyncStorage.setItem('token', newToken);
@@ -73,38 +77,47 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(userData);
       if (isNewUser) setPendingOnboarding(true);
     }
-  };
+  }, []);
 
-  const signOut = async () => {
+  const signOut = useCallback(async () => {
     await AsyncStorage.removeItem('token');
     setToken(null);
     setUser(null);
     setPendingOnboarding(false);
-  };
+  }, []);
 
-  const clearPendingOnboarding = async () => {
-    await AsyncStorage.removeItem('pending_onboarding');
-    setPendingOnboarding(false);
-  };
+  const clearPendingOnboarding = useCallback(async () => {
+    try {
+      console.log('Removing pending_onboarding from storage');
+      await AsyncStorage.removeItem('pending_onboarding');
+      console.log('Removed, setting state to false');
+      setPendingOnboarding(false);
+    } catch (error) {
+      console.error('Error clearing pending onboarding:', error);
+    }
+  }, []);
+
+  const value = useMemo(
+    () => ({
+      user,
+      token,
+      isLoading,
+      isAuthenticated: !!token && !!user,
+      pendingOnboarding,
+      signIn,
+      signOut,
+      clearPendingOnboarding,
+      updateUser,
+    }),
+    [user, token, isLoading, pendingOnboarding, signIn, signOut, clearPendingOnboarding, updateUser]
+  );
 
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        token,
-        isLoading,
-        isAuthenticated: !!token && !!user,
-        pendingOnboarding,
-        signIn,
-        signOut,
-        clearPendingOnboarding,
-      }}
-    >
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
 };
-
 
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);

@@ -13,11 +13,13 @@ import { useNavigation, useRoute, RouteProp, CommonActions } from '@react-naviga
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Colors, Spacing, FontSize } from '../../utils/constants';
-import { getLoginErrors, getRegistrationErrors } from '../../utils/validators';
+import { getEmailValidationError, getLoginErrors, getRegistrationErrors, passwordsMatch } from '../../utils/validators';
 import { login, register } from '../../services/authService';
 import { useAuth } from '../../context/AuthContext';
 import { RootStackParamList } from '../../navigation/types';
 import { styles } from '../../styles/AuthScreen.styles';
+import PasswordStrengthIndicator from '../../components/auth/PasswordStrengthIndicator';
+import ValidationIndicator from '../../components/auth/ValidationIndicator';
 
 type AuthNavProp = NativeStackNavigationProp<RootStackParamList>;
 type AuthRouteProp = RouteProp<RootStackParamList, 'Auth'>;
@@ -179,56 +181,71 @@ const AuthScreen = () => {
               autoCapitalize="none"
               autoComplete="email"
             />
+            {!isLogin && email && (
+            <ValidationIndicator
+              isValid={!getEmailValidationError(email)}
+              message={getEmailValidationError(email) || 'Email valid'}
+              showMessage={true}
+            />
+          )}
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Password</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your password"
-              placeholderTextColor={Colors.textSecondary}
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-              autoComplete={isLogin ? 'current-password' : 'new-password'}
-            />
-          </View>
+          <Text style={styles.label}>Password</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your password"
+            placeholderTextColor={Colors.textSecondary}
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            autoComplete={isLogin ? 'current-password' : 'new-password'}
+          />
+          {!isLogin && <PasswordStrengthIndicator password={password} />}
+        </View>
 
           {!isLogin && (
             <>
-              <View style={styles.inputGroup}>
-                <Text style={styles.label}>Confirm Password</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Confirm your password"
-                  placeholderTextColor={Colors.textSecondary}
-                  value={confirmPassword}
-                  onChangeText={setConfirmPassword}
-                  secureTextEntry
-                  autoComplete="new-password"
-                />
-              </View>
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Confirm Password</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Confirm your password"
+              placeholderTextColor={Colors.textSecondary}
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+              secureTextEntry
+              autoComplete="new-password"
+            />
+            {confirmPassword && (
+              <ValidationIndicator
+                isValid={passwordsMatch(password, confirmPassword)}
+                message={passwordsMatch(password, confirmPassword) ? 'Passwords match' : 'Passwords do not match'}
+                showMessage={true}
+              />
+            )}
+          </View>
 
-              {/* Mentor checkbox */}
-              <TouchableOpacity
-                style={styles.mentorCheckRow}
-                onPress={() => setWantsMentor(prev => !prev)}
-                activeOpacity={0.8}
-              >
-                <View style={[styles.checkbox, wantsMentor && styles.checkboxActive]}>
-                  {wantsMentor && (
-                    <MaterialCommunityIcons name="check" size={14} color="#fff" />
-                  )}
-                </View>
-                <View style={styles.mentorCheckText}>
-                  <Text style={styles.mentorCheckLabel}>I want to become a mentor</Text>
-                  <Text style={styles.mentorCheckSub}>
-                    You'll be guided to set up your mentor profile after signing up
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </>
-          )}
+    {/* Mentor checkbox */}
+    <TouchableOpacity
+      style={styles.mentorCheckRow}
+      onPress={() => setWantsMentor(prev => !prev)}
+      activeOpacity={0.8}
+    >
+      <View style={[styles.checkbox, wantsMentor && styles.checkboxActive]}>
+        {wantsMentor && (
+          <MaterialCommunityIcons name="check" size={14} color="#fff" />
+        )}
+      </View>
+      <View style={styles.mentorCheckText}>
+        <Text style={styles.mentorCheckLabel}>I want to become a mentor</Text>
+        <Text style={styles.mentorCheckSub}>
+          You'll be guided to set up your mentor profile after signing up
+        </Text>
+      </View>
+    </TouchableOpacity>
+  </>
+)}
 
           <TouchableOpacity
             style={[styles.submitButton, isLoading && styles.submitButtonDisabled]}

@@ -137,6 +137,12 @@ def create_or_update_profile(
 
     db.commit()
     db.refresh(profile)
+
+    if current_user.role == "mentor":
+        current_user.role = "both"
+        db.commit()
+        db.refresh(current_user)
+
     return build_profile_out(profile, db)
 
 

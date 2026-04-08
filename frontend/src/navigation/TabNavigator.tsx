@@ -95,6 +95,18 @@ const TabNavigator = () => {
           }}
         />
       )}
+      {isAuthenticated && (
+      <Tab.Screen
+        name="LearnerDashboard"
+        component={LearnerDashboardScreen}
+        options={{
+          tabBarLabel: 'Learner',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="account" size={24} color={color} />
+          ),
+        }}
+      />
+    )}
 
       {!isAuthenticated && (
         <Tab.Screen
