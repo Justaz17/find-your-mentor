@@ -12,6 +12,7 @@ import LearnerDashboardScreen from '../screens/learner/LearnerDashboardScreen';
 import MentorDashboardScreen from '../screens/mentor/MentorDashboardScreen';
 import NotificationsScreen from '../screens/mentor/NotificationScreen';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import DashboardScreen from '../screens/DashoardScreen';
 
 const Tab = createBottomTabNavigator<TabParamList>();
 const NullScreen = () => null;
@@ -84,30 +85,17 @@ const TabNavigator = () => {
       )}
 
       {isAuthenticated && (
-        <Tab.Screen
-          name="Dashboard"
-          component={isMentor ? MentorDashboardScreen : LearnerDashboardScreen}
-          options={{
-            tabBarLabel: 'Profile',
-            tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name="account" size={24} color={color} />
-            ),
-          }}
-        />
-      )}
-      {isAuthenticated && (
       <Tab.Screen
-        name="LearnerDashboard"
-        component={LearnerDashboardScreen}
+        name="Dashboard"
+        component={DashboardScreen}
         options={{
-          tabBarLabel: 'Learner',
+          tabBarLabel: 'Profile',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="account" size={24} color={color} />
           ),
         }}
       />
     )}
-
       {!isAuthenticated && (
         <Tab.Screen
           name="Login"

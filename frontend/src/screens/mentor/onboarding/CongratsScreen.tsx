@@ -20,7 +20,7 @@ const STEPS = [
   {
     number: '01',
     title: 'Create a service',
-    body: 'Define what you offer — title, duration and price. Learners browse and book your services.',
+    body: 'Define what you offer - title, duration and price. Learners browse and book your services.',
     icon: 'briefcase-outline',
     align: 'left',
   },
@@ -43,35 +43,24 @@ const STEPS = [
 const CongratsScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<Nav>();
-  const { clearPendingOnboarding, user, updateUser,signIn } = useAuth();
-  const [shouldExit, setShouldExit] = React.useState(false);
-  
+  const { clearPendingOnboarding, user, signIn, setTransitioning } = useAuth();
 
   console.log('CongratsScreen user role:', user?.role);
 
-  useEffect(() => {
-      if (shouldExit) {
-        clearPendingOnboarding();
-      }
-    }, [shouldExit]);
-  
-const handleSetupLater = async () => {
-  await clearPendingOnboarding();
-
+  const handleSetupLater = async () => {
   try {
     const { user: freshUser, access_token } = await getCurrentUser();
-    await signIn(access_token,false); // Update token and user in context without marking as new user
-    console.log('Fetched user role after onboarding:', freshUser.role);
-    updateUser(freshUser);  // Update the context with fresh user data
-    console.log('Updated user role:', freshUser.role);
+    setTransitioning(true);
+    console.log('Fresh user role:', freshUser.role);
+    await clearPendingOnboarding();
+    await signIn(access_token, false);
+    setTransitioning(false);
   } catch (error) {
+    setTransitioning(false);
     console.error('Failed to refresh user:', error);
   }
-  
-  setTimeout(() => {
-    navigation.navigate('Main' as any);
-  }, 100);
 };
+
   return (
     <View style={{ flex: 1, backgroundColor: Colors.background }}>
       {/* Header */}

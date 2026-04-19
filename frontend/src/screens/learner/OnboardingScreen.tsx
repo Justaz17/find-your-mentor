@@ -81,12 +81,12 @@ const FieldLabel = ({ text, hint }: { text: string; hint?: string }) => (
 // ── Main screen ───────────────────────────────────────────────────────────
 const OnboardingScreen = () => {
   const insets = useSafeAreaInsets();
-  const { clearPendingOnboarding,signIn } = useAuth();
+  const navigation = useNavigation();
+  const { clearPendingOnboarding, signIn, setTransitioning } = useAuth();
   const [step, setStep] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [showSkillPicker, setShowSkillPicker] = useState(false);
-  const navigation = useNavigation();
 
   const progressAnim = useRef(new Animated.Value(0)).current;
 
@@ -170,9 +170,11 @@ const OnboardingScreen = () => {
     if (step > 0) setStep(s => s - 1);
   };
 
-  const handleSkip = () => {
-    clearPendingOnboarding();
-  };
+  const handleSkip = async () => {
+  setTransitioning(true);
+  await clearPendingOnboarding();
+  setTransitioning(false);
+};
 
   const handleSave = async () => {
   setIsSaving(true);
@@ -196,25 +198,15 @@ const OnboardingScreen = () => {
       })),
     };
     await saveMyLearnerProfile(payload);
-    console.log('Profile saved');
-    
-    // Refresh user token with updated role
-    console.log('Calling getCurrentUser');
     const { user: freshUser, access_token } = await getCurrentUser();
-    console.log('Fresh user role:', freshUser.role, 'Token exists:', !!access_token);
-    
-    console.log('Calling signIn');
-    await signIn(access_token, false);
-    console.log('signIn done');
-    
+    setTransitioning(true);
     await clearPendingOnboarding();
-    console.log('clearPendingOnboarding done');
-
-     setTimeout(() => {
-      navigation.navigate('Main' as never);
-    }, 100);
+    await new Promise(resolve => setTimeout(resolve, 200));
+    await signIn(access_token, false);
+    setTransitioning(false);
   } catch (e: any) {
     console.error('Error in handleSave:', e?.message || e);
+    setTransitioning(false);
     await clearPendingOnboarding();
   } finally {
     setIsSaving(false);

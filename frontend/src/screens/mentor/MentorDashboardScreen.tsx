@@ -12,11 +12,12 @@ import { useAuth } from '../../context/AuthContext';
 import { useMentorDashboard } from '../../hooks/useMentorDashboard';
 import { useMentorProfile } from '../../hooks/useMentorProfile';
 import { RootStackParamList } from '../../navigation/types';
-import { CommonActions } from '@react-navigation/native';
-
-
 
 type Nav = NativeStackNavigationProp<RootStackParamList>;
+
+interface MentorDashboardProps {
+  onSwitchToLearner?: () => void;
+}
 
 const StatCard = ({ icon, label, value, color, onPress }: {
   icon: string; label: string; value: string | number; color: string; onPress?: () => void;
@@ -37,7 +38,7 @@ const StatCard = ({ icon, label, value, color, onPress }: {
   </TouchableOpacity>
 );
 
-const MentorDashboardScreen = () => {
+const MentorDashboardScreen = ({ onSwitchToLearner }: MentorDashboardProps) => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<Nav>();
   const { user, signOut } = useAuth();
@@ -45,16 +46,16 @@ const MentorDashboardScreen = () => {
   const { completion } = useMentorProfile();
 
   const handleCompleteProfile = () => {
-        const { missing,pct } = completion;
-        console.log('completion:', pct, missing);
-        if (missing.includes('Bio') || missing.includes('Skills') || missing.includes('Session format')) {
-          navigation.navigate('MentorOnboarding');
-        } else if (missing.includes('Services')) {
-          navigation.navigate('ManageServices');
-        } else if (missing.includes('Availability')) {
-          navigation.navigate('MentorAvailability');
-        }
-      };
+    const { missing, pct } = completion;
+    console.log('completion:', pct, missing);
+    if (missing.includes('Bio') || missing.includes('Skills') || missing.includes('Session format')) {
+      navigation.navigate('MentorOnboarding');
+    } else if (missing.includes('Services')) {
+      navigation.navigate('ManageServices');
+    } else if (missing.includes('Availability')) {
+      navigation.navigate('MentorAvailability');
+    }
+  };
 
   if (isLoading) return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -83,9 +84,6 @@ const MentorDashboardScreen = () => {
     },
   ];
 
-    
-
-
   return (
     <ScrollView
       style={{ flex: 1, backgroundColor: Colors.surface }}
@@ -113,18 +111,15 @@ const MentorDashboardScreen = () => {
           <Text style={{ fontSize: FontSize.xxl, fontWeight: '900', color: Colors.text }}>
             Hi, {user?.name?.split(' ')[0]}
           </Text>
-          {user?.role === 'both' ? (
+
+          {user?.role === 'both' && onSwitchToLearner && (
             <TouchableOpacity
               style={{
-                paddingVertical: 8,
-                paddingHorizontal: 12,
-                borderRadius: 8,
-                backgroundColor: Colors.primary,
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 6,
+                paddingVertical: 8, paddingHorizontal: 12,
+                borderRadius: 8, backgroundColor: Colors.primary,
+                flexDirection: 'row', alignItems: 'center', gap: 6,
               }}
-              onPress={() => navigation.navigate('LearnerDashboard' as never)}
+              onPress={onSwitchToLearner}
               activeOpacity={0.7}
             >
               <MaterialCommunityIcons name="account" size={14} color="#fff" />
@@ -132,16 +127,14 @@ const MentorDashboardScreen = () => {
                 Learner
               </Text>
             </TouchableOpacity>
-          ) : (
+          )}
+
+          {user?.role === 'mentor' && (
             <TouchableOpacity
               style={{
-                paddingVertical: 8,
-                paddingHorizontal: 12,
-                borderRadius: 8,
-                backgroundColor: Colors.primary,
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 6,
+                paddingVertical: 8, paddingHorizontal: 12,
+                borderRadius: 8, backgroundColor: Colors.primary,
+                flexDirection: 'row', alignItems: 'center', gap: 6,
               }}
               onPress={() => navigation.navigate('Onboarding', {})}
               activeOpacity={0.7}
@@ -169,21 +162,19 @@ const MentorDashboardScreen = () => {
       </View>
 
       <View style={{ padding: Spacing.lg, gap: Spacing.lg }}>
-              
-      {/* Profile completion nudge */}
-                {completion.pct < 100 && (
+
+        {/* Profile completion nudge */}
+        {completion.pct < 100 && (
           <TouchableOpacity
             onPress={handleCompleteProfile}
-          activeOpacity={0.85}
+            activeOpacity={0.85}
             style={{
               backgroundColor: Colors.primaryLight,
               borderRadius: 16, padding: Spacing.md,
               borderWidth: 1, borderColor: Colors.primary + '30',
               flexDirection: 'row', alignItems: 'center', gap: Spacing.md,
             }}
-            
           >
-            
             <View style={{
               width: 44, height: 44, borderRadius: 22,
               backgroundColor: Colors.primary,

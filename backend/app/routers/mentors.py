@@ -157,9 +157,11 @@ def build_learner_dict(learner_profile: LearnerProfile, db: Session) -> dict:
         .all()
     )
     for booking in past_bookings:
+        if not booking.mentor_service:
+            continue
         mentor = (
             db.query(MentorProfile)
-            .filter(MentorProfile.id == booking.mentor_profile_id)
+            .filter(MentorProfile.id == booking.mentor_service.mentor_profile_id)
             .first()
         )
         if mentor:

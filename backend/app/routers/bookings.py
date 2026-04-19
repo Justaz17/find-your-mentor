@@ -474,3 +474,5 @@ def mentor_confirm(
         "booking_id": booking.id,
         "completed": booking.status == "completed",
     }
+
+
