@@ -13,6 +13,8 @@ interface AuthContextType {
   signOut: () => Promise<void>;
   clearPendingOnboarding: () => void | Promise<void>;
   updateUser: (userData: User) => void; 
+  transitioning: boolean;
+  setTransitioning: (value: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -36,6 +38,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [pendingOnboarding, setPendingOnboarding] = useState(false);
+  const [transitioning, setTransitioning] = useState(false);
 
 
   const updateUser = useCallback((userData: User) => {
@@ -108,8 +111,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       signOut,
       clearPendingOnboarding,
       updateUser,
+      transitioning,
+      setTransitioning,
     }),
-    [user, token, isLoading, pendingOnboarding, signIn, signOut, clearPendingOnboarding, updateUser]
+    [user, token, isLoading, pendingOnboarding, signIn, signOut, clearPendingOnboarding, updateUser, transitioning, setTransitioning]
   );
 
   return (

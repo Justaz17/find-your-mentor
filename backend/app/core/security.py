@@ -41,8 +41,8 @@ def get_current_user(
 
     except JWTError:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid authentication token",
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Invalid authentication token",
         )
 
     # Get user from database

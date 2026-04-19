@@ -185,7 +185,7 @@ const HomeScreen = () => {
           <Text style={styles.completionSub}>
             {completionPct === 0
               ? 'Get better mentor matches by telling us about yourself'
-              : `${completionPct}% done — add ${missingFields[0]?.toLowerCase() ?? 'more info'} to improve matches`}
+              : `${completionPct}% done - add ${missingFields[0]?.toLowerCase() ?? 'more info'} to improve matches`}
           </Text>
         </View>
         <View style={styles.completionPctWrap}>
@@ -317,7 +317,7 @@ const HomeScreen = () => {
         activeOpacity={0.88}
         onPress={() => navigation.navigate('Auth', { initialTab: 'register', wantsMentor: false })}
       >
-        <Text style={styles.howCtaText}>Get started — it's free</Text>
+        <Text style={styles.howCtaText}>Get started, it's free!</Text>
         <MaterialCommunityIcons name="arrow-right" size={18} color="#fff" />
       </TouchableOpacity>
     </View>
@@ -361,7 +361,7 @@ const HomeScreen = () => {
       <View style={styles.section}>
         <Text style={styles.sectionSubtitle} numberOfLines={1}>
           {isAuthenticated
-            ? 'Personalised picks — refreshed each visit'
+            ? 'Personalised picks - refreshed each visit'
             : 'Highest rated by learners'}
         </Text>
 
