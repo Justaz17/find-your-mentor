@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode, useCa
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { User } from '../types/User';
 import { jwtDecode } from 'jwt-decode';
+import { onAuthExpired } from '../services/api';
 
 interface AuthContextType {
   user: User | null;
@@ -71,6 +72,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     loadToken().then(() => clearTimeout(timeout));
   }, []);
 
+
   const signIn = useCallback(async (newToken: string, isNewUser = false) => {
     const userData = getUserFromToken(newToken);
     if (userData) {
@@ -89,6 +91,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setPendingOnboarding(false);
   }, []);
 
+    useEffect(() => {
+    onAuthExpired(() => {
+    signOut();
+    });
+  }, [signOut]);
+  
   const clearPendingOnboarding = useCallback(async () => {
     try {
       console.log('Removing pending_onboarding from storage');

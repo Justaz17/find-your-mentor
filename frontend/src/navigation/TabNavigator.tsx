@@ -8,11 +8,9 @@ import { useAuth } from '../context/AuthContext';
 import HomeScreen from '../screens/home/HomeScreen';
 import SearchScreen from '../screens/home/SearchScreen';
 import BookingScreen from '../screens/booking/BookingScreen';
-import LearnerDashboardScreen from '../screens/learner/LearnerDashboardScreen';
-import MentorDashboardScreen from '../screens/mentor/MentorDashboardScreen';
 import NotificationsScreen from '../screens/mentor/NotificationScreen';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import DashboardScreen from '../screens/DashoardScreen';
+import DashboardScreen from '../screens/DashboardScreen';
 
 const Tab = createBottomTabNavigator<TabParamList>();
 const NullScreen = () => null;

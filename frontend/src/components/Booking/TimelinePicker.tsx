@@ -234,7 +234,7 @@ const TimeLinePicker = ({
               />
             ))}
 
-            {/* ⑤ Tappable time slots */}
+            {/* Tappable time slots */}
             {validPositions.map((pos, i) => {
             const isSelected = selected && pos.startMins === selected.startMins;
             return (
