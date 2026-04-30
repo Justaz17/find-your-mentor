@@ -1,2 +1,13 @@
+﻿# Claude config
 .claude/
-.claude/
+
+# IDE files
+.idea/
+.vscode/
+
+# Dependencies (belt-and-suspenders — subdirs have it too, but just in case)
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
