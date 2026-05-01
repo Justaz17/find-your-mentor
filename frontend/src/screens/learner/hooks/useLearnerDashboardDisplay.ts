@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { LearnerProfile, GOAL_TAGS, AVAILABILITY_WINDOWS } from '../../../types/Learner';
-import { Colors } from '../../../utils/constants';
+import { Colours } from '../../../utils/constants';
 
 export const useLearnerDashboardDisplay = (profile: LearnerProfile | null, userName?: string) => {
   const initials = useMemo(() => {
@@ -8,9 +8,9 @@ export const useLearnerDashboardDisplay = (profile: LearnerProfile | null, userN
     return userName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
   }, [userName]);
 
-  const avatarColor = useMemo(() => {
-    const colors = ['#6C3AED', '#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#EC4899'];
-    return colors[(userName?.length ?? 0) % colors.length];
+  const avatarColour = useMemo(() => {
+    const avatar_colours = ['#6C3AED', '#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#EC4899'];
+    return avatar_colours[(userName?.length ?? 0) % avatar_colours.length];
   }, [userName]);
 
   const goalLabels = useMemo(() => {
@@ -49,12 +49,12 @@ export const useLearnerDashboardDisplay = (profile: LearnerProfile | null, userN
     if (level === 'beginner') return '#10B981';
     if (level === 'intermediate') return '#F59E0B';
     if (level === 'advanced') return '#EF4444';
-    return Colors.primary;
+    return Colours.primary;
   };
 
   return {
     initials,
-    avatarColor,
+    avatarColour,
     goalLabels,
     availabilityLabels,
     formatBudget,

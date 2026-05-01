@@ -20,7 +20,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/types';
 import { Booking } from '../../types/Booking';
 import { getMyBookings, cancelBooking, learnerConfirmBooking } from '../../services/bookingService';
-import { Colors, Spacing, FontSize } from '../../utils/constants';
+import { Colours, Spacing, FontSize } from '../../utils/constants';
 import BookedDatesCalendar from '../../components/mentor/BookedDatesCalendar';
 import { styles } from '../../styles/BookingScreen.styles';
 
@@ -125,10 +125,10 @@ const BookingScreen = () => {
 
   const getStatusColor = (s: string) => {
     switch (s) {
-      case 'confirmed': case 'completed': return Colors.secondary;
-      case 'pending': return Colors.warning;
-      case 'cancelled_by_learner': case 'cancelled_by_mentor': return Colors.error;
-      default: return Colors.textSecondary;
+      case 'confirmed': case 'completed': return Colours.secondary;
+      case 'pending': return Colours.warning;
+      case 'cancelled_by_learner': case 'cancelled_by_mentor': return Colours.error;
+      default: return Colours.textSecondary;
     }
   };
 
@@ -145,10 +145,10 @@ const BookingScreen = () => {
 
   const getPaymentStatusColor = (s: string) => {
     switch (s) {
-      case 'paid': return Colors.secondary;
-      case 'pending': return Colors.warning;
-      case 'refunded': case 'partial_refund': return Colors.error;
-      default: return Colors.textSecondary;
+      case 'paid': return Colours.secondary;
+      case 'pending': return Colours.warning;
+      case 'refunded': case 'partial_refund': return Colours.error;
+      default: return Colours.textSecondary;
     }
   };
 
@@ -167,7 +167,7 @@ const BookingScreen = () => {
   if (isLoading) {
     return (
       <View style={styles.centered}>
-        <ActivityIndicator size="large" color={Colors.primary} />
+        <ActivityIndicator size="large" color={Colours.primary} />
         <Text variant="bodyMedium" style={styles.loadingText}>Loading bookings...</Text>
       </View>
     );
@@ -315,17 +315,22 @@ const BookingScreen = () => {
                       )}
 
                       <View style={styles.actions}>
-                        {/* Mentor Profile — now uses real mentor_id */}
+                        {/* Mentor Profile */}
                         <Button
-                          mode="contained"
-                          style={styles.primaryAction}
-                          labelStyle={styles.actionButtonLabel}
-                          onPress={() => navigation.navigate('MentorProfile', { mentorId: item.mentor_id })}
-                        >
-                          Mentor Profile
-                        </Button>
-
-                        {/* Cancel pending — free */}
+                        mode="contained"
+                        style={styles.primaryAction}
+                        labelStyle={styles.actionButtonLabel}
+                        onPress={() => {
+                          console.log(' Item object:', item);
+                          console.log(' mentor_profile_id:', item.mentor_profile_id);
+                          console.log(' Type:', typeof item.mentor_profile_id);
+                          navigation.navigate('MentorProfile', { mentorId: item.mentor_profile_id });
+                        }}
+                      >
+                        Mentor Profile
+                      </Button>
+                        
+                        {/* Cancel pending - free */}
                         {isPending && (
                           <Button
                             mode="outlined"
@@ -356,7 +361,7 @@ const BookingScreen = () => {
                       {isPast && item.status === 'confirmed' && !item.learner_confirmed && (
                         <Button
                           mode="contained"
-                          style={{ backgroundColor: Colors.secondary, borderRadius: 12 }}
+                          style={{ backgroundColor: Colours.secondary, borderRadius: 12 }}
                           labelStyle={styles.actionButtonLabel}
                           loading={attendingId === item.id}
                           disabled={attendingId === item.id}
@@ -370,7 +375,7 @@ const BookingScreen = () => {
                         <Button
                           mode="outlined"
                           style={styles.actionButton}
-                          labelStyle={[styles.actionButtonLabel, { color: Colors.secondary }]}
+                          labelStyle={[styles.actionButtonLabel, { color: Colours.secondary }]}
                           disabled
                         >
                           Attendance confirmed.
@@ -386,7 +391,7 @@ const BookingScreen = () => {
         }}
         contentContainerStyle={styles.listContent}
         refreshControl={
-          <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} tintColor={Colors.primary} />
+          <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} tintColor={Colours.primary} />
         }
         ListEmptyComponent={
           <View style={styles.emptyState}>

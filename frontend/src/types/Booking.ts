@@ -3,6 +3,7 @@ export interface Booking {
   learner_id: number;
   learner_name: string;
   mentor_id: number;
+  mentor_profile_id: number;
   mentor_service_id: number;
   service_title: string;
   availability_slot_id: number;

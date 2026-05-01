@@ -4,7 +4,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Colors, Spacing } from '../../../utils/constants';
+import { Colours, Spacing } from '../../../utils/constants';
 import { styles } from '../../../styles/LearnerDashboardScreen.styles';
 import { LearnerProfile } from '../../../types/Learner';
 import { useLearnerDashboardDisplay } from '../hooks/useLearnerDashboardDisplay';
@@ -40,14 +40,17 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   onViewMentorProfile,
   onEditProfile,
 }) => {
+  console.log(' ProfileContent received profile:', JSON.stringify(profile, null, 2));
   const insets = useSafeAreaInsets();
   const [showBecomeMentorConfirm, setShowBecomeMentorConfirm] = useState(false);
   const display = useLearnerDashboardDisplay(profile, userName);
-
+  console.log(' Full display object:', display);
+  console.log(' display.goalLabels:', display.goalLabels);
+  console.log(' display.availabilityLabels:', display.availabilityLabels);
   if (isLoading) {
     return (
       <View style={styles.centred}>
-        <ActivityIndicator size="large" color={Colors.primary} />
+        <ActivityIndicator size="large" color={Colours.primary} />
       </View>
     );
   }
@@ -82,7 +85,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             <Text style={styles.editButtonText}>Edit</Text>
           </TouchableOpacity>
 
-          <View style={[styles.avatarWrap, { backgroundColor: display.avatarColor }]}>
+          <View style={[styles.avatarWrap, { backgroundColor: display.avatarColour }]}>
             <Text style={styles.avatarText}>{display.initials}</Text>
           </View>
         </View>
@@ -119,7 +122,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
           {/* Mentor buttons */}
           {userRole === 'both' ? (
             <TouchableOpacity 
-              style={[styles.signOutButton, { backgroundColor: Colors.primary }]} 
+              style={[styles.signOutButton, { backgroundColor: Colours.primary }]} 
              onPress={onViewMentorProfile}
               activeOpacity={0.85}
             >
@@ -128,7 +131,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             </TouchableOpacity>
           ) : (
             <TouchableOpacity 
-              style={[styles.signOutButton, { backgroundColor: Colors.primary }]} 
+              style={[styles.signOutButton, { backgroundColor: Colours.primary }]} 
               onPress={() => setShowBecomeMentorConfirm(true)} 
               activeOpacity={0.85}
             >
@@ -144,10 +147,10 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             <Text style={styles.bio}>{profile.bio}</Text>
           </SectionCard>
         )}
-
+        
         {profile.interests.length > 0 && (
           <SectionCard title="Skills I want to learn">
-            {profile.interests.map(interest => (
+            {(profile.interests || []).map(interest => (
               <View key={interest.id} style={styles.interestRow}>
                 <View style={styles.interestLeft}>
                   <Text style={styles.interestName}>{interest.skill_name}</Text>
@@ -173,7 +176,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             ))}
           </SectionCard>
         )}
-
+        
         {display.goalLabels.length > 0 && (
           <SectionCard title="Learning goals">
             <View style={styles.chipsRow}>
@@ -205,7 +208,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
               <MaterialCommunityIcons
                 name="clock-outline"
                 size={20}
-                color={Colors.textSecondary}
+                color={Colours.textSecondary}
                 style={styles.prefIconEl}
               />
               <View style={styles.prefText}>
@@ -224,7 +227,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
 
         <View style={styles.explainerCard}>
           <View style={styles.explainerTitleRow}>
-            <MaterialCommunityIcons name="lightning-bolt" size={16} color={Colors.primary} />
+            <MaterialCommunityIcons name="lightning-bolt" size={16} color={Colours.primary} />
             <Text style={styles.explainerTitle}>How this powers your matches</Text>
           </View>
           <Text style={styles.explainerText}>
@@ -236,7 +239,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
 
         {/* ── Sign out ─────────────────────────────────────────────── */}
         <TouchableOpacity style={styles.signOutButton} onPress={onSignOut} activeOpacity={0.85}>
-          <MaterialCommunityIcons name="logout" size={16} color={Colors.error} />
+          <MaterialCommunityIcons name="logout" size={16} color={Colours.error} />
           <Text style={styles.signOutText}>Sign out</Text>
         </TouchableOpacity>
       </ScrollView>
