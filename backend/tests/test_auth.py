@@ -1,5 +1,5 @@
 """
-test_auth.py — Authentication endpoint tests using equivalence partitioning
+test_auth.py - Authentication endpoint tests using equivalence partitioning
 and boundary value analysis.
 
 Equivalence classes identified:
@@ -34,30 +34,38 @@ BASE_URL = "http://192.168.1.17:8000"
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def unique_email(prefix: str = "user") -> str:
     suffix = "".join(random.choices(string.ascii_lowercase + string.digits, k=8))
     return f"{prefix}.{suffix}@test.ie"
 
 
 def register(session, email, name, password, role="learner"):
-    return session.post(f"{BASE_URL}/auth/register", json={
-        "email": email,
-        "name": name,
-        "password": password,
-        "role": role,
-    })
+    return session.post(
+        f"{BASE_URL}/auth/register",
+        json={
+            "email": email,
+            "name": name,
+            "password": password,
+            "role": role,
+        },
+    )
 
 
 def login(session, email, password):
-    return session.post(f"{BASE_URL}/auth/login", json={
-        "email": email,
-        "password": password,
-    })
+    return session.post(
+        f"{BASE_URL}/auth/login",
+        json={
+            "email": email,
+            "password": password,
+        },
+    )
 
 
 # ---------------------------------------------------------------------------
-# EC1 — Valid registration
+# EC1 - Valid registration
 # ---------------------------------------------------------------------------
+
 
 class TestValidRegistration:
 
@@ -104,14 +112,15 @@ class TestValidRegistration:
         email = f"padraig.test+tag{suffix}@test.ie"
         resp = register(session, email, "Padraig O'Flaithearta", "TestPass123!")
 
-        assert resp.status_code == 201, (
-            f"Valid RFC 5321 email with plus-tag should be accepted. Got {resp.status_code}: {resp.text}"
-        )
+        assert (
+            resp.status_code == 201
+        ), f"Valid RFC 5321 email with plus-tag should be accepted. Got {resp.status_code}: {resp.text}"
 
 
 # ---------------------------------------------------------------------------
-# EC2 — Duplicate email
+# EC2 - Duplicate email
 # ---------------------------------------------------------------------------
+
 
 class TestDuplicateEmail:
 
@@ -130,8 +139,9 @@ class TestDuplicateEmail:
 
 
 # ---------------------------------------------------------------------------
-# EC3 — Missing required fields
+# EC3 - Missing required fields
 # ---------------------------------------------------------------------------
+
 
 class TestMissingFields:
 
@@ -139,12 +149,15 @@ class TestMissingFields:
         """
         EC3/BVA: Omitting the 'password' field entirely must trigger Pydantic's
         field validation and return HTTP 422 with a 'missing' error type.
-        This confirms server-side schema enforcement — the frontend cannot bypass it.
+        This confirms server-side schema enforcement - the frontend cannot bypass it.
         """
-        resp = session.post(f"{BASE_URL}/auth/register", json={
-            "email": unique_email("nopw"),
-            "name": "Oisin Murphy",
-        })
+        resp = session.post(
+            f"{BASE_URL}/auth/register",
+            json={
+                "email": unique_email("nopw"),
+                "name": "Oisin Murphy",
+            },
+        )
         assert resp.status_code == 422
         errors = resp.json()["detail"]
         fields = [e["loc"][-1] for e in errors]
@@ -156,10 +169,13 @@ class TestMissingFields:
         Email is the primary identifier for authentication; missing it
         must always be caught at the schema layer.
         """
-        resp = session.post(f"{BASE_URL}/auth/register", json={
-            "name": "Brid Ni Dhomhnaill",
-            "password": "TestPass123!",
-        })
+        resp = session.post(
+            f"{BASE_URL}/auth/register",
+            json={
+                "name": "Brid Ni Dhomhnaill",
+                "password": "TestPass123!",
+            },
+        )
         assert resp.status_code == 422
         errors = resp.json()["detail"]
         fields = [e["loc"][-1] for e in errors]
@@ -171,10 +187,13 @@ class TestMissingFields:
         Name is displayed throughout the platform; it must be required at
         registration time rather than left as null.
         """
-        resp = session.post(f"{BASE_URL}/auth/register", json={
-            "email": unique_email("noname"),
-            "password": "TestPass123!",
-        })
+        resp = session.post(
+            f"{BASE_URL}/auth/register",
+            json={
+                "email": unique_email("noname"),
+                "password": "TestPass123!",
+            },
+        )
         assert resp.status_code == 422
         errors = resp.json()["detail"]
         fields = [e["loc"][-1] for e in errors]
@@ -182,8 +201,9 @@ class TestMissingFields:
 
 
 # ---------------------------------------------------------------------------
-# EC4 — Invalid email format
+# EC4 - Invalid email format
 # ---------------------------------------------------------------------------
+
 
 class TestInvalidEmailFormat:
 
@@ -201,7 +221,7 @@ class TestInvalidEmailFormat:
     def test_invalid_email_no_local_part(self, session):
         """
         BV2 (boundary): '@test.com' has no local part before the @-sign.
-        This is an RFC 5322 boundary case — the minimum valid address must
+        This is an RFC 5322 boundary case - the minimum valid address must
         have at least one character before the @. Must be rejected with 422.
         """
         resp = register(session, "@test.com", "Conor Walsh", "Pass123!")
@@ -218,8 +238,9 @@ class TestInvalidEmailFormat:
 
 
 # ---------------------------------------------------------------------------
-# EC5 — Valid login
+# EC5 - Valid login
 # ---------------------------------------------------------------------------
+
 
 class TestValidLogin:
 
@@ -255,7 +276,7 @@ class TestValidLogin:
         assert resp.status_code == 200
         token = resp.json()["access_token"]
 
-        # Decode WITHOUT verifying signature — we are inspecting claims only
+        # Decode WITHOUT verifying signature - we are inspecting claims only
         payload = jose_jwt.get_unverified_claims(token)
 
         assert payload["sub"] == email
@@ -266,8 +287,9 @@ class TestValidLogin:
 
 
 # ---------------------------------------------------------------------------
-# EC6 — Wrong credentials
+# EC6 - Wrong credentials
 # ---------------------------------------------------------------------------
+
 
 class TestWrongCredentials:
 
@@ -287,7 +309,7 @@ class TestWrongCredentials:
     def test_nonexistent_email_rejected_with_401(self, session):
         """
         EC6: Attempting to log in with an email that was never registered must
-        return 401 — not 404. Returning 404 would confirm the email does NOT
+        return 401 - not 404. Returning 404 would confirm the email does NOT
         exist, enabling account enumeration. The generic 401 protects privacy.
         """
         resp = login(session, "nobody.ever.registered@test.ie", "AnyPass123!")
@@ -297,7 +319,7 @@ class TestWrongCredentials:
         """
         BV4 (boundary): Submitting an empty string as the password exercises
         the lower boundary of password length. This test documents the API's
-        actual behaviour — whether it accepts or rejects empty passwords.
+        actual behaviour - whether it accepts or rejects empty passwords.
         Security best practice mandates rejection (minimum length enforcement).
         Failure here is a documented finding, not a test error.
         """
@@ -308,13 +330,13 @@ class TestWrongCredentials:
         # If the API accepts it (201), this constitutes a security finding
         is_rejected = resp.status_code == 422
         is_accepted = resp.status_code == 201
-        assert is_rejected or is_accepted, (
-            f"Unexpected status {resp.status_code} for empty password registration"
-        )
+        assert (
+            is_rejected or is_accepted
+        ), f"Unexpected status {resp.status_code} for empty password registration"
         # Flag acceptance as a finding for the dissertation
         if is_accepted:
             pytest.xfail(
-                "API accepted an empty password — minimum password length validation "
+                "API accepted an empty password - minimum password length validation "
                 "is not enforced. Security finding: add min_length=8 to password field."
             )
 
@@ -330,11 +352,11 @@ class TestWrongCredentials:
 
         is_rejected = resp.status_code == 422
         is_accepted = resp.status_code == 201
-        assert is_rejected or is_accepted, (
-            f"Unexpected status {resp.status_code} for single-char password"
-        )
+        assert (
+            is_rejected or is_accepted
+        ), f"Unexpected status {resp.status_code} for single-char password"
         if is_accepted:
             pytest.xfail(
-                "API accepted a 1-character password — minimum password length "
+                "API accepted a 1-character password - minimum password length "
                 "validation is not enforced. Security finding."
             )

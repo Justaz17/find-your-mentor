@@ -1,5 +1,5 @@
 """
-test_bookings.py — Booking lifecycle and conflict detection tests.
+test_bookings.py - Booking lifecycle and conflict detection tests.
 
 State machine covered:
   pending → confirmed → [learner_confirmed, mentor_confirmed] → completed
@@ -11,8 +11,8 @@ Overlap detection uses Allen's interval algebra (identical to availability):
   Two bookings [A_s, A_e) and [B_s, B_e) conflict iff A_s < B_e AND A_e > B_s.
 
 Fixtures:
-  pending_booking   — learner has submitted, mentor has not yet approved
-  confirmed_booking — mentor has approved, booking is in 'confirmed' state
+  pending_booking   - learner has submitted, mentor has not yet approved
+  confirmed_booking - mentor has approved, booking is in 'confirmed' state
 """
 
 import pytest
@@ -24,8 +24,9 @@ BASE_URL = "http://192.168.1.17:8000"
 
 
 # ---------------------------------------------------------------------------
-# Booking submission — input validation
+# Booking submission - input validation
 # ---------------------------------------------------------------------------
+
 
 class TestBookingSubmission:
 
@@ -72,9 +73,10 @@ class TestBookingSubmission:
                 "end_time": "2027-06-10T15:00:00Z",
             },
         )
-        assert resp.status_code in (400, 404), (
-            f"Out-of-window booking should be rejected. Got {resp.status_code}"
-        )
+        assert resp.status_code in (
+            400,
+            404,
+        ), f"Out-of-window booking should be rejected. Got {resp.status_code}"
 
     def test_submit_booking_end_before_start_rejected(
         self, session, registered_learner, registered_mentor
@@ -93,9 +95,9 @@ class TestBookingSubmission:
                 "end_time": "2027-06-10T11:00:00Z",
             },
         )
-        assert resp.status_code == 422, (
-            f"Reversed booking times should return 422. Got {resp.status_code}"
-        )
+        assert (
+            resp.status_code == 422
+        ), f"Reversed booking times should return 422. Got {resp.status_code}"
 
     def test_unauthenticated_booking_rejected(self, session, registered_mentor):
         """
@@ -117,6 +119,7 @@ class TestBookingSubmission:
 # ---------------------------------------------------------------------------
 # Overlap detection
 # ---------------------------------------------------------------------------
+
 
 class TestBookingOverlap:
 
@@ -150,9 +153,10 @@ class TestBookingOverlap:
                 "end_time": "2027-06-10T11:30:00Z",
             },
         )
-        assert resp_b.status_code in (400, 409), (
-            f"Partially overlapping booking was accepted. Got {resp_b.status_code}"
-        )
+        assert resp_b.status_code in (
+            400,
+            409,
+        ), f"Partially overlapping booking was accepted. Got {resp_b.status_code}"
 
     def test_full_containment_booking_rejected(
         self, session, registered_learner, registered_mentor
@@ -169,16 +173,25 @@ class TestBookingOverlap:
         # Register a second learner
         suffix = "".join(random.choices(string.ascii_lowercase + string.digits, k=8))
         email2 = f"learner2.{suffix}@test.ie"
-        session.post(f"{BASE_URL}/auth/register", json={
-            "email": email2, "name": "Siobhan Ni Cheallaigh",
-            "password": "Pass123!", "role": "learner",
-        })
-        login2 = session.post(f"{BASE_URL}/auth/login", json={
-            "email": email2, "password": "Pass123!",
-        })
+        session.post(
+            f"{BASE_URL}/auth/register",
+            json={
+                "email": email2,
+                "name": "Siobhan Ni Cheallaigh",
+                "password": "Pass123!",
+                "role": "learner",
+            },
+        )
+        login2 = session.post(
+            f"{BASE_URL}/auth/login",
+            json={
+                "email": email2,
+                "password": "Pass123!",
+            },
+        )
         headers2 = {"Authorization": f"Bearer {login2.json()['access_token']}"}
 
-        # Learner 1 books 10:00-12:00 (120 min — meets the 60-min minimum)
+        # Learner 1 books 10:00-12:00 (120 min - meets the 60-min minimum)
         resp_a = session.post(
             f"{BASE_URL}/bookings",
             headers=registered_learner["headers"],
@@ -200,9 +213,10 @@ class TestBookingOverlap:
                 "end_time": "2027-06-10T11:30:00Z",
             },
         )
-        assert resp_b.status_code in (400, 409), (
-            f"Fully contained booking was accepted. Got {resp_b.status_code}"
-        )
+        assert resp_b.status_code in (
+            400,
+            409,
+        ), f"Fully contained booking was accepted. Got {resp_b.status_code}"
 
     def test_adjacent_booking_accepted(
         self, session, registered_learner, registered_mentor
@@ -246,6 +260,7 @@ class TestBookingOverlap:
 # Approval workflow
 # ---------------------------------------------------------------------------
 
+
 class TestApprovalWorkflow:
 
     def test_mentor_approves_booking_transitions_to_confirmed(
@@ -254,7 +269,7 @@ class TestApprovalWorkflow:
         """
         The mentor calls POST /bookings/{id}/approve. The booking must transition
         from 'pending' to 'confirmed'. The response must contain the new status.
-        This is the core gate-keeping mechanism — learners cannot book without
+        This is the core gate-keeping mechanism - learners cannot book without
         mentor approval.
         """
         booking_id = pending_booking["booking_id"]
@@ -288,6 +303,7 @@ class TestApprovalWorkflow:
 # ---------------------------------------------------------------------------
 # Cancellation policy
 # ---------------------------------------------------------------------------
+
 
 class TestCancellationPolicy:
 
@@ -333,11 +349,10 @@ class TestCancellationPolicy:
 # Dual-confirmation flow → completed + paid
 # ---------------------------------------------------------------------------
 
+
 class TestDualConfirmationFlow:
 
-    def test_learner_confirms_attendance_sets_flag(
-        self, session, confirmed_booking
-    ):
+    def test_learner_confirms_attendance_sets_flag(self, session, confirmed_booking):
         """
         After the mentor approves, the learner calls /learner-confirm.
         The booking has NOT been mentor-confirmed yet, so 'completed' is False.
@@ -350,7 +365,7 @@ class TestDualConfirmationFlow:
         )
         assert resp.status_code == 200
         body = resp.json()
-        # Only learner has confirmed so far — booking not yet completed
+        # Only learner has confirmed so far - booking not yet completed
         assert body["completed"] is False
 
     def test_mentor_confirms_attendance_alone_does_not_complete_booking(
@@ -358,7 +373,7 @@ class TestDualConfirmationFlow:
     ):
         """
         Mentor calls /mentor-confirm without the learner having confirmed.
-        The booking must NOT be marked 'completed' — both parties must confirm.
+        The booking must NOT be marked 'completed' - both parties must confirm.
         'completed' in the response body will be False.
         """
         booking_id = confirmed_booking["booking_id"]
@@ -387,14 +402,14 @@ class TestDualConfirmationFlow:
         learner_headers = confirmed_booking["learner"]["headers"]
         mentor_headers = confirmed_booking["mentor"]["headers"]
 
-        # Step 1 — learner confirms
+        # Step 1 - learner confirms
         resp1 = session.post(
             f"{BASE_URL}/bookings/{booking_id}/learner-confirm",
             headers=learner_headers,
         )
         assert resp1.status_code == 200
 
-        # Step 2 — mentor confirms (triggers completion)
+        # Step 2 - mentor confirms (triggers completion)
         resp2 = session.post(
             f"{BASE_URL}/bookings/{booking_id}/mentor-confirm",
             headers=mentor_headers,
@@ -402,22 +417,20 @@ class TestDualConfirmationFlow:
         assert resp2.status_code == 200
         assert resp2.json()["completed"] is True
 
-        # Step 3 — verify via GET /bookings/me
+        # Step 3 - verify via GET /bookings/me
         bookings = session.get(
             f"{BASE_URL}/bookings/me", headers=learner_headers
         ).json()
         booking = next((b for b in bookings if b["id"] == booking_id), None)
         assert booking is not None, "Booking not found in /bookings/me response"
-        assert booking["status"] == "completed", (
-            f"Expected status='completed', got '{booking['status']}'"
-        )
-        assert booking["payment_status"] == "paid", (
-            f"Expected payment_status='paid', got '{booking['payment_status']}'"
-        )
+        assert (
+            booking["status"] == "completed"
+        ), f"Expected status='completed', got '{booking['status']}'"
+        assert (
+            booking["payment_status"] == "paid"
+        ), f"Expected payment_status='paid', got '{booking['payment_status']}'"
 
-    def test_learner_cannot_confirm_mentor_attendance(
-        self, session, confirmed_booking
-    ):
+    def test_learner_cannot_confirm_mentor_attendance(self, session, confirmed_booking):
         """
         BOLA: The learner must not be able to call /mentor-confirm.
         The check: if booking.mentor_service.mentor_profile.user_id != current_user.id: 403
@@ -429,9 +442,7 @@ class TestDualConfirmationFlow:
         )
         assert resp.status_code == 403
 
-    def test_mentor_cannot_confirm_learner_attendance(
-        self, session, confirmed_booking
-    ):
+    def test_mentor_cannot_confirm_learner_attendance(self, session, confirmed_booking):
         """
         BOLA: The mentor must not be able to call /learner-confirm.
         The check: if booking.learner_id != current_user.id: 403

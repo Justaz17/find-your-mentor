@@ -1,9 +1,9 @@
 """
-test_security.py — Security and authorisation tests.
+test_security.py - Security and authorisation tests.
 
 Testing strategy: white-box thinking, black-box execution.
 The internal code is read to understand which attack vectors are relevant,
-but tests are executed entirely through the HTTP API — no direct DB access.
+but tests are executed entirely through the HTTP API - no direct DB access.
 
 Threat model areas covered:
   1. Authentication token integrity (tampered / expired / absent)
@@ -22,10 +22,10 @@ from jose import jwt as jose_jwt
 
 BASE_URL = "http://192.168.1.17:8000"
 
-# Read from .env — used only to craft an expired (but validly signed) token
+# Read from .env - used only to craft an expired (but validly signed) token
 # for the expiry test. Never used for normal auth.
 _SECRET_KEY = "qru2983ehqwnkdiqugwe71282egdbqhasxhgcsuvyiguhoi"
-_ALGORITHM   = "HS256"
+_ALGORITHM = "HS256"
 
 
 def unique_email(prefix="sec"):
@@ -52,6 +52,7 @@ def make_expired_token(email: str) -> str:
 # ---------------------------------------------------------------------------
 # 1. Token integrity
 # ---------------------------------------------------------------------------
+
 
 class TestTokenIntegrity:
 
@@ -90,11 +91,16 @@ class TestTokenIntegrity:
         signature expiry check is active and not disabled in production config.
         """
         # We need a valid email that exists in the DB to get past the user lookup
-        # — register one, then craft a token with its email but past expiry
+        # - register one, then craft a token with its email but past expiry
         email = unique_email("expired")
-        session.post(f"{BASE_URL}/auth/register", json={
-            "email": email, "name": "Expired User", "password": "ExpiredPass123!",
-        })
+        session.post(
+            f"{BASE_URL}/auth/register",
+            json={
+                "email": email,
+                "name": "Expired User",
+                "password": "ExpiredPass123!",
+            },
+        )
         expired_token = make_expired_token(email)
 
         resp = session.get(
@@ -111,6 +117,7 @@ class TestTokenIntegrity:
 # 2. Injection attacks
 # ---------------------------------------------------------------------------
 
+
 class TestInjectionAttacks:
 
     def test_sql_injection_in_email_login_handled_safely(self, session):
@@ -118,20 +125,24 @@ class TestInjectionAttacks:
         SQL injection attempt via the email field of /auth/login.
         The payload "admin'--@test.com" is a classic comment-injection pattern
         designed to truncate a WHERE clause. SQLAlchemy's parameterised queries
-        neutralise this — the server must return 401 (no match) and NOT 500.
+        neutralise this - the server must return 401 (no match) and NOT 500.
         A 500 would indicate the raw SQL was executed.
         """
         malicious_email = "admin'--@test.com"
-        resp = session.post(f"{BASE_URL}/auth/login", json={
-            "email": malicious_email,
-            "password": "anypassword",
-        })
+        resp = session.post(
+            f"{BASE_URL}/auth/login",
+            json={
+                "email": malicious_email,
+                "password": "anypassword",
+            },
+        )
         # 422 = Pydantic rejects it before hitting the DB (acceptable)
         # 401 = DB query ran safely, found no user
-        # 500 = SQL injection succeeded — FAIL
-        assert resp.status_code in (401, 422), (
-            f"SQL injection not handled safely. Got {resp.status_code}: {resp.text}"
-        )
+        # 500 = SQL injection succeeded - FAIL
+        assert resp.status_code in (
+            401,
+            422,
+        ), f"SQL injection not handled safely. Got {resp.status_code}: {resp.text}"
         assert resp.status_code != 500
 
     def test_xss_in_bio_field_stored_safely(self, session, registered_mentor):
@@ -140,7 +151,7 @@ class TestInjectionAttacks:
         as plain text and return it unchanged. It must NOT execute it, and it
         must NOT return a 500 (which would indicate unhandled character errors).
 
-        The absence of HTML sanitisation in a JSON API is correct — sanitisation
+        The absence of HTML sanitisation in a JSON API is correct - sanitisation
         is the responsibility of the frontend renderer (React's JSX escapes by default).
         """
         xss_payload = "<script>alert('xss_attack')</script><img src=x onerror=alert(1)>"
@@ -154,22 +165,23 @@ class TestInjectionAttacks:
                 "skills": ["Python"],
             },
         )
-        assert resp.status_code in (200, 201), (
-            f"XSS payload caused server error: {resp.status_code} {resp.text}"
-        )
-        # The stored bio should match exactly — not be stripped or executed
+        assert resp.status_code in (
+            200,
+            201,
+        ), f"XSS payload caused server error: {resp.status_code} {resp.text}"
+        # The stored bio should match exactly - not be stripped or executed
         stored_bio = resp.json().get("bio", "")
-        assert stored_bio == xss_payload, (
-            "Bio content was mutated server-side. Expected raw storage."
-        )
+        assert (
+            stored_bio == xss_payload
+        ), "Bio content was mutated server-side. Expected raw storage."
 
     def test_oversized_bio_handled_without_500(self, session, registered_mentor):
         """
         Resource exhaustion via a 10,000-character bio string. The server must
         handle this without crashing (500). Acceptable responses are:
-          201/200 — accepted and stored (acceptable if DB column supports it)
-          422     — rejected by a max_length validator
-        A 500 would indicate an unhandled exception — e.g., a DB column overflow.
+          201/200 - accepted and stored (acceptable if DB column supports it)
+          422     - rejected by a max_length validator
+        A 500 would indicate an unhandled exception - e.g., a DB column overflow.
         """
         big_bio = "A" * 10_000
         resp = session.post(
@@ -192,6 +204,7 @@ class TestInjectionAttacks:
 # ---------------------------------------------------------------------------
 # 3. Broken object-level authorisation (BOLA / IDOR)
 # ---------------------------------------------------------------------------
+
 
 class TestBOLA:
 
@@ -216,9 +229,10 @@ class TestBOLA:
         )
         # 400 is also acceptable (booking is already confirmed, so "cannot approve")
         # but the auth check fires first → 403
-        assert resp.status_code in (403, 400), (
-            f"Learner was able to call /approve on a booking. Got {resp.status_code}: {resp.text}"
-        )
+        assert resp.status_code in (
+            403,
+            400,
+        ), f"Learner was able to call /approve on a booking. Got {resp.status_code}: {resp.text}"
 
     def test_user_cannot_confirm_another_users_mentor_attendance(
         self, session, confirmed_booking
@@ -235,9 +249,9 @@ class TestBOLA:
             f"{BASE_URL}/bookings/{booking_id}/mentor-confirm",
             headers=learner_headers,
         )
-        assert resp.status_code == 403, (
-            f"Learner should not be able to call /mentor-confirm. Got {resp.status_code}"
-        )
+        assert (
+            resp.status_code == 403
+        ), f"Learner should not be able to call /mentor-confirm. Got {resp.status_code}"
 
     def test_mentor_cannot_confirm_another_users_learner_attendance(
         self, session, confirmed_booking
@@ -254,14 +268,15 @@ class TestBOLA:
             f"{BASE_URL}/bookings/{booking_id}/learner-confirm",
             headers=mentor_headers,
         )
-        assert resp.status_code == 403, (
-            f"Mentor should not be able to call /learner-confirm. Got {resp.status_code}"
-        )
+        assert (
+            resp.status_code == 403
+        ), f"Mentor should not be able to call /learner-confirm. Got {resp.status_code}"
 
 
 # ---------------------------------------------------------------------------
 # 4. Broken function-level authorisation
 # ---------------------------------------------------------------------------
+
 
 class TestFunctionLevelAuth:
 
@@ -272,7 +287,7 @@ class TestFunctionLevelAuth:
         Function-level authorisation: GET /bookings/mentor/me is semantically
         a mentor-only endpoint. A learner has no mentor services, so the query
         returns zero results. The endpoint does not enforce role-based access
-        control — it relies on the empty query result as an implicit guard.
+        control - it relies on the empty query result as an implicit guard.
 
         This test documents the actual behaviour. The ideal response would be
         403 (explicit role enforcement). An empty list is acceptable but weaker.
@@ -281,13 +296,11 @@ class TestFunctionLevelAuth:
             f"{BASE_URL}/bookings/mentor/me",
             headers=registered_learner["headers"],
         )
-        assert resp.status_code in (200, 403), (
-            f"Unexpected status {resp.status_code}"
-        )
+        assert resp.status_code in (200, 403), f"Unexpected status {resp.status_code}"
         if resp.status_code == 200:
             body = resp.json()
             assert isinstance(body, list), "Should return a list"
-            # Learner has no mentor services — list must be empty
+            # Learner has no mentor services - list must be empty
             assert len(body) == 0, (
                 "Learner should see zero mentor bookings. "
                 "Non-empty list would be an authorisation leak."
@@ -308,9 +321,12 @@ class TestFunctionLevelAuth:
         An unauthenticated request must return 401 and must NOT create any
         booking records in the database.
         """
-        resp = session.post(f"{BASE_URL}/bookings", json={
-            "mentor_service_id": 1,
-            "start_time": "2027-06-10T10:00:00Z",
-            "end_time": "2027-06-10T11:00:00Z",
-        })
+        resp = session.post(
+            f"{BASE_URL}/bookings",
+            json={
+                "mentor_service_id": 1,
+                "start_time": "2027-06-10T10:00:00Z",
+                "end_time": "2027-06-10T11:00:00Z",
+            },
+        )
         assert resp.status_code == 401

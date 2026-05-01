@@ -1,5 +1,5 @@
 """
-test_availability.py — Availability slot and recurring pattern tests.
+test_availability.py - Availability slot and recurring pattern tests.
 
 Key concepts under test:
   - Allen's interval relations: two intervals [A_s, A_e) and [B_s, B_e) overlap
@@ -27,6 +27,7 @@ def unique_email(prefix="avail"):
 # Basic slot creation
 # ---------------------------------------------------------------------------
 
+
 class TestSlotCreation:
 
     def test_valid_slot_creation_succeeds(self, session, registered_mentor):
@@ -52,7 +53,7 @@ class TestSlotCreation:
     def test_slot_in_past_rejected(self, session, registered_mentor):
         """
         A slot with both start and end times in the past should be rejected.
-        Allowing past slots creates dead data — learners could never book them —
+        Allowing past slots creates dead data - learners could never book them -
         and pollutes the mentor's availability view.
 
         NOTE: If this test FAILS (API returns 201), it is a documented finding:
@@ -113,6 +114,7 @@ class TestSlotCreation:
 # Overlap detection (Allen interval algebra)
 # ---------------------------------------------------------------------------
 
+
 class TestSlotOverlap:
 
     def test_overlapping_slot_rejected_by_allen_check(self, session, registered_mentor):
@@ -151,7 +153,7 @@ class TestSlotOverlap:
         on different dates without gaps.
         """
         # Use a different date from the existing fixture slot to avoid any
-        # ambiguity — the fixture slot is on 2027-06-10
+        # ambiguity - the fixture slot is on 2027-06-10
         slot_a = session.post(
             f"{BASE_URL}/availability/mentors/me/availability",
             headers=registered_mentor["headers"],
@@ -160,9 +162,9 @@ class TestSlotOverlap:
                 "end_time": "2027-07-15T11:00:00Z",
             },
         )
-        assert slot_a.status_code == 201, (
-            f"First adjacent slot rejected: {slot_a.status_code} {slot_a.text}"
-        )
+        assert (
+            slot_a.status_code == 201
+        ), f"First adjacent slot rejected: {slot_a.status_code} {slot_a.text}"
 
         slot_b = session.post(
             f"{BASE_URL}/availability/mentors/me/availability",
@@ -182,15 +184,18 @@ class TestSlotOverlap:
 # Recurring patterns
 # ---------------------------------------------------------------------------
 
+
 class TestRecurringPatterns:
 
     def test_valid_recurring_pattern_created(self, session, registered_mentor):
         """
         Creating a recurring pattern with a valid day, times, and a future
         generate_until date must return 201 with the pattern data.
-        The endpoint also auto-generates individual slots — verified separately.
+        The endpoint also auto-generates individual slots - verified separately.
         """
-        future_date = (datetime.now(timezone.utc).date() + timedelta(days=60)).isoformat()
+        future_date = (
+            datetime.now(timezone.utc).date() + timedelta(days=60)
+        ).isoformat()
         resp = session.post(
             f"{BASE_URL}/recurring/mentors/me/recurring",
             headers=registered_mentor["headers"],
@@ -201,9 +206,9 @@ class TestRecurringPatterns:
                 "generate_until": future_date,
             },
         )
-        assert resp.status_code == 201, (
-            f"Valid recurring pattern rejected: {resp.status_code} {resp.text}"
-        )
+        assert (
+            resp.status_code == 201
+        ), f"Valid recurring pattern rejected: {resp.status_code} {resp.text}"
         body = resp.json()
         assert body["day_of_week"] == "FRIDAY"
         assert body["start_time"] == "10:00"
@@ -247,9 +252,9 @@ class TestRecurringPatterns:
                 "generate_until": generate_until,
             },
         )
-        assert resp.status_code == 201, (
-            f"Recurring pattern creation failed: {resp.status_code} {resp.text}"
-        )
+        assert (
+            resp.status_code == 201
+        ), f"Recurring pattern creation failed: {resp.status_code} {resp.text}"
 
         # Count slots after
         slots_after = session.get(

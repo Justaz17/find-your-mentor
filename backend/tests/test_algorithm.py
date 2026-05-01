@@ -1,7 +1,7 @@
 """
-test_algorithm.py — Unit tests for the smart_sort relevance scoring engine.
+test_algorithm.py - Unit tests for the smart_sort relevance scoring engine.
 
-These tests call score_mentor() and smart_sort() DIRECTLY — no HTTP requests.
+These tests call score_mentor() and smart_sort() DIRECTLY - no HTTP requests.
 This is a true unit test layer, isolated from the database and network.
 
 The scoring model has 8 weighted dimensions that sum to 100:
@@ -13,7 +13,7 @@ Bayesian rating formula (for the rating_score dimension):
   rating_ratio = (avg_rating - 1) / 4          # normalise 1-5 → 0-1
   rating_score = confidence × rating_ratio × weight(5)
 
-Test approach: mutation-style — isolate each dimension by zeroing all others
+Test approach: mutation-style - isolate each dimension by zeroing all others
 in the input dict, then assert exactly the expected contribution.
 """
 
@@ -26,10 +26,10 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from app.services.smart_sort import score_mentor, smart_sort, WEIGHTS
 
-
 # ---------------------------------------------------------------------------
 # Helper constructors
 # ---------------------------------------------------------------------------
+
 
 def make_mentor(**overrides) -> dict:
     """
@@ -78,19 +78,18 @@ def make_learner(**overrides) -> dict:
 # Weight integrity
 # ---------------------------------------------------------------------------
 
+
 class TestWeightIntegrity:
 
     def test_weights_sum_to_exactly_100(self):
         """
         All 8 weight values must sum to exactly 100. This is the calibration
-        constraint for the scoring model — if weights drift from 100, the
+        constraint for the scoring model - if weights drift from 100, the
         maximum possible score per mentor also drifts, making scores
         incomparable across dimensions.
         """
         total = sum(WEIGHTS.values())
-        assert total == 100, (
-            f"Weights sum to {total}, not 100. Weights: {WEIGHTS}"
-        )
+        assert total == 100, f"Weights sum to {total}, not 100. Weights: {WEIGHTS}"
 
     def test_all_weight_keys_present(self):
         """
@@ -98,8 +97,14 @@ class TestWeightIntegrity:
         Missing a key would silently exclude that dimension from scoring.
         """
         expected_keys = {
-            "skill_match", "goal_match", "booking_history", "price_fit",
-            "language_match", "availability_fit", "experience_fit", "rating_score",
+            "skill_match",
+            "goal_match",
+            "booking_history",
+            "price_fit",
+            "language_match",
+            "availability_fit",
+            "experience_fit",
+            "rating_score",
         }
         assert set(WEIGHTS.keys()) == expected_keys
 
@@ -110,12 +115,13 @@ class TestWeightIntegrity:
         an otherwise good match.
         """
         for dim, w in WEIGHTS.items():
-            assert w > 0, f"Weight for '{dim}' is {w} — must be positive"
+            assert w > 0, f"Weight for '{dim}' is {w} - must be positive"
 
 
 # ---------------------------------------------------------------------------
 # Skill match dimension (weight 35)
 # ---------------------------------------------------------------------------
+
 
 class TestSkillMatchDimension:
 
@@ -141,9 +147,9 @@ class TestSkillMatchDimension:
         score_match, _ = score_mentor(mentor_match, learner)
         score_no_match, _ = score_mentor(mentor_no_match, learner)
 
-        assert score_match > score_no_match, (
-            f"Perfect skill match ({score_match}) must outscore no match ({score_no_match})"
-        )
+        assert (
+            score_match > score_no_match
+        ), f"Perfect skill match ({score_match}) must outscore no match ({score_no_match})"
 
     def test_perfect_skill_match_awards_full_weight(self):
         """
@@ -161,14 +167,15 @@ class TestSkillMatchDimension:
         )
         score, _ = score_mentor(mentor, learner)
         # Only skill dimension contributes when all others are zeroed
-        assert score == pytest.approx(WEIGHTS["skill_match"], abs=0.01), (
-            f"Expected {WEIGHTS['skill_match']} for perfect 1-skill match, got {score}"
-        )
+        assert score == pytest.approx(
+            WEIGHTS["skill_match"], abs=0.01
+        ), f"Expected {WEIGHTS['skill_match']} for perfect 1-skill match, got {score}"
 
 
 # ---------------------------------------------------------------------------
-# Rating score dimension (weight 5) — Bayesian confidence formula
+# Rating score dimension (weight 5) - Bayesian confidence formula
 # ---------------------------------------------------------------------------
+
 
 class TestBayesianRatingDimension:
 
@@ -178,7 +185,7 @@ class TestBayesianRatingDimension:
         than a mentor with 1 review at 5.0. The confidence factor (min(n,20)/20)
         rewards credibility built on many reviews.
         """
-        learner = make_learner()  # no preferences — only rating dimension contributes
+        learner = make_learner()  # no preferences - only rating dimension contributes
         mentor_1_review = make_mentor(average_rating=5.0, total_reviews=1)
         mentor_20_reviews = make_mentor(average_rating=5.0, total_reviews=20)
 
@@ -204,9 +211,9 @@ class TestBayesianRatingDimension:
         score, _ = score_mentor(mentor, learner)
 
         expected = 0.05 * 1.0 * WEIGHTS["rating_score"]  # = 0.25
-        assert score == pytest.approx(expected, abs=0.01), (
-            f"Expected {expected:.4f} for rating=5.0 reviews=1, got {score}"
-        )
+        assert score == pytest.approx(
+            expected, abs=0.01
+        ), f"Expected {expected:.4f} for rating=5.0 reviews=1, got {score}"
 
     def test_bayesian_formula_rating_4_5_reviews_20(self):
         """
@@ -221,13 +228,13 @@ class TestBayesianRatingDimension:
         mentor = make_mentor(average_rating=4.5, total_reviews=20)
         score, _ = score_mentor(mentor, learner)
 
-        confidence   = 1.0          # 20/20
-        rating_ratio = 3.5 / 4.0   # (4.5-1)/4
-        expected     = confidence * rating_ratio * WEIGHTS["rating_score"]  # 4.375
+        confidence = 1.0  # 20/20
+        rating_ratio = 3.5 / 4.0  # (4.5-1)/4
+        expected = confidence * rating_ratio * WEIGHTS["rating_score"]  # 4.375
 
-        assert score == pytest.approx(expected, abs=0.01), (
-            f"Expected {expected:.4f} for rating=4.5 reviews=20, got {score}"
-        )
+        assert score == pytest.approx(
+            expected, abs=0.01
+        ), f"Expected {expected:.4f} for rating=4.5 reviews=20, got {score}"
 
     def test_mentor_with_zero_reviews_gets_no_rating_score(self):
         """
@@ -239,14 +246,15 @@ class TestBayesianRatingDimension:
         mentor = make_mentor(average_rating=5.0, total_reviews=0)
         score, _ = score_mentor(mentor, learner)
 
-        assert score == pytest.approx(0.0, abs=0.01), (
-            f"Mentor with 0 reviews should score 0.0, got {score}"
-        )
+        assert score == pytest.approx(
+            0.0, abs=0.01
+        ), f"Mentor with 0 reviews should score 0.0, got {score}"
 
 
 # ---------------------------------------------------------------------------
 # Sort order and score range
 # ---------------------------------------------------------------------------
+
 
 class TestSortBehaviour:
 
@@ -254,7 +262,7 @@ class TestSortBehaviour:
         """
         smart_sort() must return mentors sorted by relevance_score in descending
         order (highest-scoring mentor first). This is the fundamental requirement
-        of the recommendation engine — the best match must appear at the top.
+        of the recommendation engine - the best match must appear at the top.
         """
         learner = make_learner(
             interest_skill_ids=[1],
@@ -262,17 +270,19 @@ class TestSortBehaviour:
         )
         # Three mentors with different match levels
         mentors = [
-            make_mentor(skill_ids=[99], skill_names=["Cookery"]),      # no match
-            make_mentor(skill_ids=[1], skill_names=["Python"]),        # full match
-            make_mentor(skill_ids=[1, 2], skill_names=["Python", "Django"]),  # full + extra
+            make_mentor(skill_ids=[99], skill_names=["Cookery"]),  # no match
+            make_mentor(skill_ids=[1], skill_names=["Python"]),  # full match
+            make_mentor(
+                skill_ids=[1, 2], skill_names=["Python", "Django"]
+            ),  # full + extra
         ]
 
         result = smart_sort(mentors, learner)
         scores = [m["relevance_score"] for m in result]
 
-        assert scores == sorted(scores, reverse=True), (
-            f"Results are not sorted descending. Scores: {scores}"
-        )
+        assert scores == sorted(
+            scores, reverse=True
+        ), f"Results are not sorted descending. Scores: {scores}"
 
     def test_all_scores_are_between_0_and_100(self):
         """
@@ -290,30 +300,35 @@ class TestSortBehaviour:
         )
         mentors = [
             make_mentor(
-                skill_ids=[1, 2], skill_names=["Python", "Data Science"],
+                skill_ids=[1, 2],
+                skill_names=["Python", "Data Science"],
                 tags="beginner_friendly,python",
                 languages="English",
                 hourly_rate=45.0,
-                average_rating=5.0, total_reviews=20,
+                average_rating=5.0,
+                total_reviews=20,
                 years_experience=5,
                 availability_windows=["weekday_evenings"],
                 available_slot_count=3,
             ),
             make_mentor(
-                skill_ids=[99], skill_names=["Cookery"],
-                tags=None, languages=None,
+                skill_ids=[99],
+                skill_names=["Cookery"],
+                tags=None,
+                languages=None,
                 hourly_rate=200.0,
-                average_rating=None, total_reviews=0,
+                average_rating=None,
+                total_reviews=0,
                 years_experience=0,
             ),
-            make_mentor(),  # all zeros — minimum possible score
+            make_mentor(),  # all zeros - minimum possible score
         ]
 
         result = smart_sort(mentors, learner)
         for m in result:
-            assert 0 <= m["relevance_score"] <= 100, (
-                f"Score {m['relevance_score']} is outside [0, 100]"
-            )
+            assert (
+                0 <= m["relevance_score"] <= 100
+            ), f"Score {m['relevance_score']} is outside [0, 100]"
 
     def test_no_learner_profile_falls_back_to_rating_sort(self):
         """
