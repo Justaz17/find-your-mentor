@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from app.db.database import get_db
 from app.core.security import get_current_user
 from app.models.user import User
@@ -70,7 +70,7 @@ def create_or_update_profile(
 ):
     """
     Create or update the learner profile for the current user.
-    Interests are replaced wholesale on every update — same pattern
+    Interests are replaced wholesale on every update - same pattern
     as mentor skills.
     """
     existing = (
@@ -136,7 +136,14 @@ def create_or_update_profile(
         )
 
     db.commit()
-    db.refresh(profile)
+
+    # Reload with relationships (fix indentation here)
+    profile = (
+        db.query(LearnerProfile)
+        .options(joinedload(LearnerProfile.interests).joinedload(LearnerInterest.skill))
+        .filter(LearnerProfile.id == profile.id)
+        .first()
+    )
 
     if current_user.role == "mentor":
         current_user.role = "both"
@@ -157,6 +164,7 @@ def get_my_profile(
     """
     profile = (
         db.query(LearnerProfile)
+        .options(joinedload(LearnerProfile.interests).joinedload(LearnerInterest.skill))
         .filter(LearnerProfile.user_id == current_user.id)
         .first()
     )

@@ -20,7 +20,7 @@ class MentorProfile(Base):
     tags = Column(String, nullable=True)  # comma-separated controlled tags
     # e.g. "beginner_friendly,exam_prep,career_coaching"
 
-    # Relationships — unchanged from original
+    # Relationships - unchanged from original
     user = relationship("User", back_populates="mentor_profile")
     skills = relationship(
         "MentorSkill", back_populates="mentor_profile", cascade="all, delete-orphan"

@@ -20,6 +20,7 @@ def booking_to_dict(b: Booking, learner_name: str) -> dict:
         "learner_id": b.learner_id,
         "learner_name": learner_name,
         "mentor_id": b.mentor_service.mentor_profile.user_id,
+        "mentor_profile_id": b.mentor_service.mentor_profile_id,
         "mentor_service_id": b.mentor_service_id,
         "service_title": b.mentor_service.title,
         "availability_slot_id": b.availability_slot_id,
@@ -71,7 +72,7 @@ def create_booking(
 
     # ── Resolve booking times ─────────────────────────────────────────
     if booking_data.start_time and booking_data.end_time:
-        # New sub-slot booking — find the availability window that contains these times
+        # New sub-slot booking - find the availability window that contains these times
         booking_start = booking_data.start_time
         booking_end = booking_data.end_time
 
@@ -222,7 +223,12 @@ def get_my_bookings(
         .order_by(AvailabilitySlot.start_time.desc())
         .all()
     )
-    return [booking_to_dict(b, current_user.name) for b in bookings]
+    result = [booking_to_dict(b, current_user.name) for b in bookings]
+    print(f" Returning {len(result)} bookings")
+    if result:
+        print(f" First booking: {result[0]}")
+    return result
+    # return [booking_to_dict(b, current_user.name) for b in bookings]
 
 
 @router.get("/mentor/me", response_model=List[BookingOut])
@@ -474,5 +480,3 @@ def mentor_confirm(
         "booking_id": booking.id,
         "completed": booking.status == "completed",
     }
-
-

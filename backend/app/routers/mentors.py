@@ -1,8 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from sqlalchemy import func
 from typing import List, Optional
-
 from app import db
 from app.models.mentor_service import MentorService
 from app.schemas.mentor_profile import (
@@ -100,7 +99,9 @@ def build_mentor_dict(mentor: MentorProfile, db: Session) -> dict:
         "location": mentor.location,
         "tags": mentor.tags,
         "user_name": mentor.user.name,
-        "skills": [{"id": ms.skill.id, "name": ms.skill.name} for ms in mentor.skills],
+        "skills": [
+            {"id": ms.skill.id, "name": ms.skill.name} for ms in (mentor.skills or [])
+        ],
         "skill_ids": [ms.skill_id for ms in mentor.skills],
         "skill_names": [ms.skill.name for ms in mentor.skills],
         "category_ids": category_ids,
@@ -299,6 +300,9 @@ def search_mentors(
     by relevance score with match reasons. Otherwise sorted by rating.
     """
     query = db.query(MentorProfile).filter(MentorProfile.is_visible == True)
+    query = query.options(
+        joinedload(MentorProfile.skills).joinedload(MentorSkill.skill)
+    )
     query = filter_bookable_mentors(query, db)
 
     # Hard filter: category
@@ -399,7 +403,12 @@ def random_mentor(db: Session = Depends(get_db)):
         )
 
     chosen_id = random_module.choice(mentor_ids)[0]
-    mentor = db.query(MentorProfile).filter(MentorProfile.id == chosen_id).first()
+    mentor = (
+        db.query(MentorProfile)
+        .options(joinedload(MentorProfile.skills).joinedload(MentorSkill.skill))
+        .filter(MentorProfile.id == chosen_id)
+        .first()
+    )
     result = build_mentor_dict(mentor, db)
     return result
 
@@ -420,10 +429,13 @@ def list_mentors(
     db: Session = Depends(get_db),
 ):
     """
-    Original list endpoint — kept for backwards compatibility.
+    Original list endpoint - kept for backwards compatibility.
     Prefer /mentors/search for new frontend work.
     """
     query = db.query(MentorProfile).filter(MentorProfile.is_visible == True)
+    query = query.options(
+        joinedload(MentorProfile.skills).joinedload(MentorSkill.skill)
+    )
     query = filter_bookable_mentors(query, db)
 
     if skill:
@@ -437,6 +449,7 @@ def list_mentors(
 def get_mentor(mentor_id: int, db: Session = Depends(get_db)):
     mentor = (
         db.query(MentorProfile)
+        .options(joinedload(MentorProfile.skills).joinedload(MentorSkill.skill))
         .filter(MentorProfile.id == mentor_id, MentorProfile.is_visible == True)
         .first()
     )

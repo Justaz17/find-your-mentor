@@ -5,8 +5,8 @@ Takes a learner profile and a list of mentor data dicts,
 returns them sorted by relevance score with match reasons attached.
 
 Two-layer architecture:
-  Layer 1: hard filters  — applied in the SQL query (see mentor router)
-  Layer 2: weighted score — applied here in Python after the query
+  Layer 1: hard filters  - applied in the SQL query (see mentor router)
+  Layer 2: weighted score - applied here in Python after the query
 
 Weights:
   skill_match        35
@@ -22,7 +22,6 @@ Weights:
 """
 
 from typing import Optional
-
 
 # ── Weight constants ──────────────────────────────────────────────────────
 
@@ -88,7 +87,7 @@ def score_mentor(mentor: dict, learner: dict) -> tuple[float, list[str]]:
             if matched_names:
                 reasons.append(f"Matches your {matched_names[0]} interest")
         else:
-            # Partial — check if mentor's category overlaps
+            # Partial - check if mentor's category overlaps
             learner_cat = learner.get("preferred_category_id")
             mentor_cat = mentor.get("category_ids", [])
             if learner_cat and learner_cat in mentor_cat:
@@ -131,14 +130,14 @@ def score_mentor(mentor: dict, learner: dict) -> tuple[float, list[str]]:
     if mentor_rate is not None and max_price is not None:
         if mentor_rate <= max_price:
             if min_price is not None and mentor_rate >= min_price:
-                # Perfect fit — within range
+                # Perfect fit - within range
                 score += WEIGHTS["price_fit"]
                 reasons.append("Within your budget")
             else:
-                # Below minimum — still good, partial score
+                # Below minimum - still good, partial score
                 score += WEIGHTS["price_fit"] * 0.8
         else:
-            # Above max — diminishing score
+            # Above max - diminishing score
             overage_ratio = (mentor_rate - max_price) / max_price
             if overage_ratio < 0.2:
                 score += WEIGHTS["price_fit"] * 0.5
@@ -183,7 +182,7 @@ def score_mentor(mentor: dict, learner: dict) -> tuple[float, list[str]]:
             score += overlap_ratio * WEIGHTS["availability_fit"]
             reasons.append("Available at your preferred times")
     elif mentor.get("available_slot_count", 0) > 0:
-        # Mentor has slots but we don't know the window — give partial credit
+        # Mentor has slots but we don't know the window - give partial credit
         score += WEIGHTS["availability_fit"] * 0.5
 
     # ── 6. Experience fit (weight 5) ──────────────────────────────────
@@ -241,7 +240,7 @@ def smart_sort(mentors: list[dict], learner: Optional[dict]) -> list[dict]:
     Returns list sorted by relevance_score descending.
     """
     if not learner:
-        # No learner profile — sort by rating, highest first
+        # No learner profile - sort by rating, highest first
         for m in mentors:
             m["relevance_score"] = None
             m["match_reasons"] = []

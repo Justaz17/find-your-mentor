@@ -12,13 +12,13 @@ class LearnerStreak(Base):
     A freeze = one free cancellation without penalty.
 
     Rules:
-    - Every week a learner has ≥1 completed session → +1 freeze credit
+    - Every week a learner has ≥1 completed session -> +1 freeze credit
     - When learner cancels, if they have freezes, use 1 freeze (no penalty)
     - If no freezes, cancellation policy applies
     - Freezes don't reset monthly, they accumulate
     - If learner goes 2 weeks without booking, they lose 1 pending freeze
 
-    Duolingo-style: We notify them "You kept your streak! 🔥 +1 freeze earned"
+    Duolingo-style: We notify them "You kept your streak! +1 freeze earned"
     But keep it low-key, not aggressive.
     """
 
@@ -77,7 +77,7 @@ class MentorStats(Base):
 
     Premium feature: Show mentor which times are busiest so they can
     schedule slots around peak demand.
-    E.g., "8 learners want Python sessions on Saturdays → add Saturday 10am-2pm"
+    E.g., "8 learners want Python sessions on Saturdays : add Saturday 10am-2pm"
     """
 
     __tablename__ = "mentor_stats"

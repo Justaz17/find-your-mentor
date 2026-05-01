@@ -1,8 +1,3 @@
-# frontend/src/services/bookingService.ts
-# Update the createBooking call to pass start/end times
-
-# But first, update the backend schema:
-
 from pydantic import BaseModel, field_validator
 from typing import Optional
 from datetime import datetime
@@ -56,6 +51,7 @@ class BookingOut(BaseModel):
 
     id: int
     mentor_id: int
+    mentor_profile_id: int
     learner_id: int
     learner_name: str
     mentor_service_id: int
