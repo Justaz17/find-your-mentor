@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Colors, FontSize, Spacing } from '../../utils/constants';
+import { Colours, FontSize, Spacing } from '../../utils/constants';
 import { AvailabilitySlot } from '../../types/Availability';
 
 interface SlotCardProps {
@@ -28,8 +28,8 @@ const SlotCard = ({ slot, onPress, onDelete }: SlotCardProps) => {
   const isBooked = slot.status === 'booked';
 
   const statusColor = isAvailable
-    ? Colors.secondary
-    : isBooked ? Colors.warning : Colors.error;
+    ? Colours.secondary
+    : isBooked ? Colours.warning : Colours.error;
 
   const statusLabel = isAvailable ? 'Available' : isBooked ? 'Booked' : 'Cancelled';
   const statusIcon = isAvailable
@@ -39,9 +39,9 @@ const SlotCard = ({ slot, onPress, onDelete }: SlotCardProps) => {
   return (
     <TouchableOpacity
       style={{
-        backgroundColor: Colors.background,
+        backgroundColor: Colours.background,
         borderRadius: 14, padding: Spacing.md,
-        borderWidth: 1, borderColor: Colors.border,
+        borderWidth: 1, borderColor: Colours.border,
         borderLeftWidth: 3, borderLeftColor: statusColor,
         gap: 6,
       }}
@@ -50,7 +50,7 @@ const SlotCard = ({ slot, onPress, onDelete }: SlotCardProps) => {
       activeOpacity={0.7}
     >
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Text style={{ fontSize: FontSize.sm, fontWeight: '800', color: Colors.text }}>
+        <Text style={{ fontSize: FontSize.sm, fontWeight: '800', color: Colours.text }}>
           {dayStr}
         </Text>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
@@ -62,8 +62,8 @@ const SlotCard = ({ slot, onPress, onDelete }: SlotCardProps) => {
       </View>
 
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-        <MaterialCommunityIcons name="clock-outline" size={14} color={Colors.textSecondary} />
-        <Text style={{ fontSize: FontSize.sm, fontWeight: '700', color: Colors.textSecondary }}>
+        <MaterialCommunityIcons name="clock-outline" size={14} color={Colours.textSecondary} />
+        <Text style={{ fontSize: FontSize.sm, fontWeight: '700', color: Colours.textSecondary }}>
           {timeStr}
         </Text>
       </View>
@@ -75,13 +75,13 @@ const SlotCard = ({ slot, onPress, onDelete }: SlotCardProps) => {
             alignSelf: 'flex-end',
             flexDirection: 'row', alignItems: 'center', gap: 4,
             paddingHorizontal: 10, paddingVertical: 4,
-            borderRadius: 8, borderWidth: 1, borderColor: Colors.error + '40',
-            backgroundColor: Colors.error + '10',
+            borderRadius: 8, borderWidth: 1, borderColor: Colours.error + '40',
+            backgroundColor: Colours.error + '10',
           }}
           activeOpacity={0.7}
         >
-          <MaterialCommunityIcons name="trash-can-outline" size={14} color={Colors.error} />
-          <Text style={{ fontSize: FontSize.xs, fontWeight: '800', color: Colors.error }}>
+          <MaterialCommunityIcons name="trash-can-outline" size={14} color={Colours.error} />
+          <Text style={{ fontSize: FontSize.xs, fontWeight: '800', color: Colours.error }}>
             Delete
           </Text>
         </TouchableOpacity>

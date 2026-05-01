@@ -17,7 +17,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Colors, Spacing } from '../../utils/constants';
+import { Colours, Spacing } from '../../utils/constants';
 import { useAuth } from '../../context/AuthContext';
 import { useMentorDashboard } from '../../hooks/useMentorDashboard';
 import { useMentorProfile } from '../../hooks/useMentorProfile';
@@ -69,7 +69,7 @@ const MentorDashboardScreen = ({ onSwitchToLearner }: MentorDashboardProps) => {
   if (isLoading) {
     return (
       <View style={styles.centered}>
-        <ActivityIndicator size="large" color={Colors.primary} />
+        <ActivityIndicator size="large" color={Colours.primary} />
       </View>
     );
   }
@@ -100,7 +100,7 @@ const MentorDashboardScreen = ({ onSwitchToLearner }: MentorDashboardProps) => {
       style={styles.container}
       contentContainerStyle={{ paddingBottom: insets.bottom + 40 }}
       refreshControl={
-        <RefreshControl refreshing={isRefreshing} onRefresh={refresh} tintColor={Colors.primary} />
+        <RefreshControl refreshing={isRefreshing} onRefresh={refresh} tintColor={Colours.primary} />
       }
       showsVerticalScrollIndicator={false}
     >
@@ -144,7 +144,7 @@ const MentorDashboardScreen = ({ onSwitchToLearner }: MentorDashboardProps) => {
 
         {stats.pending.length > 0 && (
           <View style={styles.pendingBanner}>
-            <MaterialCommunityIcons name="bell-ring-outline" size={18} color={Colors.primary} />
+            <MaterialCommunityIcons name="bell-ring-outline" size={18} color={Colours.primary} />
             <Text style={styles.pendingText}>
               {stats.pending.length} pending booking{stats.pending.length > 1 ? 's' : ''} waiting for approval
             </Text>
@@ -188,28 +188,28 @@ const MentorDashboardScreen = ({ onSwitchToLearner }: MentorDashboardProps) => {
             icon="calendar-check"
             label="Upcoming"
             value={stats.upcoming.length}
-            color={Colors.primary}
+            color={Colours.primary}
             onPress={() => navigation.navigate('SessionsList', { filter: 'upcoming' })}
           />
           <StatCard
             icon="clock-alert-outline"
             label="Pending"
             value={stats.pending.length}
-            color={Colors.warning}
+            color={Colours.warning}
             onPress={() => navigation.navigate('SessionsList', { filter: 'pending' })}
           />
           <StatCard
             icon="currency-eur"
             label="Earned"
             value={`€${stats.totalEarned}`}
-            color={Colors.secondary}
+            color={Colours.secondary}
             onPress={() => navigation.navigate('Earnings')}
           />
           <StatCard
             icon="check-circle-outline"
             label="Completed"
             value={stats.completed.length}
-            color={Colors.secondary}
+            color={Colours.secondary}
             onPress={() => navigation.navigate('SessionsList', { filter: 'completed' })}
           />
         </View>
@@ -228,13 +228,13 @@ const MentorDashboardScreen = ({ onSwitchToLearner }: MentorDashboardProps) => {
             >
               <Card.Content style={styles.actionContent}>
                 <View style={styles.actionIconWrap}>
-                  <MaterialCommunityIcons name={action.icon as any} size={22} color={Colors.primary} />
+                  <MaterialCommunityIcons name={action.icon as any} size={22} color={Colours.primary} />
                 </View>
                 <View style={styles.actionTextWrap}>
                   <Text variant="bodyLarge" style={styles.actionLabel}>{action.label}</Text>
                   <Text variant="bodySmall" style={styles.actionSub}>{action.sub}</Text>
                 </View>
-                <MaterialCommunityIcons name="chevron-right" size={20} color={Colors.textSecondary} />
+                <MaterialCommunityIcons name="chevron-right" size={20} color={Colours.textSecondary} />
               </Card.Content>
             </Card>
           ))}
@@ -257,7 +257,7 @@ const MentorDashboardScreen = ({ onSwitchToLearner }: MentorDashboardProps) => {
                       compact
                       mode="flat"
                       style={{
-                        backgroundColor: b.status === 'confirmed' ? Colors.primary : Colors.warning,
+                        backgroundColor: b.status === 'confirmed' ? Colours.primary : Colours.warning,
                       }}
                       textStyle={{ color: '#fff', fontSize: 10, fontWeight: '800' }}
                     >
@@ -286,7 +286,7 @@ const MentorDashboardScreen = ({ onSwitchToLearner }: MentorDashboardProps) => {
         <Button
           mode="text"
           onPress={signOut}
-          textColor={Colors.error}
+          textColor={Colours.error}
           style={styles.signOutWrap}
           labelStyle={styles.signOutText}
         >

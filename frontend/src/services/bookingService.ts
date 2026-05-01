@@ -1,5 +1,3 @@
-// frontend/src/services/bookingService.ts
-
 import axios from './api';
 
 interface CreateBookingPayload {

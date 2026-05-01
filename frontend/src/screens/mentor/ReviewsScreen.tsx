@@ -6,7 +6,7 @@ import {
 import { useFocusEffect } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Colors, Spacing, FontSize } from '../../utils/constants';
+import { Colours, Spacing, FontSize } from '../../utils/constants';
 import ScreenHeader from '../../components/common/ScreenHeader';
 import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
@@ -116,7 +116,7 @@ const ReviewsScreen = () => {
     new Date(iso).toLocaleDateString('en-IE', { day: 'numeric', month: 'short', year: 'numeric' });
 
   if (isLoading) return (
-    <View style={styles.centred}><ActivityIndicator size="large" color={Colors.primary} /></View>
+    <View style={styles.centred}><ActivityIndicator size="large" color={Colours.primary} /></View>
   );
 
   return (
@@ -135,11 +135,11 @@ const ReviewsScreen = () => {
       <FlatList
         data={reviews}
         keyExtractor={item => String(item.id)}
-        refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={() => { setIsRefreshing(true); load(); }} tintColor={Colors.primary} />}
+        refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={() => { setIsRefreshing(true); load(); }} tintColor={Colours.primary} />}
         contentContainerStyle={styles.list}
         ListEmptyComponent={
           <View style={styles.emptyWrap}>
-            <MaterialCommunityIcons name="star-outline" size={48} color={Colors.textSecondary} />
+            <MaterialCommunityIcons name="star-outline" size={48} color={Colours.textSecondary} />
             <Text style={styles.emptyTitle}>No reviews yet</Text>
             <Text style={styles.emptySub}>Reviews from learners will appear here</Text>
           </View>
@@ -176,7 +176,7 @@ const ReviewsScreen = () => {
             {item.mentor_reply && (
               <View style={styles.replyBox}>
                 <View style={styles.replyHeader}>
-                  <MaterialCommunityIcons name="reply" size={14} color={Colors.primary} />
+                  <MaterialCommunityIcons name="reply" size={14} color={Colours.primary} />
                   <Text style={styles.replyLabel}>Your reply</Text>
                   <Text style={styles.replyDate}>
                     {item.mentor_replied_at ? formatDate(item.mentor_replied_at) : ''}
@@ -194,7 +194,7 @@ const ReviewsScreen = () => {
                   onPress={() => { setReplyModalId(item.id); setReplyText(''); }}
                   activeOpacity={0.85}
                 >
-                  <MaterialCommunityIcons name="reply-outline" size={14} color={Colors.primary} />
+                  <MaterialCommunityIcons name="reply-outline" size={14} color={Colours.primary} />
                   <Text style={styles.actionBtnText}>Reply</Text>
                 </TouchableOpacity>
               )}
@@ -204,8 +204,8 @@ const ReviewsScreen = () => {
                   onPress={() => { setDisputeModalId(item.id); setDisputeReason(''); }}
                   activeOpacity={0.85}
                 >
-                  <MaterialCommunityIcons name="flag-outline" size={14} color={Colors.error} />
-                  <Text style={[styles.actionBtnText, { color: Colors.error }]}>Report</Text>
+                  <MaterialCommunityIcons name="flag-outline" size={14} color={Colours.error} />
+                  <Text style={[styles.actionBtnText, { color: Colours.error }]}>Report</Text>
                 </TouchableOpacity>
               )}
             </View>
@@ -219,7 +219,7 @@ const ReviewsScreen = () => {
           <View style={styles.modalHeader}>
             <Text style={styles.modalTitle}>Reply to review</Text>
             <TouchableOpacity onPress={() => setReplyModalId(null)}>
-              <MaterialCommunityIcons name="close" size={22} color={Colors.textSecondary} />
+              <MaterialCommunityIcons name="close" size={22} color={Colours.textSecondary} />
             </TouchableOpacity>
           </View>
           <ScrollView contentContainerStyle={styles.modalContent}>
@@ -231,7 +231,7 @@ const ReviewsScreen = () => {
               value={replyText}
               onChangeText={setReplyText}
               placeholder="Write a professional, helpful reply..."
-              placeholderTextColor={Colors.textSecondary}
+              placeholderTextColor={Colours.textSecondary}
               multiline
               numberOfLines={5}
               maxLength={500}
@@ -259,7 +259,7 @@ const ReviewsScreen = () => {
           <View style={styles.modalHeader}>
             <Text style={styles.modalTitle}>Report review</Text>
             <TouchableOpacity onPress={() => setDisputeModalId(null)}>
-              <MaterialCommunityIcons name="close" size={22} color={Colors.textSecondary} />
+              <MaterialCommunityIcons name="close" size={22} color={Colours.textSecondary} />
             </TouchableOpacity>
           </View>
           <ScrollView contentContainerStyle={styles.modalContent}>
@@ -271,7 +271,7 @@ const ReviewsScreen = () => {
               value={disputeReason}
               onChangeText={setDisputeReason}
               placeholder="e.g. This learner never attended the session and I have proof..."
-              placeholderTextColor={Colors.textSecondary}
+              placeholderTextColor={Colours.textSecondary}
               multiline
               numberOfLines={5}
               maxLength={1000}
@@ -297,87 +297,87 @@ const ReviewsScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: Colors.surface },
+  container: { flex: 1, backgroundColor: Colours.surface },
   centred: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   header: {
     paddingHorizontal: Spacing.lg, paddingVertical: Spacing.md,
-    backgroundColor: Colors.background,
-    borderBottomWidth: 1, borderBottomColor: Colors.border,
+    backgroundColor: Colours.background,
+    borderBottomWidth: 1, borderBottomColor: Colours.border,
     gap: 4,
   },
-  headerTitle: { fontSize: FontSize.xl, fontWeight: '900', color: Colors.text, letterSpacing: -0.4 },
+  headerTitle: { fontSize: FontSize.xl, fontWeight: '900', color: Colours.text, letterSpacing: -0.4 },
   headerRating: { flexDirection: 'row', alignItems: 'center', gap: 6 },
-  headerRatingValue: { fontSize: FontSize.md, fontWeight: '900', color: Colors.text },
-  headerRatingCount: { fontSize: FontSize.xs, color: Colors.textSecondary, fontWeight: '600' },
+  headerRatingValue: { fontSize: FontSize.md, fontWeight: '900', color: Colours.text },
+  headerRatingCount: { fontSize: FontSize.xs, color: Colours.textSecondary, fontWeight: '600' },
   list: { padding: Spacing.lg, paddingBottom: Spacing.xxl },
   card: {
-    backgroundColor: Colors.background, borderRadius: 16,
+    backgroundColor: Colours.background, borderRadius: 16,
     padding: Spacing.md, marginBottom: Spacing.sm,
-    borderWidth: 1, borderColor: Colors.border,
+    borderWidth: 1, borderColor: Colours.border,
     gap: Spacing.sm,
   },
   cardTop: { flexDirection: 'row', alignItems: 'flex-start', gap: Spacing.sm },
   reviewerAvatar: {
     width: 36, height: 36, borderRadius: 18,
-    backgroundColor: Colors.primaryLight,
+    backgroundColor: Colours.primaryLight,
     justifyContent: 'center', alignItems: 'center',
-    borderWidth: 1, borderColor: Colors.border,
+    borderWidth: 1, borderColor: Colours.border,
   },
-  reviewerInitial: { fontSize: FontSize.md, fontWeight: '900', color: Colors.primary },
-  reviewerName: { fontSize: FontSize.sm, fontWeight: '900', color: Colors.text, marginBottom: 2 },
+  reviewerInitial: { fontSize: FontSize.md, fontWeight: '900', color: Colours.primary },
+  reviewerName: { fontSize: FontSize.sm, fontWeight: '900', color: Colours.text, marginBottom: 2 },
   ratingRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  reviewDate: { fontSize: FontSize.xs, color: Colors.textSecondary, fontWeight: '600' },
+  reviewDate: { fontSize: FontSize.xs, color: Colours.textSecondary, fontWeight: '600' },
   disputedBadge: {
-    backgroundColor: Colors.warning + '20', borderRadius: 999,
+    backgroundColor: Colours.warning + '20', borderRadius: 999,
     paddingHorizontal: 10, paddingVertical: 3,
-    borderWidth: 1, borderColor: Colors.warning,
+    borderWidth: 1, borderColor: Colours.warning,
   },
-  disputedText: { fontSize: 10, fontWeight: '800', color: Colors.warning },
+  disputedText: { fontSize: 10, fontWeight: '800', color: Colours.warning },
   comment: {
-    fontSize: FontSize.sm, color: Colors.textSecondary,
+    fontSize: FontSize.sm, color: Colours.textSecondary,
     lineHeight: 20, fontStyle: 'italic',
   },
   replyBox: {
-    backgroundColor: Colors.primaryLight, borderRadius: 12,
-    padding: Spacing.md, borderWidth: 1, borderColor: Colors.primary + '30',
+    backgroundColor: Colours.primaryLight, borderRadius: 12,
+    padding: Spacing.md, borderWidth: 1, borderColor: Colours.primary + '30',
     gap: 4,
   },
   replyHeader: { flexDirection: 'row', alignItems: 'center', gap: 5 },
-  replyLabel: { fontSize: FontSize.xs, fontWeight: '800', color: Colors.primary, flex: 1 },
-  replyDate: { fontSize: FontSize.xs, color: Colors.textSecondary, fontWeight: '600' },
-  replyText: { fontSize: FontSize.sm, color: Colors.text, fontWeight: '600', lineHeight: 20 },
+  replyLabel: { fontSize: FontSize.xs, fontWeight: '800', color: Colours.primary, flex: 1 },
+  replyDate: { fontSize: FontSize.xs, color: Colours.textSecondary, fontWeight: '600' },
+  replyText: { fontSize: FontSize.sm, color: Colours.text, fontWeight: '600', lineHeight: 20 },
   actions: { flexDirection: 'row', gap: Spacing.sm },
   actionBtn: {
     flexDirection: 'row', alignItems: 'center', gap: 4,
     paddingHorizontal: 12, paddingVertical: 6, borderRadius: 999,
-    backgroundColor: Colors.primaryLight, borderWidth: 1, borderColor: Colors.border,
+    backgroundColor: Colours.primaryLight, borderWidth: 1, borderColor: Colours.border,
   },
-  actionBtnDanger: { backgroundColor: '#FEF2F2', borderColor: Colors.error + '40' },
-  actionBtnText: { fontSize: FontSize.xs, fontWeight: '800', color: Colors.primary },
+  actionBtnDanger: { backgroundColor: '#FEF2F2', borderColor: Colours.error + '40' },
+  actionBtnText: { fontSize: FontSize.xs, fontWeight: '800', color: Colours.primary },
   emptyWrap: { alignItems: 'center', paddingTop: 80, gap: Spacing.sm },
-  emptyTitle: { fontSize: FontSize.lg, fontWeight: '900', color: Colors.text },
-  emptySub: { fontSize: FontSize.sm, color: Colors.textSecondary, fontWeight: '600' },
-  modal: { flex: 1, backgroundColor: Colors.background },
+  emptyTitle: { fontSize: FontSize.lg, fontWeight: '900', color: Colours.text },
+  emptySub: { fontSize: FontSize.sm, color: Colours.textSecondary, fontWeight: '600' },
+  modal: { flex: 1, backgroundColor: Colours.background },
   modalHeader: {
     flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
-    padding: Spacing.lg, borderBottomWidth: 1, borderBottomColor: Colors.border,
+    padding: Spacing.lg, borderBottomWidth: 1, borderBottomColor: Colours.border,
   },
-  modalTitle: { fontSize: FontSize.xl, fontWeight: '900', color: Colors.text },
+  modalTitle: { fontSize: FontSize.xl, fontWeight: '900', color: Colours.text },
   modalContent: { padding: Spacing.lg, gap: Spacing.md },
-  modalHint: { fontSize: FontSize.sm, color: Colors.textSecondary, fontWeight: '600', lineHeight: 20 },
+  modalHint: { fontSize: FontSize.sm, color: Colours.textSecondary, fontWeight: '600', lineHeight: 20 },
   modalInput: {
-    backgroundColor: Colors.surface, borderRadius: 12,
-    borderWidth: 1, borderColor: Colors.border,
+    backgroundColor: Colours.surface, borderRadius: 12,
+    borderWidth: 1, borderColor: Colours.border,
     paddingHorizontal: Spacing.md, paddingVertical: Spacing.md,
-    fontSize: FontSize.md, color: Colors.text, fontWeight: '600',
+    fontSize: FontSize.md, color: Colours.text, fontWeight: '600',
     minHeight: 120, textAlignVertical: 'top',
   },
-  charCount: { fontSize: FontSize.xs, color: Colors.textSecondary, fontWeight: '600', textAlign: 'right' },
+  charCount: { fontSize: FontSize.xs, color: Colours.textSecondary, fontWeight: '600', textAlign: 'right' },
   submitBtn: {
-    backgroundColor: Colors.primary, borderRadius: 14,
+    backgroundColor: Colours.primary, borderRadius: 14,
     paddingVertical: 15, alignItems: 'center',
   },
-  submitBtnDanger: { backgroundColor: Colors.error },
+  submitBtnDanger: { backgroundColor: Colours.error },
   submitBtnDisabled: { opacity: 0.5 },
   submitBtnText: { color: '#fff', fontWeight: '900', fontSize: FontSize.md },
 });

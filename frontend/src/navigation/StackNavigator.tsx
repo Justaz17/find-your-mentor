@@ -1,7 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { RootStackParamList } from './types';
-import { Colors } from '../utils/constants';
+import { Colours } from '../utils/constants';
 import { useAuth } from '../context/AuthContext';
 import AuthScreen from '../screens/auth/AuthScreen';
 import MentorProfileScreen from '../screens/mentor/MentorProfileScreen';
@@ -81,10 +81,10 @@ const StackNavigator = () => {
           options={{ 
             headerShown: true, 
             headerTitle: 'Confirm Booking', 
-            headerTintColor: Colors.primary, 
+            headerTintColor: Colours.primary, 
             headerStyle: { 
               backgroundColor: 
-              Colors.background
+              Colours.background
             } 
           }} />
           <Stack.Screen name="ManageServices" 
@@ -121,9 +121,9 @@ const StackNavigator = () => {
           options={{ 
             headerShown: true, 
             headerTitle: 'Mentor Profile', 
-            headerTintColor: Colors.primary, 
+            headerTintColor: Colours.primary, 
             headerStyle: { 
-              backgroundColor: Colors.background 
+              backgroundColor: Colours.background 
             } }}
         />
         <Stack.Screen name="Search" 

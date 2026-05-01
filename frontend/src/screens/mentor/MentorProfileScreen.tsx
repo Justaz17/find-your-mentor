@@ -24,7 +24,7 @@ import { MentorProfile, Review, AvailabilitySlot } from '../../types/Mentor';
 import { getMentorById, getMentorAvailability } from '../../services/mentorService';
 import { getMentorReviews, createReview } from '../../services/reviewService';
 import { useAuth } from '../../context/AuthContext';
-import { Colors, Spacing } from '../../utils/constants';
+import { Colours, Spacing } from '../../utils/constants';
 import AvailabilityCalendar from '../../components/mentor/AvailabilityCalendar';
 import { styles } from '../../styles/MentorProfileScreen.styles';
 
@@ -43,7 +43,7 @@ const StarRating = ({ rating, size = 16 }: { rating: number; size?: number }) =>
     }
   }
   return (
-    <Text style={{ fontSize: size, color: Colors.star, letterSpacing: 2 }}>
+    <Text style={{ fontSize: size, color: Colours.star, letterSpacing: 2 }}>
       {stars.join('')}
     </Text>
   );
@@ -62,7 +62,7 @@ const StarRatingInput = ({
       <IconButton
         key={star}
         icon={star <= value ? 'star' : 'star-outline'}
-        iconColor={star <= value ? Colors.star : Colors.border}
+        iconColor={star <= value ? Colours.star : Colours.border}
         size={32}
         onPress={() => onChange(star)}
       />
@@ -156,7 +156,7 @@ const MentorProfileScreen = () => {
   if (isLoading) {
     return (
       <View style={styles.centered}>
-        <ActivityIndicator size="large" color={Colors.primary} />
+        <ActivityIndicator size="large" color={Colours.primary} />
         <Text variant="bodyMedium" style={styles.loadingText}>Loading profile...</Text>
       </View>
     );
@@ -165,7 +165,7 @@ const MentorProfileScreen = () => {
   if (error || !mentor) {
     return (
       <View style={styles.centered}>
-        <Text style={styles.errorEmoji}>😕</Text>
+        <Text style={styles.errorEmoji}>.</Text>
         <Text variant="bodyLarge" style={styles.errorText}>
           {error || 'Mentor not found'}
         </Text>
@@ -183,8 +183,8 @@ const MentorProfileScreen = () => {
     .toUpperCase()
     .slice(0, 2);
 
-  const avatarColors = ['#6C3AED', '#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#EC4899'];
-  const avatarColor = avatarColors[mentor.user_name.length % avatarColors.length];
+  const avatarColours = ['#6C3AED', '#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#EC4899'];
+  const avatarColour = avatarColours[mentor.user_name.length % avatarColours.length];
 
   return (
     <ScrollView
@@ -192,7 +192,7 @@ const MentorProfileScreen = () => {
       contentContainerStyle={{ paddingBottom: insets.bottom + 100 }}
       showsVerticalScrollIndicator={false}
       refreshControl={
-        <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} tintColor={Colors.primary} />
+        <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} tintColor={Colours.primary} />
       }
     >
       {/* Header */}
@@ -201,7 +201,7 @@ const MentorProfileScreen = () => {
           <Avatar.Text
             size={80}
             label={initials}
-            style={{ backgroundColor: avatarColor }}
+            style={{ backgroundColor: avatarColour }}
             labelStyle={styles.avatarLabel}
           />
           <Text variant="headlineSmall" style={styles.name}>{mentor.user_name}</Text>
@@ -299,8 +299,8 @@ const MentorProfileScreen = () => {
                 multiline
                 numberOfLines={3}
                 style={styles.reviewInput}
-                outlineColor={Colors.border}
-                activeOutlineColor={Colors.primary}
+                outlineColor={Colours.border}
+                activeOutlineColor={Colours.primary}
               />
 
               {reviewError && (

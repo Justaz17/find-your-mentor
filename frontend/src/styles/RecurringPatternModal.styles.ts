@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { Colors, FontSize, Spacing } from '../utils/constants';
+import { Colours, FontSize, Spacing } from '../utils/constants';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.surface,
+    backgroundColor: Colours.surface,
   },
   header: {
     flexDirection: 'row',
@@ -13,24 +13,24 @@ export const styles = StyleSheet.create({
     paddingHorizontal: Spacing.lg,
     paddingTop: Spacing.xl,
     paddingBottom: Spacing.lg,
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    borderBottomColor: Colours.border,
   },
   cancelButton: {
     fontSize: FontSize.md,
     fontWeight: '600',
-    color: Colors.error,
+    color: Colours.error,
   },
   title: {
     fontSize: FontSize.lg,
     fontWeight: '700',
-    color: Colors.text,
+    color: Colours.text,
   },
   saveButton: {
     fontSize: FontSize.md,
     fontWeight: '600',
-    color: Colors.primary,
+    color: Colours.primary,
   },
   disabledButton: {
     opacity: 0.5,
@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
   sectionLabel: {
     fontSize: FontSize.md,
     fontWeight: '700',
-    color: Colors.text,
+    color: Colours.text,
     marginBottom: Spacing.md,
   },
   dayGrid: {
@@ -55,17 +55,17 @@ export const styles = StyleSheet.create({
   },
   dayButton: {
     width: '23%',
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
     borderRadius: 12,
     borderWidth: 2,
-    borderColor: Colors.border,
+    borderColor: Colours.border,
     paddingVertical: Spacing.md,
     alignItems: 'center',
     marginBottom: Spacing.sm,
   },
   dayButtonActive: {
-    borderColor: Colors.primary,
-    backgroundColor: Colors.primaryLight,
+    borderColor: Colours.primary,
+    backgroundColor: Colours.primaryLight,
   },
   dayEmoji: {
     fontSize: FontSize.lg,
@@ -74,27 +74,27 @@ export const styles = StyleSheet.create({
   dayButtonText: {
     fontSize: FontSize.xs,
     fontWeight: '600',
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
   },
   dayButtonTextActive: {
-    color: Colors.primary,
+    color: Colours.primary,
     fontWeight: '700',
   },
   timeInputContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colours.border,
     paddingHorizontal: Spacing.lg,
     paddingVertical: Spacing.md,
   },
   timeDisplay: {
     fontSize: FontSize.xl,
     fontWeight: '700',
-    color: Colors.text,
+    color: Colours.text,
   },
   timeButtons: {
     flexDirection: 'row',
@@ -104,20 +104,20 @@ export const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 8,
-    backgroundColor: Colors.primaryLight,
+    backgroundColor: Colours.primaryLight,
     justifyContent: 'center',
     alignItems: 'center',
   },
   timeAdjustText: {
     fontSize: FontSize.lg,
     fontWeight: '700',
-    color: Colors.primary,
+    color: Colours.primary,
   },
   pickerButton: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colours.border,
     paddingVertical: Spacing.md,
     paddingHorizontal: Spacing.lg,
     alignItems: 'center',
@@ -125,10 +125,10 @@ export const styles = StyleSheet.create({
   pickerButtonText: {
     fontSize: FontSize.md,
     fontWeight: '600',
-    color: Colors.text,
+    color: Colours.text,
   },
   summary: {
-    backgroundColor: Colors.primaryLight,
+    backgroundColor: Colours.primaryLight,
     borderRadius: 12,
     paddingHorizontal: Spacing.lg,
     paddingVertical: Spacing.md,
@@ -137,23 +137,23 @@ export const styles = StyleSheet.create({
   summaryLabel: {
     fontSize: FontSize.sm,
     fontWeight: '600',
-    color: Colors.primary,
+    color: Colours.primary,
     marginBottom: Spacing.sm,
   },
   summaryText: {
     fontSize: FontSize.md,
     fontWeight: '700',
-    color: Colors.text,
+    color: Colours.text,
     marginBottom: Spacing.xs,
   },
   summarySubtext: {
     fontSize: FontSize.sm,
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
   },
   infoBox: {
-    backgroundColor: Colors.surface,
+    backgroundColor: Colours.surface,
     borderLeftWidth: 4,
-    borderLeftColor: Colors.warning,
+    borderLeftColor: Colours.warning,
     borderRadius: 8,
     paddingHorizontal: Spacing.lg,
     paddingVertical: Spacing.md,
@@ -162,7 +162,7 @@ export const styles = StyleSheet.create({
   },
   infoText: {
     fontSize: FontSize.sm,
-    color: Colors.text,
+    color: Colours.text,
     fontWeight: '500',
   },
 });

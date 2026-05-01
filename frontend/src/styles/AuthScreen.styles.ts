@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { Colors, FontSize, Spacing } from '../utils/constants';
+import { Colours, FontSize, Spacing } from '../utils/constants';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
   },
 
   // ── Dismiss ───────────────────────────────────────────────────────────
@@ -16,9 +16,9 @@ export const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: Colors.surface,
+    backgroundColor: Colours.surface,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colours.border,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -39,25 +39,25 @@ export const styles = StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 16,
-    backgroundColor: Colors.primary,
+    backgroundColor: Colours.primary,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: Spacing.md,
   },
   logoText: {
-    color: Colors.textLight,
+    color: Colours.textLight,
     fontSize: FontSize.xl,
     fontWeight: '700',
   },
   appTitle: {
     fontSize: FontSize.xxl,
     fontWeight: '700',
-    color: Colors.text,
+    color: Colours.text,
     marginBottom: Spacing.xs,
   },
   appSubtitle: {
     fontSize: FontSize.md,
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     textAlign: 'center',
     lineHeight: 22,
   },
@@ -65,7 +65,7 @@ export const styles = StyleSheet.create({
   // ── Tabs ──────────────────────────────────────────────────────────────
   tabContainer: {
     flexDirection: 'row',
-    backgroundColor: Colors.surface,
+    backgroundColor: Colours.surface,
     borderRadius: 12,
     padding: 4,
     marginBottom: Spacing.lg,
@@ -76,13 +76,13 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
   },
-  activeTab: { backgroundColor: Colors.primary },
+  activeTab: { backgroundColor: Colours.primary },
   tabText: {
     fontSize: FontSize.md,
     fontWeight: '600',
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
   },
-  activeTabText: { color: Colors.textLight },
+  activeTabText: { color: Colours.textLight },
 
   // ── Form ──────────────────────────────────────────────────────────────
   formContainer: { flex: 1 },
@@ -90,18 +90,18 @@ export const styles = StyleSheet.create({
   label: {
     fontSize: FontSize.sm,
     fontWeight: '600',
-    color: Colors.text,
+    color: Colours.text,
     marginBottom: Spacing.xs,
   },
   input: {
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colours.border,
     borderRadius: 12,
     paddingHorizontal: Spacing.md,
     paddingVertical: 14,
     fontSize: FontSize.md,
-    color: Colors.text,
-    backgroundColor: Colors.background,
+    color: Colours.text,
+    backgroundColor: Colours.background,
   },
 
   // ── Error ─────────────────────────────────────────────────────────────
@@ -111,10 +111,10 @@ export const styles = StyleSheet.create({
     padding: Spacing.md,
     marginBottom: Spacing.md,
     borderLeftWidth: 3,
-    borderLeftColor: Colors.error,
+    borderLeftColor: Colours.error,
   },
   errorText: {
-    color: Colors.error,
+    color: Colours.error,
     fontSize: FontSize.sm,
     fontWeight: '500',
   },
@@ -126,17 +126,17 @@ export const styles = StyleSheet.create({
     gap: Spacing.sm,
     marginBottom: Spacing.md,
     padding: Spacing.md,
-    backgroundColor: Colors.primaryLight,
+    backgroundColor: Colours.primaryLight,
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: Colors.primary + '30',
+    borderColor: Colours.primary + '30',
   },
   checkbox: {
     width: 22,
     height: 22,
     borderRadius: 6,
     borderWidth: 2,
-    borderColor: Colors.primary,
+    borderColor: Colours.primary,
     backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',
@@ -144,26 +144,26 @@ export const styles = StyleSheet.create({
     flexShrink: 0,
   },
   checkboxActive: {
-    backgroundColor: Colors.primary,
-    borderColor: Colors.primary,
+    backgroundColor: Colours.primary,
+    borderColor: Colours.primary,
   },
   mentorCheckText: { flex: 1 },
   mentorCheckLabel: {
     fontSize: FontSize.sm,
     fontWeight: '800',
-    color: Colors.text,
+    color: Colours.text,
     marginBottom: 2,
   },
   mentorCheckSub: {
     fontSize: FontSize.xs,
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     fontWeight: '500',
     lineHeight: 16,
   },
 
   // ── Submit ────────────────────────────────────────────────────────────
   submitButton: {
-    backgroundColor: Colors.primary,
+    backgroundColor: Colours.primary,
     borderRadius: 12,
     paddingVertical: 16,
     alignItems: 'center',
@@ -171,7 +171,7 @@ export const styles = StyleSheet.create({
   },
   submitButtonDisabled: { opacity: 0.7 },
   submitButtonText: {
-    color: Colors.textLight,
+    color: Colours.textLight,
     fontSize: FontSize.lg,
     fontWeight: '700',
   },
@@ -184,11 +184,11 @@ export const styles = StyleSheet.create({
   },
   toggleText: {
     fontSize: FontSize.sm,
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
   },
   toggleLink: {
     fontSize: FontSize.sm,
-    color: Colors.primary,
+    color: Colours.primary,
     fontWeight: '600',
   },
 });

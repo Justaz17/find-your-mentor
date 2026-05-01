@@ -6,7 +6,7 @@ import { useNavigation, CommonActions } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Colors, Spacing, FontSize } from '../../../utils/constants';
+import { Colours, Spacing, FontSize } from '../../../utils/constants';
 import OnboardingProgress from '../../../components/common/OnboardingProgress';
 import { MentorOnboardingParamList } from '../../../navigation/MentorOnboardingNavigator';
 import { useAuth } from '../../../context/AuthContext';
@@ -62,7 +62,7 @@ const CongratsScreen = () => {
 };
 
   return (
-    <View style={{ flex: 1, backgroundColor: Colors.background }}>
+    <View style={{ flex: 1, backgroundColor: Colours.background }}>
       {/* Header */}
       <View style={{
         paddingTop: insets.top + Spacing.md,
@@ -85,20 +85,20 @@ const CongratsScreen = () => {
         }}>
           <View style={{
             width: 72, height: 72, borderRadius: 36,
-            backgroundColor: Colors.primaryLight,
+            backgroundColor: Colours.primaryLight,
             justifyContent: 'center', alignItems: 'center',
-            borderWidth: 2, borderColor: Colors.primary + '40',
+            borderWidth: 2, borderColor: Colours.primary + '40',
           }}>
-            <MaterialCommunityIcons name="check-circle" size={40} color={Colors.primary} />
+            <MaterialCommunityIcons name="check-circle" size={40} color={Colours.primary} />
           </View>
           <Text style={{
             fontSize: FontSize.xxl, fontWeight: '900',
-            color: Colors.text, letterSpacing: -0.5, textAlign: 'center',
+            color: Colours.text, letterSpacing: -0.5, textAlign: 'center',
           }}>
             Profile set up!
           </Text>
           <Text style={{
-            fontSize: FontSize.sm, color: Colors.textSecondary,
+            fontSize: FontSize.sm, color: Colours.textSecondary,
             fontWeight: '500', textAlign: 'center', lineHeight: 22,
             paddingHorizontal: Spacing.lg,
           }}>
@@ -132,7 +132,7 @@ const CongratsScreen = () => {
                     <MaterialCommunityIcons
                       name={step.icon as any}
                       size={22}
-                      color={Colors.primary}
+                      color={Colours.primary}
                     />
                   </View>
                 </View>
@@ -153,14 +153,14 @@ const CongratsScreen = () => {
         {/* Info note */}
         <View style={{
           marginHorizontal: Spacing.lg, marginTop: Spacing.md,
-          backgroundColor: Colors.surface, borderRadius: 14,
-          padding: Spacing.md, borderWidth: 1, borderColor: Colors.border,
+          backgroundColor: Colours.surface, borderRadius: 14,
+          padding: Spacing.md, borderWidth: 1, borderColor: Colours.border,
           flexDirection: 'row', gap: Spacing.sm, alignItems: 'flex-start',
         }}>
-          <MaterialCommunityIcons name="information-outline" size={18} color={Colors.primary} />
+          <MaterialCommunityIcons name="information-outline" size={18} color={Colours.primary} />
           <Text style={{
             flex: 1, fontSize: FontSize.xs,
-            color: Colors.textSecondary, fontWeight: '600', lineHeight: 18,
+            color: Colours.textSecondary, fontWeight: '600', lineHeight: 18,
           }}>
             You can update your profile, services and availability anytime from your dashboard.
           </Text>
@@ -172,13 +172,13 @@ const CongratsScreen = () => {
         paddingHorizontal: Spacing.lg,
         paddingBottom: insets.bottom + Spacing.md,
         paddingTop: Spacing.md,
-        borderTopWidth: 1, borderTopColor: Colors.border,
-        backgroundColor: Colors.background,
+        borderTopWidth: 1, borderTopColor: Colours.border,
+        backgroundColor: Colours.background,
         gap: Spacing.sm,
       }}>
         <TouchableOpacity
           style={{
-            backgroundColor: Colors.primary, borderRadius: 14,
+            backgroundColor: Colours.primary, borderRadius: 14,
             paddingVertical: 16, flexDirection: 'row',
             justifyContent: 'center', alignItems: 'center', gap: 8,
           }}
@@ -194,14 +194,14 @@ const CongratsScreen = () => {
         <TouchableOpacity
           style={{
             paddingVertical: 14, borderRadius: 14,
-            borderWidth: 1, borderColor: Colors.border,
+            borderWidth: 1, borderColor: Colours.border,
             flexDirection: 'row', justifyContent: 'center',
             alignItems: 'center', gap: 8,
           }}
           onPress={handleSetupLater}
           activeOpacity={0.7}
         >
-          <Text style={{ fontSize: FontSize.sm, color: Colors.textSecondary, fontWeight: '700' }}>
+          <Text style={{ fontSize: FontSize.sm, color: Colours.textSecondary, fontWeight: '700' }}>
             I'll set up later
           </Text>
         </TouchableOpacity>

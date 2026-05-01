@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, Text, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Colors, FontSize, Spacing } from '../../utils/constants';
+import { Colours, FontSize, Spacing } from '../../utils/constants';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface ToastProps {
@@ -41,20 +41,20 @@ const Toast = ({ visible, message, type = 'success', onHide, duration = 3000 }: 
   success: {
     icon: 'check-circle-outline',
     color: '#fff',
-    bg: Colors.secondary,
-    border: Colors.secondary,
+    bg: Colours.secondary,
+    border: Colours.secondary,
   },
   error: {
     icon: 'alert-circle-outline',
     color: '#fff',
-    bg: Colors.error,
-    border: Colors.error,
+    bg: Colours.error,
+    border: Colours.error,
   },
   info: {
     icon: 'information-outline',
     color: '#fff',
-    bg: Colors.primary,
-    border: Colors.primary,
+    bg: Colours.primary,
+    border: Colours.primary,
   },
 }[type];
 

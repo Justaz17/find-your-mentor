@@ -1,15 +1,15 @@
 import { StyleSheet } from 'react-native';
-import { Colors, FontSize, Spacing } from '../utils/constants';
+import { Colours, FontSize, Spacing } from '../utils/constants';
 
 export const styles = StyleSheet.create({
   container: {
     marginHorizontal: Spacing.lg,
     marginVertical: Spacing.md,
     borderRadius: 16,
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
     overflow: 'hidden',
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colours.border,
   },
   header: {
     paddingHorizontal: Spacing.lg,
@@ -19,12 +19,12 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: FontSize.lg,
     fontWeight: '700',
-    color: Colors.text,
+    color: Colours.text,
     marginBottom: Spacing.xs,
   },
   hint: {
     fontSize: FontSize.sm,
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
   },
   calendarWrapper: {
     paddingHorizontal: Spacing.md,
@@ -41,12 +41,12 @@ export const styles = StyleSheet.create({
   emptyStateText: {
     fontSize: FontSize.md,
     fontWeight: '600',
-    color: Colors.text,
+    color: Colours.text,
     marginBottom: Spacing.xs,
   },
   emptyStateSubtext: {
     fontSize: FontSize.sm,
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
   },
   selectedInfo: {
     flexDirection: 'row',
@@ -55,17 +55,17 @@ export const styles = StyleSheet.create({
     paddingHorizontal: Spacing.lg,
     paddingVertical: Spacing.md,
     borderTopWidth: 1,
-    borderTopColor: Colors.border,
-    backgroundColor: Colors.primaryLight,
+    borderTopColor: Colours.border,
+    backgroundColor: Colours.primaryLight,
   },
   selectedLabel: {
     fontSize: FontSize.sm,
     fontWeight: '600',
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
   },
   selectedDate: {
     fontSize: FontSize.md,
     fontWeight: '700',
-    color: Colors.primary,
+    color: Colours.primary,
   },
 });

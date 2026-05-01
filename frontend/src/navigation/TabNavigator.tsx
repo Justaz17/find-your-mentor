@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TabParamList } from './types';
-import { Colors } from '../utils/constants';
+import { Colours } from '../utils/constants';
 import { styles } from '../styles/TabNavigator.styles';
 import { useAuth } from '../context/AuthContext';
 import HomeScreen from '../screens/home/HomeScreen';
@@ -25,15 +25,15 @@ const TabNavigator = () => {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: Colors.background,
+          backgroundColor: Colours.background,
           borderTopWidth: 1,
-          borderTopColor: Colors.border,
+          borderTopColor: Colours.border,
           paddingTop: 8,
           paddingBottom: Math.max(insets.bottom, 8),
           height: 60 + Math.max(insets.bottom, 0),
         },
-        tabBarActiveTintColor: Colors.primary,
-        tabBarInactiveTintColor: Colors.textSecondary,
+        tabBarActiveTintColor: Colours.primary,
+        tabBarInactiveTintColor: Colours.textSecondary,
         tabBarLabelStyle: styles.tabLabel,
       }}
     >

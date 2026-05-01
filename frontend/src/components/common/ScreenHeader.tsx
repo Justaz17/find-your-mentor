@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Colors, Spacing, FontSize } from '../../utils/constants';
+import { Colours, Spacing, FontSize } from '../../utils/constants';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface ScreenHeaderProps {
@@ -33,7 +33,7 @@ const ScreenHeader = ({ title, subtitle, onBack, rightElement }: ScreenHeaderPro
           activeOpacity={0.7}
           hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
         >
-          <MaterialCommunityIcons name="chevron-left" size={26} color={Colors.primary} />
+          <MaterialCommunityIcons name="chevron-left" size={26} color={Colours.primary} />
         </TouchableOpacity>
 
         <View style={styles.titleWrap}>
@@ -51,9 +51,9 @@ const ScreenHeader = ({ title, subtitle, onBack, rightElement }: ScreenHeaderPro
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    borderBottomColor: Colours.border,
   },
   row: {
     flexDirection: 'row',
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: Colors.primaryLight,
+    backgroundColor: Colours.primaryLight,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -77,12 +77,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: FontSize.lg,
     fontWeight: '900',
-    color: Colors.text,
+    color: Colours.text,
     letterSpacing: -0.4,
   },
   subtitle: {
     fontSize: FontSize.xs,
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     fontWeight: '600',
     marginTop: 1,
   },

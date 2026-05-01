@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Colors, Spacing, FontSize } from '../../../utils/constants';
+import { Colours, Spacing, FontSize } from '../../../utils/constants';
 import OnboardingProgress from '../../../components/common/OnboardingProgress';
 import { MentorOnboardingParamList } from '../../../navigation/MentorOnboardingNavigator';
 import { useMentorOnboarding } from '../../../context/MentorOnboardingContext';
@@ -30,7 +30,7 @@ const FORMATS = [
     value: 'both',
     label: 'Both',
     icon: 'swap-horizontal',
-    description: 'Flexible — whatever works for the learner',
+    description: 'Flexible - whatever works for the learner',
   },
 ];
 
@@ -48,7 +48,7 @@ const FormatScreen = () => {
 };
 
   return (
-    <View style={{ flex: 1, backgroundColor: Colors.background }}>
+    <View style={{ flex: 1, backgroundColor: Colours.background }}>
       <View style={{
         paddingTop: insets.top + Spacing.md,
         paddingHorizontal: Spacing.lg,
@@ -61,16 +61,16 @@ const FormatScreen = () => {
           style={{ marginBottom: Spacing.md }}
           activeOpacity={0.7}
         >
-          <MaterialCommunityIcons name="arrow-left" size={24} color={Colors.text} />
+          <MaterialCommunityIcons name="arrow-left" size={24} color={Colours.text} />
         </TouchableOpacity>
         <Text style={{
           fontSize: FontSize.xxl, fontWeight: '900',
-          color: Colors.text, letterSpacing: -0.5,
+          color: Colours.text, letterSpacing: -0.5,
         }}>
           How do you teach?
         </Text>
         <Text style={{
-          fontSize: FontSize.sm, color: Colors.textSecondary,
+          fontSize: FontSize.sm, color: Colours.textSecondary,
           fontWeight: '500', marginTop: 6,
         }}>
           You can change this anytime.
@@ -83,40 +83,40 @@ const FormatScreen = () => {
             key={f.value}
             style={{
               flexDirection: 'row', alignItems: 'center', gap: Spacing.md,
-              backgroundColor: selected === f.value ? Colors.primaryLight : Colors.surface,
+              backgroundColor: selected === f.value ? Colours.primaryLight : Colours.surface,
               borderRadius: 16, padding: Spacing.md, borderWidth: 2,
-              borderColor: selected === f.value ? Colors.primary : Colors.border,
+              borderColor: selected === f.value ? Colours.primary : Colours.border,
             }}
             onPress={() => setSelected(f.value)}
             activeOpacity={0.85}
           >
             <View style={{
               width: 52, height: 52, borderRadius: 26,
-              backgroundColor: selected === f.value ? Colors.primary : Colors.border,
+              backgroundColor: selected === f.value ? Colours.primary : Colours.border,
               justifyContent: 'center', alignItems: 'center',
             }}>
               <MaterialCommunityIcons
                 name={f.icon as any}
                 size={26}
-                color={selected === f.value ? '#fff' : Colors.textSecondary}
+                color={selected === f.value ? '#fff' : Colours.textSecondary}
               />
             </View>
             <View style={{ flex: 1 }}>
               <Text style={{
                 fontSize: FontSize.md, fontWeight: '800',
-                color: selected === f.value ? Colors.primary : Colors.text,
+                color: selected === f.value ? Colours.primary : Colours.text,
               }}>
                 {f.label}
               </Text>
               <Text style={{
-                fontSize: FontSize.sm, color: Colors.textSecondary,
+                fontSize: FontSize.sm, color: Colours.textSecondary,
                 fontWeight: '500', marginTop: 2,
               }}>
                 {f.description}
               </Text>
             </View>
             {selected === f.value && (
-              <MaterialCommunityIcons name="check-circle" size={24} color={Colors.primary} />
+              <MaterialCommunityIcons name="check-circle" size={24} color={Colours.primary} />
             )}
           </TouchableOpacity>
         ))}
@@ -127,12 +127,12 @@ const FormatScreen = () => {
         paddingHorizontal: Spacing.lg,
         paddingBottom: insets.bottom + Spacing.md,
         paddingTop: Spacing.md,
-        borderTopWidth: 1, borderTopColor: Colors.border,
-        backgroundColor: Colors.background,
+        borderTopWidth: 1, borderTopColor: Colours.border,
+        backgroundColor: Colours.background,
       }}>
         <TouchableOpacity
           style={{
-            backgroundColor: Colors.primary, borderRadius: 14,
+            backgroundColor: Colours.primary, borderRadius: 14,
             paddingVertical: 16, flexDirection: 'row',
             justifyContent: 'center', alignItems: 'center', gap: 8,
           }}

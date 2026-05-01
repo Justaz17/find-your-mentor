@@ -1,12 +1,12 @@
 import { StyleSheet } from 'react-native';
-import { Colors, FontSize, Spacing } from '../utils/constants';
+import { Colours, FontSize, Spacing } from '../utils/constants';
 
 export const styles = StyleSheet.create({
   card: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colours.border,
     paddingHorizontal: Spacing.md,
     paddingVertical: Spacing.md,
     marginBottom: Spacing.md,
@@ -29,12 +29,12 @@ export const styles = StyleSheet.create({
   dayName: {
     fontSize: FontSize.md,
     fontWeight: '700',
-    color: Colors.text,
+    color: Colours.text,
     marginBottom: Spacing.xs,
   },
   time: {
     fontSize: FontSize.sm,
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
   },
   footer: {
     flexDirection: 'row',
@@ -43,14 +43,14 @@ export const styles = StyleSheet.create({
   },
   generateUntil: {
     fontSize: FontSize.xs,
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     fontWeight: '500',
   },
   deleteButton: {
     width: 32,
     height: 32,
     borderRadius: 8,
-    backgroundColor: Colors.error,
+    backgroundColor: Colours.error,
     justifyContent: 'center',
     alignItems: 'center',
   },

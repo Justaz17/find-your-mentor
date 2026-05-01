@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Colors, FontSize, Spacing } from '../utils/constants';
+import { Colours, FontSize, Spacing } from '../utils/constants';
 
 export const sr = StyleSheet.create({
   row: {
@@ -11,13 +11,13 @@ export const sr = StyleSheet.create({
   count: {
     fontSize: FontSize.xs,
     fontWeight: '800',
-    color: Colors.text,
+    color: Colours.text,
     marginLeft: 3,
   },
   reviews: {
     fontSize: FontSize.xs,
     fontWeight: '600',
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
   },
 });
 
@@ -35,11 +35,11 @@ export const ml = StyleSheet.create({
 export const styles = StyleSheet.create({
   card: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
     borderRadius: 18,
     padding: Spacing.md,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colours.border,
     shadowColor: '#000',
     shadowOpacity: 0.06,
     shadowRadius: 10,
@@ -80,12 +80,12 @@ export const styles = StyleSheet.create({
   price: {
     fontSize: FontSize.md,
     fontWeight: '900',
-    color: Colors.primary,
+    color: Colours.primary,
     letterSpacing: -0.2,
   },
   priceLabel: {
     fontSize: 10,
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     fontWeight: '700',
   },
 
@@ -93,7 +93,7 @@ export const styles = StyleSheet.create({
   name: {
     fontSize: FontSize.sm,
     fontWeight: '900',
-    color: Colors.text,
+    color: Colours.text,
     letterSpacing: -0.2,
     marginBottom: 4,
   },
@@ -101,7 +101,7 @@ export const styles = StyleSheet.create({
   // No rating placeholder
   noRating: {
     fontSize: 10,
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     fontWeight: '600',
     marginBottom: 8,
   },
@@ -109,7 +109,7 @@ export const styles = StyleSheet.create({
   // Bio
   bio: {
     fontSize: 11,
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     lineHeight: 16,
     fontWeight: '500',
     marginBottom: 8,
@@ -123,22 +123,22 @@ export const styles = StyleSheet.create({
     marginBottom: 6,
   },
   skillChip: {
-    backgroundColor: Colors.primaryLight,
+    backgroundColor: Colours.primaryLight,
     borderRadius: 999,
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colours.border,
     maxWidth: '100%',
   },
   skillText: {
     fontSize: 10,
-    color: Colors.primary,
+    color: Colours.primary,
     fontWeight: '700',
   },
   moreSkills: {
     fontSize: 10,
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     fontWeight: '700',
     alignSelf: 'center',
   },

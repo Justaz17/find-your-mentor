@@ -16,7 +16,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/types';
 import { createBooking } from '../../services/bookingService';
-import { Colors, Spacing } from '../../utils/constants';
+import { Colours, Spacing } from '../../utils/constants';
 import { styles } from '../../styles/BookingConfirmationScreen.styles';
 
 type ConfirmRouteProp = RouteProp<RootStackParamList, 'BookingConfirmation'>;
@@ -219,8 +219,8 @@ const BookingConfirmationScreen = () => {
             numberOfLines={4}
             maxLength={1000}
             style={styles.noteInput}
-            outlineColor={Colors.border}
-            activeOutlineColor={Colors.primary}
+            outlineColor={Colours.border}
+            activeOutlineColor={Colours.primary}
             placeholder="e.g., I'm a beginner in Python and struggling with functions..."
           />
           <Text variant="bodySmall" style={styles.charCount}>

@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { Colors, FontSize, Spacing } from '../utils/constants';
+import { Colours, FontSize, Spacing } from '../utils/constants';
 
 export const styles = StyleSheet.create({
   card: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
     borderRadius: 12,
     borderLeftWidth: 4,
     paddingHorizontal: Spacing.md,
@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
   date: {
     fontSize: FontSize.sm,
     fontWeight: '600',
-    color: Colors.text,
+    color: Colours.text,
   },
   status: {
     fontSize: FontSize.xs,
@@ -28,18 +28,18 @@ export const styles = StyleSheet.create({
   time: {
     fontSize: FontSize.md,
     fontWeight: '700',
-    color: Colors.text,
+    color: Colours.text,
     marginBottom: Spacing.sm,
   },
   deleteButton: {
     alignSelf: 'flex-start',
     paddingHorizontal: Spacing.md,
     paddingVertical: Spacing.xs,
-    backgroundColor: Colors.error,
+    backgroundColor: Colours.error,
     borderRadius: 8,
   },
   deleteText: {
-    color: Colors.textLight,
+    color: Colours.textLight,
     fontSize: FontSize.xs,
     fontWeight: '600',
   },

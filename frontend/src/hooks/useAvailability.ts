@@ -1,5 +1,3 @@
-// frontend/src/hooks/useAvailability.ts
-
 import { useState, useCallback, useEffect } from 'react';
 import {
   getMentorAvailabilitySlots,

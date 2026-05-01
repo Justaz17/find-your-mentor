@@ -2,7 +2,7 @@ import React from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { Colors } from '../../utils/constants';
+import { Colours } from '../../utils/constants';
 import { styles } from '../../styles/LearnerDashboardScreen.styles';
 import { useAuth } from '../../context/AuthContext';
 import { RootStackParamList } from '../../navigation/types';
@@ -29,7 +29,7 @@ const LearnerDashboardScreen = ({ onSwitchToMentor }: LearnerDashboardProps) => 
   if (isLoading) {
     return (
       <View style={styles.centred}>
-        <ActivityIndicator size="large" color={Colors.primary} />
+        <ActivityIndicator size="large" color={Colours.primary} />
       </View>
     );
   }

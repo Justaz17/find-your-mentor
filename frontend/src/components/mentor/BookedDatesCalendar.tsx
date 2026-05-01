@@ -1,9 +1,7 @@
-// frontend/src/components/Calendar/BookedDatesCalendar.tsx
-
 import React, { useMemo } from 'react';
 import { View, Text } from 'react-native';
 import { Calendar } from 'react-native-calendars';
-import { Colors, Spacing, FontSize } from '../../utils/constants';
+import { Colours, Spacing, FontSize } from '../../utils/constants';
 import { styles } from '../../styles/BookedDatesCalendar.styles';
 import { Booking } from '../../types/Booking';
 
@@ -42,8 +40,8 @@ const BookedDatesCalendar = ({ bookings, selectedDate, onDateSelect, filter }: B
         if (!marked[date]) {
           marked[date] = {
             marked: true,
-            dotColor: Colors.primary,
-            dots: [{ color: Colors.primary }],
+            dotColor: Colours.primary,
+            dots: [{ color: Colours.primary }],
           };
         }
       }
@@ -54,14 +52,14 @@ const BookedDatesCalendar = ({ bookings, selectedDate, onDateSelect, filter }: B
       marked[selectedDate] = {
         ...marked[selectedDate],
         selected: true,
-        selectedColor: Colors.primary,
-        selectedTextColor: Colors.textLight,
+        selectedColor: Colours.primary,
+        selectedTextColor: Colours.textLight,
       };
     } else if (selectedDate) {
       marked[selectedDate] = {
         selected: true,
-        selectedColor: Colors.primary,
-        selectedTextColor: Colors.textLight,
+        selectedColor: Colours.primary,
+        selectedTextColor: Colours.textLight,
       };
     }
 
@@ -98,22 +96,22 @@ const BookedDatesCalendar = ({ bookings, selectedDate, onDateSelect, filter }: B
               }
             }}
             theme={{
-              backgroundColor: Colors.background,
-              calendarBackground: Colors.background,
-              textSectionTitleColor: Colors.textSecondary,
-              textSectionTitleDisabledColor: Colors.border,
-              selectedDayBackgroundColor: Colors.primary,
-              selectedDayTextColor: Colors.textLight,
-              todayTextColor: Colors.primary,
-              todayBackgroundColor: Colors.primaryLight,
-              dayTextColor: Colors.text,
-              textDisabledColor: Colors.border,
-              dotColor: Colors.primary,
-              selectedDotColor: Colors.textLight,
-              arrowColor: Colors.primary,
-              disabledArrowColor: Colors.border,
-              monthTextColor: Colors.text,
-              indicatorColor: Colors.primary,
+              backgroundColor: Colours.background,
+              calendarBackground: Colours.background,
+              textSectionTitleColor: Colours.textSecondary,
+              textSectionTitleDisabledColor: Colours.border,
+              selectedDayBackgroundColor: Colours.primary,
+              selectedDayTextColor: Colours.textLight,
+              todayTextColor: Colours.primary,
+              todayBackgroundColor: Colours.primaryLight,
+              dayTextColor: Colours.text,
+              textDisabledColor: Colours.border,
+              dotColor: Colours.primary,
+              selectedDotColor: Colours.textLight,
+              arrowColor: Colours.primary,
+              disabledArrowColor: Colours.border,
+              monthTextColor: Colours.text,
+              indicatorColor: Colours.primary,
               textDayFontFamily: 'System',
               textMonthFontSize: FontSize.lg,
               textMonthFontWeight: '700',

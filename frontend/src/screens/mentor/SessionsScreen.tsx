@@ -6,7 +6,7 @@ import {
 import { useFocusEffect } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Colors, Spacing, FontSize } from '../../utils/constants';
+import { Colours, Spacing, FontSize } from '../../utils/constants';
 import ScreenHeader from '../../components/common/ScreenHeader';
 import { getMentorBookings, mentorConfirmBooking } from '../../services/bookingService';
 import api from '../../services/api';
@@ -107,7 +107,7 @@ const SessionsScreen = () => {
   ];
 
   if (isLoading) return (
-    <View style={styles.centred}><ActivityIndicator size="large" color={Colors.primary} /></View>
+    <View style={styles.centred}><ActivityIndicator size="large" color={Colours.primary} /></View>
   );
 
   return (
@@ -134,20 +134,20 @@ const SessionsScreen = () => {
       <FlatList
         data={filtered}
         keyExtractor={item => String(item.id)}
-        refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={() => { setIsRefreshing(true); load(); }} tintColor={Colors.primary} />}
+        refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={() => { setIsRefreshing(true); load(); }} tintColor={Colours.primary} />}
         contentContainerStyle={styles.list}
         ListEmptyComponent={
           <View style={styles.emptyWrap}>
-            <MaterialCommunityIcons name="calendar-blank-outline" size={48} color={Colors.textSecondary} />
+            <MaterialCommunityIcons name="calendar-blank-outline" size={48} color={Colours.textSecondary} />
             <Text style={styles.emptyTitle}>No sessions found</Text>
           </View>
         }
         renderItem={({ item }) => {
           const isExpanded = expandedId === item.id;
           const isEditing = editingNoteId === item.id;
-          const statusColor = item.status === 'completed' ? Colors.secondary
-            : item.status === 'confirmed' ? Colors.primary
-            : item.status === 'pending' ? Colors.warning : Colors.error;
+          const statusColor = item.status === 'completed' ? Colours.secondary
+            : item.status === 'confirmed' ? Colours.primary
+            : item.status === 'pending' ? Colours.warning : Colours.error;
 
           return (
             <TouchableOpacity
@@ -166,12 +166,12 @@ const SessionsScreen = () => {
                   <Text style={styles.cardName}>{item.learner_name}</Text>
                   <Text style={styles.cardService}>{item.service_title}</Text>
                   <View style={styles.cardMeta}>
-                    <MaterialCommunityIcons name="clock-outline" size={12} color={Colors.textSecondary} />
+                    <MaterialCommunityIcons name="clock-outline" size={12} color={Colours.textSecondary} />
                     <Text style={styles.cardMetaText}>{getDuration(item.slot_start, item.slot_end)}</Text>
                     {item.mentor_note && (
                       <>
-                        <MaterialCommunityIcons name="note-text-outline" size={12} color={Colors.primary} style={{ marginLeft: 8 }} />
-                        <Text style={[styles.cardMetaText, { color: Colors.primary }]}>Note</Text>
+                        <MaterialCommunityIcons name="note-text-outline" size={12} color={Colours.primary} style={{ marginLeft: 8 }} />
+                        <Text style={[styles.cardMetaText, { color: Colours.primary }]}>Note</Text>
                       </>
                     )}
                   </View>
@@ -205,7 +205,7 @@ const SessionsScreen = () => {
                   {/* Mentor private note */}
                   <View style={styles.noteSection}>
                     <View style={styles.noteSectionHeader}>
-                      <MaterialCommunityIcons name="lock-outline" size={14} color={Colors.primary} />
+                      <MaterialCommunityIcons name="lock-outline" size={14} color={Colours.primary} />
                       <Text style={styles.noteSectionTitle}>Private note (only you can see this)</Text>
                     </View>
 
@@ -216,7 +216,7 @@ const SessionsScreen = () => {
                           value={noteText}
                           onChangeText={setNoteText}
                           placeholder="Add a private note about this session..."
-                          placeholderTextColor={Colors.textSecondary}
+                          placeholderTextColor={Colours.textSecondary}
                           multiline
                           numberOfLines={3}
                           autoFocus
@@ -250,7 +250,7 @@ const SessionsScreen = () => {
                           ? <Text style={styles.noteDisplayText}>{item.mentor_note}</Text>
                           : <Text style={styles.notePlaceholder}>Tap to add a private note...</Text>
                         }
-                        <MaterialCommunityIcons name="pencil-outline" size={14} color={Colors.textSecondary} />
+                        <MaterialCommunityIcons name="pencil-outline" size={14} color={Colours.textSecondary} />
                       </TouchableOpacity>
                     )}
                   </View>
@@ -259,7 +259,7 @@ const SessionsScreen = () => {
                     <TouchableOpacity
                       style={{
                         marginTop: Spacing.md,
-                        backgroundColor: item.mentor_confirmed ? Colors.border : Colors.secondary,
+                        backgroundColor: item.mentor_confirmed ? Colours.border : Colours.secondary,
                         borderRadius: 12, paddingVertical: 12,
                         flexDirection: 'row', alignItems: 'center',
                         justifyContent: 'center', gap: 6,
@@ -295,91 +295,91 @@ const SessionsScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: Colors.surface },
+  container: { flex: 1, backgroundColor: Colours.surface },
   centred: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   header: {
     paddingHorizontal: Spacing.lg, paddingVertical: Spacing.md,
-    backgroundColor: Colors.background,
-    borderBottomWidth: 1, borderBottomColor: Colors.border,
+    backgroundColor: Colours.background,
+    borderBottomWidth: 1, borderBottomColor: Colours.border,
   },
-  headerTitle: { fontSize: FontSize.xl, fontWeight: '900', color: Colors.text, letterSpacing: -0.4 },
-  headerSub: { fontSize: FontSize.xs, color: Colors.textSecondary, fontWeight: '600', marginTop: 2 },
+  headerTitle: { fontSize: FontSize.xl, fontWeight: '900', color: Colours.text, letterSpacing: -0.4 },
+  headerSub: { fontSize: FontSize.xs, color: Colours.textSecondary, fontWeight: '600', marginTop: 2 },
   filterRow: {
     flexDirection: 'row', gap: Spacing.sm,
     paddingHorizontal: Spacing.lg, paddingVertical: Spacing.sm,
-    backgroundColor: Colors.background,
-    borderBottomWidth: 1, borderBottomColor: Colors.border,
+    backgroundColor: Colours.background,
+    borderBottomWidth: 1, borderBottomColor: Colours.border,
   },
   filterChip: {
     paddingHorizontal: 14, paddingVertical: 6, borderRadius: 999,
-    backgroundColor: Colors.surface, borderWidth: 1, borderColor: Colors.border,
+    backgroundColor: Colours.surface, borderWidth: 1, borderColor: Colours.border,
   },
-  filterChipActive: { backgroundColor: Colors.primary, borderColor: Colors.primary },
-  filterChipText: { fontSize: FontSize.xs, fontWeight: '700', color: Colors.textSecondary },
+  filterChipActive: { backgroundColor: Colours.primary, borderColor: Colours.primary },
+  filterChipText: { fontSize: FontSize.xs, fontWeight: '700', color: Colours.textSecondary },
   filterChipTextActive: { color: '#fff' },
   list: { padding: Spacing.lg, paddingBottom: Spacing.xxl },
   card: {
-    backgroundColor: Colors.background, borderRadius: 16,
+    backgroundColor: Colours.background, borderRadius: 16,
     padding: Spacing.md, marginBottom: Spacing.sm,
-    borderWidth: 1, borderColor: Colors.border,
+    borderWidth: 1, borderColor: Colours.border,
   },
   cardTop: { flexDirection: 'row', alignItems: 'flex-start', gap: Spacing.sm },
   dateBox: {
-    width: 44, alignItems: 'center', backgroundColor: Colors.primaryLight,
-    borderRadius: 12, paddingVertical: 6, borderWidth: 1, borderColor: Colors.border,
+    width: 44, alignItems: 'center', backgroundColor: Colours.primaryLight,
+    borderRadius: 12, paddingVertical: 6, borderWidth: 1, borderColor: Colours.border,
   },
-  dateBoxDay: { fontSize: 10, fontWeight: '700', color: Colors.primary, textTransform: 'uppercase' },
-  dateBoxNum: { fontSize: FontSize.lg, fontWeight: '900', color: Colors.primary },
-  cardName: { fontSize: FontSize.md, fontWeight: '900', color: Colors.text, marginBottom: 2 },
-  cardService: { fontSize: FontSize.sm, fontWeight: '700', color: Colors.primary, marginBottom: 4 },
+  dateBoxDay: { fontSize: 10, fontWeight: '700', color: Colours.primary, textTransform: 'uppercase' },
+  dateBoxNum: { fontSize: FontSize.lg, fontWeight: '900', color: Colours.primary },
+  cardName: { fontSize: FontSize.md, fontWeight: '900', color: Colours.text, marginBottom: 2 },
+  cardService: { fontSize: FontSize.sm, fontWeight: '700', color: Colours.primary, marginBottom: 4 },
   cardMeta: { flexDirection: 'row', alignItems: 'center', gap: 4 },
-  cardMetaText: { fontSize: FontSize.xs, color: Colors.textSecondary, fontWeight: '600' },
+  cardMetaText: { fontSize: FontSize.xs, color: Colours.textSecondary, fontWeight: '600' },
   cardRight: { alignItems: 'flex-end', gap: 4 },
-  cardAmount: { fontSize: FontSize.md, fontWeight: '900', color: Colors.secondary },
+  cardAmount: { fontSize: FontSize.md, fontWeight: '900', color: Colours.secondary },
   statusDot: { width: 8, height: 8, borderRadius: 4 },
   expandedSection: { marginTop: Spacing.md },
-  divider: { height: 1, backgroundColor: Colors.border, marginBottom: Spacing.md },
+  divider: { height: 1, backgroundColor: Colours.border, marginBottom: Spacing.md },
   expandedLabel: {
-    fontSize: FontSize.xs, fontWeight: '700', color: Colors.textSecondary,
+    fontSize: FontSize.xs, fontWeight: '700', color: Colours.textSecondary,
     textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 4,
   },
-  expandedValue: { fontSize: FontSize.sm, fontWeight: '700', color: Colors.text },
+  expandedValue: { fontSize: FontSize.sm, fontWeight: '700', color: Colours.text },
   expandedNote: {
-    fontSize: FontSize.sm, color: Colors.textSecondary,
+    fontSize: FontSize.sm, color: Colours.textSecondary,
     fontStyle: 'italic', lineHeight: 20,
   },
   noteSection: {
-    marginTop: Spacing.md, backgroundColor: Colors.primaryLight,
+    marginTop: Spacing.md, backgroundColor: Colours.primaryLight,
     borderRadius: 12, padding: Spacing.md,
-    borderWidth: 1, borderColor: Colors.primary + '30',
+    borderWidth: 1, borderColor: Colours.primary + '30',
   },
   noteSectionHeader: { flexDirection: 'row', alignItems: 'center', gap: 5, marginBottom: Spacing.sm },
-  noteSectionTitle: { fontSize: FontSize.xs, fontWeight: '800', color: Colors.primary },
+  noteSectionTitle: { fontSize: FontSize.xs, fontWeight: '800', color: Colours.primary },
   noteInput: {
-    backgroundColor: Colors.background, borderRadius: 10,
-    borderWidth: 1, borderColor: Colors.border,
+    backgroundColor: Colours.background, borderRadius: 10,
+    borderWidth: 1, borderColor: Colours.border,
     paddingHorizontal: Spacing.md, paddingVertical: 10,
-    fontSize: FontSize.sm, color: Colors.text,
+    fontSize: FontSize.sm, color: Colours.text,
     fontWeight: '600', minHeight: 80, textAlignVertical: 'top',
   },
   noteActions: { flexDirection: 'row', justifyContent: 'flex-end', gap: Spacing.sm, marginTop: Spacing.sm },
   noteCancelBtn: { paddingHorizontal: 16, paddingVertical: 8 },
-  noteCancelText: { fontSize: FontSize.sm, color: Colors.textSecondary, fontWeight: '700' },
+  noteCancelText: { fontSize: FontSize.sm, color: Colours.textSecondary, fontWeight: '700' },
   noteSaveBtn: {
-    backgroundColor: Colors.primary, borderRadius: 10,
+    backgroundColor: Colours.primary, borderRadius: 10,
     paddingHorizontal: 20, paddingVertical: 8,
   },
   noteSaveText: { color: '#fff', fontWeight: '900', fontSize: FontSize.sm },
   noteDisplayBox: {
     flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start',
-    backgroundColor: Colors.background, borderRadius: 10,
-    borderWidth: 1, borderColor: Colors.border,
+    backgroundColor: Colours.background, borderRadius: 10,
+    borderWidth: 1, borderColor: Colours.border,
     paddingHorizontal: Spacing.md, paddingVertical: 10, gap: 8,
   },
-  noteDisplayText: { flex: 1, fontSize: FontSize.sm, color: Colors.text, fontWeight: '600', lineHeight: 20 },
-  notePlaceholder: { flex: 1, fontSize: FontSize.sm, color: Colors.textSecondary, fontStyle: 'italic' },
+  noteDisplayText: { flex: 1, fontSize: FontSize.sm, color: Colours.text, fontWeight: '600', lineHeight: 20 },
+  notePlaceholder: { flex: 1, fontSize: FontSize.sm, color: Colours.textSecondary, fontStyle: 'italic' },
   emptyWrap: { alignItems: 'center', paddingTop: 80, gap: Spacing.sm },
-  emptyTitle: { fontSize: FontSize.lg, fontWeight: '900', color: Colors.text },
+  emptyTitle: { fontSize: FontSize.lg, fontWeight: '900', color: Colours.text },
 });
 
 export default SessionsScreen;

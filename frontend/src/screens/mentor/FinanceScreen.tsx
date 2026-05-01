@@ -6,7 +6,7 @@ import {
 import { useFocusEffect } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Colors, Spacing, FontSize } from '../../utils/constants';
+import { Colours, Spacing, FontSize } from '../../utils/constants';
 import ScreenHeader from '../../components/common/ScreenHeader';
 import { getMentorBookings } from '../../services/bookingService';
 
@@ -79,7 +79,7 @@ const FinanceScreen = () => {
   ];
 
   if (isLoading) return (
-    <View style={styles.centred}><ActivityIndicator size="large" color={Colors.primary} /></View>
+    <View style={styles.centred}><ActivityIndicator size="large" color={Colours.primary} /></View>
   );
 
   return (
@@ -89,7 +89,7 @@ const FinanceScreen = () => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.content}
-        refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={() => { setIsRefreshing(true); load(); }} tintColor={Colors.primary} />}
+        refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={() => { setIsRefreshing(true); load(); }} tintColor={Colours.primary} />}
       >
         {/* Period selector */}
         <View style={styles.periodRow}>
@@ -121,12 +121,12 @@ const FinanceScreen = () => {
         {/* Summary cards */}
         <View style={styles.summaryRow}>
           <View style={styles.summaryCard}>
-            <MaterialCommunityIcons name="currency-eur" size={18} color={Colors.secondary} />
+            <MaterialCommunityIcons name="currency-eur" size={18} color={Colours.secondary} />
             <Text style={styles.summaryValue}>€{totalEarnings.toFixed(0)}</Text>
             <Text style={styles.summaryLabel}>Total earned</Text>
           </View>
           <View style={styles.summaryCard}>
-            <MaterialCommunityIcons name="chart-line" size={18} color={Colors.primary} />
+            <MaterialCommunityIcons name="chart-line" size={18} color={Colours.primary} />
             <Text style={styles.summaryValue}>€{avgPerSession.toFixed(0)}</Text>
             <Text style={styles.summaryLabel}>Avg per session</Text>
           </View>
@@ -182,7 +182,7 @@ const FinanceScreen = () => {
                   </View>
                   <View style={styles.txRight}>
                     <Text style={styles.txAmount}>+€{b.amount_paid.toFixed(2)}</Text>
-                    <View style={[styles.txStatusDot, { backgroundColor: Colors.secondary }]} />
+                    <View style={[styles.txStatusDot, { backgroundColor: Colours.secondary }]} />
                   </View>
                 </View>
               ))
@@ -194,27 +194,27 @@ const FinanceScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: Colors.surface },
+  container: { flex: 1, backgroundColor: Colours.surface },
   centred: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   header: {
     paddingHorizontal: Spacing.lg, paddingVertical: Spacing.md,
-    backgroundColor: Colors.background,
-    borderBottomWidth: 1, borderBottomColor: Colors.border,
+    backgroundColor: Colours.background,
+    borderBottomWidth: 1, borderBottomColor: Colours.border,
   },
-  headerTitle: { fontSize: FontSize.xl, fontWeight: '900', color: Colors.text, letterSpacing: -0.4 },
+  headerTitle: { fontSize: FontSize.xl, fontWeight: '900', color: Colours.text, letterSpacing: -0.4 },
   content: { padding: Spacing.lg, paddingBottom: Spacing.xxl, gap: Spacing.md },
   periodRow: { flexDirection: 'row', gap: Spacing.sm },
   periodChip: {
     paddingHorizontal: 14, paddingVertical: 7, borderRadius: 999,
-    backgroundColor: Colors.background, borderWidth: 1, borderColor: Colors.border,
+    backgroundColor: Colours.background, borderWidth: 1, borderColor: Colours.border,
   },
-  periodChipActive: { backgroundColor: Colors.primary, borderColor: Colors.primary },
-  periodChipText: { fontSize: FontSize.xs, fontWeight: '700', color: Colors.textSecondary },
+  periodChipActive: { backgroundColor: Colours.primary, borderColor: Colours.primary },
+  periodChipText: { fontSize: FontSize.xs, fontWeight: '700', color: Colours.textSecondary },
   periodChipTextActive: { color: '#fff' },
   heroCard: {
-    backgroundColor: Colors.primary, borderRadius: 20,
+    backgroundColor: Colours.primary, borderRadius: 20,
     padding: Spacing.xl, alignItems: 'center',
-    shadowColor: Colors.primary, shadowOpacity: 0.3,
+    shadowColor: Colours.primary, shadowOpacity: 0.3,
     shadowRadius: 16, shadowOffset: { width: 0, height: 8 }, elevation: 5,
   },
   heroLabel: { fontSize: FontSize.sm, color: 'rgba(255,255,255,0.8)', fontWeight: '700', marginBottom: 6 },
@@ -222,40 +222,40 @@ const styles = StyleSheet.create({
   heroSub: { fontSize: FontSize.sm, color: 'rgba(255,255,255,0.75)', fontWeight: '600', marginTop: 4 },
   summaryRow: { flexDirection: 'row', gap: Spacing.sm },
   summaryCard: {
-    flex: 1, backgroundColor: Colors.background,
+    flex: 1, backgroundColor: Colours.background,
     borderRadius: 14, padding: Spacing.md,
     alignItems: 'center', gap: 4,
-    borderWidth: 1, borderColor: Colors.border,
+    borderWidth: 1, borderColor: Colours.border,
   },
-  summaryValue: { fontSize: FontSize.lg, fontWeight: '900', color: Colors.text, letterSpacing: -0.4 },
-  summaryLabel: { fontSize: 10, fontWeight: '700', color: Colors.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5, textAlign: 'center' },
+  summaryValue: { fontSize: FontSize.lg, fontWeight: '900', color: Colours.text, letterSpacing: -0.4 },
+  summaryLabel: { fontSize: 10, fontWeight: '700', color: Colours.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5, textAlign: 'center' },
   section: {
-    backgroundColor: Colors.background, borderRadius: 16,
-    padding: Spacing.md, borderWidth: 1, borderColor: Colors.border,
+    backgroundColor: Colours.background, borderRadius: 16,
+    padding: Spacing.md, borderWidth: 1, borderColor: Colours.border,
     gap: Spacing.sm,
   },
-  sectionTitle: { fontSize: FontSize.md, fontWeight: '900', color: Colors.text, letterSpacing: -0.3 },
+  sectionTitle: { fontSize: FontSize.md, fontWeight: '900', color: Colours.text, letterSpacing: -0.3 },
   monthRow: { paddingVertical: 4 },
   monthHeader: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 },
-  monthLabel: { fontSize: FontSize.sm, fontWeight: '800', color: Colors.text },
-  monthAmount: { fontSize: FontSize.sm, fontWeight: '900', color: Colors.secondary },
-  progressTrack: { height: 4, backgroundColor: Colors.border, borderRadius: 2, marginBottom: 4 },
-  progressFill: { height: 4, backgroundColor: Colors.primary, borderRadius: 2 },
-  monthSessions: { fontSize: FontSize.xs, color: Colors.textSecondary, fontWeight: '600' },
+  monthLabel: { fontSize: FontSize.sm, fontWeight: '800', color: Colours.text },
+  monthAmount: { fontSize: FontSize.sm, fontWeight: '900', color: Colours.secondary },
+  progressTrack: { height: 4, backgroundColor: Colours.border, borderRadius: 2, marginBottom: 4 },
+  progressFill: { height: 4, backgroundColor: Colours.primary, borderRadius: 2 },
+  monthSessions: { fontSize: FontSize.xs, color: Colours.textSecondary, fontWeight: '600' },
   txRow: {
     flexDirection: 'row', justifyContent: 'space-between',
     alignItems: 'center', paddingVertical: 10,
-    borderBottomWidth: 1, borderBottomColor: Colors.surface,
+    borderBottomWidth: 1, borderBottomColor: Colours.surface,
   },
   txLeft: { flex: 1 },
-  txName: { fontSize: FontSize.sm, fontWeight: '800', color: Colors.text },
-  txService: { fontSize: FontSize.xs, color: Colors.primary, fontWeight: '700', marginTop: 1 },
-  txDate: { fontSize: FontSize.xs, color: Colors.textSecondary, fontWeight: '600', marginTop: 1 },
+  txName: { fontSize: FontSize.sm, fontWeight: '800', color: Colours.text },
+  txService: { fontSize: FontSize.xs, color: Colours.primary, fontWeight: '700', marginTop: 1 },
+  txDate: { fontSize: FontSize.xs, color: Colours.textSecondary, fontWeight: '600', marginTop: 1 },
   txRight: { alignItems: 'flex-end', gap: 4 },
-  txAmount: { fontSize: FontSize.md, fontWeight: '900', color: Colors.secondary },
+  txAmount: { fontSize: FontSize.md, fontWeight: '900', color: Colours.secondary },
   txStatusDot: { width: 6, height: 6, borderRadius: 3 },
   emptyWrap: { paddingVertical: Spacing.lg, alignItems: 'center' },
-  emptyText: { fontSize: FontSize.sm, color: Colors.textSecondary, fontWeight: '600' },
+  emptyText: { fontSize: FontSize.sm, color: Colours.textSecondary, fontWeight: '600' },
 });
 
 export default FinanceScreen;

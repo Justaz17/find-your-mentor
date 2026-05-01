@@ -7,7 +7,7 @@ import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/nativ
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Colors, Spacing, FontSize } from '../../utils/constants';
+import { Colours, Spacing, FontSize } from '../../utils/constants';
 import { MentorService } from '../../types/Mentor';
 import {
   createService,
@@ -176,38 +176,38 @@ const ManageServicesScreen = () => {
 
   if (isLoading) return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <ActivityIndicator size="large" color={Colors.primary} />
+      <ActivityIndicator size="large" color={Colours.primary} />
     </View>
   );
 
   // ── Render ────────────────────────────────────────────────────────────
 
   return (
-    <View style={{ flex: 1, backgroundColor: Colors.surface }}>
+    <View style={{ flex: 1, backgroundColor: Colours.surface }}>
 
       {/* ── Header ── */}
       <View style={{
-        backgroundColor: Colors.background,
+        backgroundColor: Colours.background,
         paddingTop: insets.top + Spacing.md,
         paddingHorizontal: Spacing.lg,
         paddingBottom: Spacing.lg,
         borderBottomWidth: 1,
-        borderBottomColor: Colors.border,
+        borderBottomColor: Colours.border,
         flexDirection: 'row',
         alignItems: 'center',
         gap: Spacing.md,
       }}>
         {/* Back button */}
         <TouchableOpacity onPress={handleNext} activeOpacity={0.7}>
-          <MaterialCommunityIcons name="arrow-left" size={24} color={Colors.text} />
+          <MaterialCommunityIcons name="arrow-left" size={24} color={Colours.text} />
         </TouchableOpacity>
 
         {/* Title */}
         <View style={{ flex: 1 }}>
-          <Text style={{ fontSize: FontSize.xl, fontWeight: '900', color: Colors.text }}>
+          <Text style={{ fontSize: FontSize.xl, fontWeight: '900', color: Colours.text }}>
             My Services
           </Text>
-          <Text style={{ fontSize: FontSize.xs, color: Colors.textSecondary, fontWeight: '600' }}>
+          <Text style={{ fontSize: FontSize.xs, color: Colours.textSecondary, fontWeight: '600' }}>
             {services.length} service{services.length !== 1 ? 's' : ''}
           </Text>
         </View>
@@ -216,7 +216,7 @@ const ManageServicesScreen = () => {
         {isOnboarding && (
           <TouchableOpacity
             style={{
-              backgroundColor: Colors.secondary, borderRadius: 12,
+              backgroundColor: Colours.secondary, borderRadius: 12,
               paddingHorizontal: Spacing.md, paddingVertical: 8,
               flexDirection: 'row', alignItems: 'center', gap: 6,
             }}
@@ -232,7 +232,7 @@ const ManageServicesScreen = () => {
         {services.length > 0 && (
           <TouchableOpacity
             style={{
-              backgroundColor: Colors.primary, borderRadius: 12,
+              backgroundColor: Colours.primary, borderRadius: 12,
               paddingHorizontal: Spacing.md, paddingVertical: 8,
               flexDirection: 'row', alignItems: 'center', gap: 6,
             }}
@@ -257,19 +257,19 @@ const ManageServicesScreen = () => {
         {services.length === 0 ? (
           // Empty state
           <View style={{ alignItems: 'center', paddingTop: 80, gap: Spacing.md }}>
-            <MaterialCommunityIcons name="briefcase-outline" size={56} color={Colors.border} />
-            <Text style={{ fontSize: FontSize.lg, fontWeight: '900', color: Colors.text }}>
+            <MaterialCommunityIcons name="briefcase-outline" size={56} color={Colours.border} />
+            <Text style={{ fontSize: FontSize.lg, fontWeight: '900', color: Colours.text }}>
               No services yet
             </Text>
             <Text style={{
-              fontSize: FontSize.sm, color: Colors.textSecondary,
+              fontSize: FontSize.sm, color: Colours.textSecondary,
               textAlign: 'center', lineHeight: 20,
             }}>
               Create your first service so learners can book sessions with you
             </Text>
             <TouchableOpacity
               style={{
-                backgroundColor: Colors.primary, borderRadius: 14,
+                backgroundColor: Colours.primary, borderRadius: 14,
                 paddingHorizontal: Spacing.xl, paddingVertical: 14,
                 flexDirection: 'row', alignItems: 'center', gap: 8,
               }}
@@ -286,8 +286,8 @@ const ManageServicesScreen = () => {
           // Service cards
           services.map(service => (
             <View key={service.id} style={{
-              backgroundColor: Colors.background, borderRadius: 16,
-              padding: Spacing.md, borderWidth: 1, borderColor: Colors.border,
+              backgroundColor: Colours.background, borderRadius: 16,
+              padding: Spacing.md, borderWidth: 1, borderColor: Colours.border,
               opacity: service.is_active ? 1 : 0.6,
             }}>
               <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: Spacing.sm }}>
@@ -295,15 +295,15 @@ const ManageServicesScreen = () => {
                 {/* Service info */}
                 <View style={{ flex: 1, gap: 4 }}>
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                    <Text style={{ fontSize: FontSize.md, fontWeight: '900', color: Colors.text }}>
+                    <Text style={{ fontSize: FontSize.md, fontWeight: '900', color: Colours.text }}>
                       {service.title}
                     </Text>
                     {!service.is_active && (
                       <View style={{
-                        backgroundColor: Colors.border, borderRadius: 999,
+                        backgroundColor: Colours.border, borderRadius: 999,
                         paddingHorizontal: 8, paddingVertical: 2,
                       }}>
-                        <Text style={{ fontSize: 10, fontWeight: '800', color: Colors.textSecondary }}>
+                        <Text style={{ fontSize: 10, fontWeight: '800', color: Colours.textSecondary }}>
                           INACTIVE
                         </Text>
                       </View>
@@ -311,7 +311,7 @@ const ManageServicesScreen = () => {
                   </View>
                   {service.description && (
                     <Text style={{
-                      fontSize: FontSize.sm, color: Colors.textSecondary,
+                      fontSize: FontSize.sm, color: Colours.textSecondary,
                       fontWeight: '600',
                     }} numberOfLines={2}>
                       {service.description}
@@ -322,14 +322,14 @@ const ManageServicesScreen = () => {
                     gap: Spacing.md, marginTop: 4,
                   }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-                      <MaterialCommunityIcons name="clock-outline" size={14} color={Colors.textSecondary} />
-                      <Text style={{ fontSize: FontSize.xs, fontWeight: '700', color: Colors.textSecondary }}>
+                      <MaterialCommunityIcons name="clock-outline" size={14} color={Colours.textSecondary} />
+                      <Text style={{ fontSize: FontSize.xs, fontWeight: '700', color: Colours.textSecondary }}>
                         {service.duration_minutes} min
                       </Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-                      <MaterialCommunityIcons name="currency-eur" size={14} color={Colors.secondary} />
-                      <Text style={{ fontSize: FontSize.xs, fontWeight: '800', color: Colors.secondary }}>
+                      <MaterialCommunityIcons name="currency-eur" size={14} color={Colours.secondary} />
+                      <Text style={{ fontSize: FontSize.xs, fontWeight: '800', color: Colours.secondary }}>
                         {service.price === 0 ? 'Free' : `€${service.price}`}
                       </Text>
                     </View>
@@ -346,7 +346,7 @@ const ManageServicesScreen = () => {
                     <MaterialCommunityIcons
                       name={service.is_active ? 'eye-outline' : 'eye-off-outline'}
                       size={20}
-                      color={Colors.textSecondary}
+                      color={Colours.textSecondary}
                     />
                   </TouchableOpacity>
                   <TouchableOpacity
@@ -354,14 +354,14 @@ const ManageServicesScreen = () => {
                     style={{ padding: 8 }}
                     activeOpacity={0.7}
                   >
-                    <MaterialCommunityIcons name="pencil-outline" size={20} color={Colors.primary} />
+                    <MaterialCommunityIcons name="pencil-outline" size={20} color={Colours.primary} />
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => handleDelete(service)}
                     style={{ padding: 8 }}
                     activeOpacity={0.7}
                   >
-                    <MaterialCommunityIcons name="trash-can-outline" size={20} color={Colors.error} />
+                    <MaterialCommunityIcons name="trash-can-outline" size={20} color={Colours.error} />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -372,23 +372,23 @@ const ManageServicesScreen = () => {
 
       {/* ── Create / Edit Modal ── */}
       <Modal visible={showModal} animationType="slide" presentationStyle="pageSheet">
-        <View style={{ flex: 1, backgroundColor: Colors.background }}>
+        <View style={{ flex: 1, backgroundColor: Colours.background }}>
 
           {/* Modal header */}
           <View style={{
             paddingTop: Spacing.xl, paddingHorizontal: Spacing.lg,
-            paddingBottom: Spacing.md, borderBottomWidth: 1, borderBottomColor: Colors.border,
+            paddingBottom: Spacing.md, borderBottomWidth: 1, borderBottomColor: Colours.border,
             flexDirection: 'row', alignItems: 'center', gap: Spacing.md,
           }}>
             <TouchableOpacity onPress={() => setShowModal(false)} activeOpacity={0.7}>
-              <MaterialCommunityIcons name="close" size={24} color={Colors.text} />
+              <MaterialCommunityIcons name="close" size={24} color={Colours.text} />
             </TouchableOpacity>
-            <Text style={{ flex: 1, fontSize: FontSize.lg, fontWeight: '900', color: Colors.text }}>
+            <Text style={{ flex: 1, fontSize: FontSize.lg, fontWeight: '900', color: Colours.text }}>
               {editingService ? 'Edit Service' : 'New Service'}
             </Text>
             <TouchableOpacity
               style={{
-                backgroundColor: Colors.primary, borderRadius: 12,
+                backgroundColor: Colours.primary, borderRadius: 12,
                 paddingHorizontal: Spacing.md, paddingVertical: 8,
               }}
               onPress={handleSave}
@@ -411,10 +411,10 @@ const ManageServicesScreen = () => {
             {/* Error banner */}
             {error && (
               <View style={{
-                backgroundColor: Colors.error + '15', borderRadius: 12,
-                padding: Spacing.md, borderWidth: 1, borderColor: Colors.error + '30',
+                backgroundColor: Colours.error + '15', borderRadius: 12,
+                padding: Spacing.md, borderWidth: 1, borderColor: Colours.error + '30',
               }}>
-                <Text style={{ color: Colors.error, fontWeight: '700', fontSize: FontSize.sm }}>
+                <Text style={{ color: Colours.error, fontWeight: '700', fontSize: FontSize.sm }}>
                   {error}
                 </Text>
               </View>
@@ -422,39 +422,39 @@ const ManageServicesScreen = () => {
 
             {/* Title field */}
             <View style={{ gap: Spacing.sm }}>
-              <Text style={{ fontSize: FontSize.sm, fontWeight: '800', color: Colors.text }}>
-                Title <Text style={{ color: Colors.error }}>*</Text>
+              <Text style={{ fontSize: FontSize.sm, fontWeight: '800', color: Colours.text }}>
+                Title <Text style={{ color: Colours.error }}>*</Text>
               </Text>
               <TextInput
                 style={{
-                  backgroundColor: Colors.surface, borderWidth: 1, borderColor: Colors.border,
+                  backgroundColor: Colours.surface, borderWidth: 1, borderColor: Colours.border,
                   borderRadius: 12, paddingHorizontal: Spacing.md, paddingVertical: 12,
-                  fontSize: FontSize.sm, color: Colors.text, fontWeight: '600',
+                  fontSize: FontSize.sm, color: Colours.text, fontWeight: '600',
                 }}
                 value={form.title}
                 onChangeText={v => setForm(f => ({ ...f, title: v }))}
                 placeholder="e.g. Python Fundamentals Session"
-                placeholderTextColor={Colors.textSecondary}
+                placeholderTextColor={Colours.textSecondary}
               />
             </View>
 
             {/* Description field */}
             <View style={{ gap: Spacing.sm }}>
-              <Text style={{ fontSize: FontSize.sm, fontWeight: '800', color: Colors.text }}>
+              <Text style={{ fontSize: FontSize.sm, fontWeight: '800', color: Colours.text }}>
                 Description{' '}
-                <Text style={{ color: Colors.textSecondary, fontWeight: '600' }}>(optional)</Text>
+                <Text style={{ color: Colours.textSecondary, fontWeight: '600' }}>(optional)</Text>
               </Text>
               <TextInput
                 style={{
-                  backgroundColor: Colors.surface, borderWidth: 1, borderColor: Colors.border,
+                  backgroundColor: Colours.surface, borderWidth: 1, borderColor: Colours.border,
                   borderRadius: 12, paddingHorizontal: Spacing.md, paddingVertical: 12,
-                  fontSize: FontSize.sm, color: Colors.text, fontWeight: '600',
+                  fontSize: FontSize.sm, color: Colours.text, fontWeight: '600',
                   minHeight: 80, textAlignVertical: 'top',
                 }}
                 value={form.description}
                 onChangeText={v => setForm(f => ({ ...f, description: v }))}
                 placeholder="What will learners get from this session?"
-                placeholderTextColor={Colors.textSecondary}
+                placeholderTextColor={Colours.textSecondary}
                 multiline
                 numberOfLines={3}
               />
@@ -462,7 +462,7 @@ const ManageServicesScreen = () => {
 
             {/* Duration picker */}
             <View style={{ gap: Spacing.sm }}>
-              <Text style={{ fontSize: FontSize.sm, fontWeight: '800', color: Colors.text }}>
+              <Text style={{ fontSize: FontSize.sm, fontWeight: '800', color: Colours.text }}>
                 Duration
               </Text>
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
@@ -471,16 +471,16 @@ const ManageServicesScreen = () => {
                     key={d}
                     style={{
                       paddingHorizontal: 16, paddingVertical: 10, borderRadius: 12,
-                      backgroundColor: form.duration_minutes === d ? Colors.primary : Colors.surface,
+                      backgroundColor: form.duration_minutes === d ? Colours.primary : Colours.surface,
                       borderWidth: 1,
-                      borderColor: form.duration_minutes === d ? Colors.primary : Colors.border,
+                      borderColor: form.duration_minutes === d ? Colours.primary : Colours.border,
                     }}
                     onPress={() => setForm(f => ({ ...f, duration_minutes: d }))}
                     activeOpacity={0.85}
                   >
                     <Text style={{
                       fontSize: FontSize.sm, fontWeight: '800',
-                      color: form.duration_minutes === d ? '#fff' : Colors.textSecondary,
+                      color: form.duration_minutes === d ? '#fff' : Colours.textSecondary,
                     }}>
                       {d} min
                     </Text>
@@ -491,26 +491,26 @@ const ManageServicesScreen = () => {
 
             {/* Price field */}
             <View style={{ gap: Spacing.sm }}>
-              <Text style={{ fontSize: FontSize.sm, fontWeight: '800', color: Colors.text }}>
+              <Text style={{ fontSize: FontSize.sm, fontWeight: '800', color: Colours.text }}>
                 Price{' '}
-                <Text style={{ color: Colors.textSecondary, fontWeight: '600' }}>— 0 for free</Text>
+                <Text style={{ color: Colours.textSecondary, fontWeight: '600' }}>— 0 for free</Text>
               </Text>
               <View style={{
                 flexDirection: 'row', alignItems: 'center',
-                backgroundColor: Colors.surface, borderWidth: 1,
-                borderColor: Colors.border, borderRadius: 12,
+                backgroundColor: Colours.surface, borderWidth: 1,
+                borderColor: Colours.border, borderRadius: 12,
                 paddingHorizontal: Spacing.md,
               }}>
-                <MaterialCommunityIcons name="currency-eur" size={18} color={Colors.textSecondary} />
+                <MaterialCommunityIcons name="currency-eur" size={18} color={Colours.textSecondary} />
                 <TextInput
                   style={{
                     flex: 1, paddingVertical: 12, paddingHorizontal: 8,
-                    fontSize: FontSize.sm, color: Colors.text, fontWeight: '600',
+                    fontSize: FontSize.sm, color: Colours.text, fontWeight: '600',
                   }}
                   value={form.price}
                   onChangeText={v => setForm(f => ({ ...f, price: v }))}
                   placeholder="0"
-                  placeholderTextColor={Colors.textSecondary}
+                  placeholderTextColor={Colours.textSecondary}
                   keyboardType="numeric"
                 />
               </View>
@@ -521,24 +521,24 @@ const ManageServicesScreen = () => {
               <TouchableOpacity
                 style={{
                   flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-                  backgroundColor: Colors.surface, borderRadius: 12, padding: Spacing.md,
-                  borderWidth: 1, borderColor: Colors.border,
+                  backgroundColor: Colours.surface, borderRadius: 12, padding: Spacing.md,
+                  borderWidth: 1, borderColor: Colours.border,
                 }}
                 onPress={() => setForm(f => ({ ...f, is_active: !f.is_active }))}
                 activeOpacity={0.85}
               >
                 <View style={{ gap: 2 }}>
-                  <Text style={{ fontSize: FontSize.sm, fontWeight: '800', color: Colors.text }}>
+                  <Text style={{ fontSize: FontSize.sm, fontWeight: '800', color: Colours.text }}>
                     Active
                   </Text>
-                  <Text style={{ fontSize: FontSize.xs, color: Colors.textSecondary, fontWeight: '600' }}>
+                  <Text style={{ fontSize: FontSize.xs, color: Colours.textSecondary, fontWeight: '600' }}>
                     Learners can see and book this service
                   </Text>
                 </View>
                 <MaterialCommunityIcons
                   name={form.is_active ? 'toggle-switch' : 'toggle-switch-off'}
                   size={36}
-                  color={form.is_active ? Colors.primary : Colors.border}
+                  color={form.is_active ? Colours.primary : Colours.border}
                 />
               </TouchableOpacity>
             )}

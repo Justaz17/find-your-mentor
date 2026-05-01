@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Colors, Spacing, FontSize } from '../../utils/constants';
+import { Colours, Spacing, FontSize } from '../../utils/constants';
 import {
   LearnerProfileCreate, LearnerInterestCreate,
   GOAL_TAGS, AVAILABILITY_WINDOWS, SESSION_FORMATS, EXPERIENCE_LEVELS,
@@ -228,7 +228,7 @@ const OnboardingScreen = () => {
               value={bio}
               onChangeText={setBio}
               placeholder="e.g. Software student looking to level up in Python and system design..."
-              placeholderTextColor={Colors.textSecondary}
+              placeholderTextColor={Colours.textSecondary}
               multiline
               numberOfLines={4}
             />
@@ -282,25 +282,25 @@ const OnboardingScreen = () => {
             <FieldLabel text="Budget per session (€)" hint="Optional" />
             <View style={styles.priceRow}>
               <View style={styles.priceInputWrap}>
-                <MaterialCommunityIcons name="currency-eur" size={16} color={Colors.textSecondary} />
+                <MaterialCommunityIcons name="currency-eur" size={16} color={Colours.textSecondary} />
                 <TextInput
                   style={styles.priceInput}
                   value={minPrice}
                   onChangeText={setMinPrice}
                   placeholder="Min"
-                  placeholderTextColor={Colors.textSecondary}
+                  placeholderTextColor={Colours.textSecondary}
                   keyboardType="numeric"
                 />
               </View>
               <Text style={styles.priceSeparator}>–</Text>
               <View style={styles.priceInputWrap}>
-                <MaterialCommunityIcons name="currency-eur" size={16} color={Colors.textSecondary} />
+                <MaterialCommunityIcons name="currency-eur" size={16} color={Colours.textSecondary} />
                 <TextInput
                   style={styles.priceInput}
                   value={maxPrice}
                   onChangeText={setMaxPrice}
                   placeholder="Max"
-                  placeholderTextColor={Colors.textSecondary}
+                  placeholderTextColor={Colours.textSecondary}
                   keyboardType="numeric"
                 />
               </View>
@@ -313,7 +313,7 @@ const OnboardingScreen = () => {
           <View style={styles.stepContent}>
             {interests.length === 0 && (
               <View style={styles.emptySkills}>
-                <MaterialCommunityIcons name="lightning-bolt-outline" size={36} color={Colors.textSecondary} />
+                <MaterialCommunityIcons name="lightning-bolt-outline" size={36} color={Colours.textSecondary} />
                 <Text style={styles.emptySkillsText}>No skills added yet</Text>
                 <Text style={styles.emptySkillsHint}>Add the skills you want to learn below</Text>
               </View>
@@ -324,7 +324,7 @@ const OnboardingScreen = () => {
                 <View style={styles.interestCardHeader}>
                   <Text style={styles.interestSkillName}>{interest.skill_name}</Text>
                   <TouchableOpacity onPress={() => removeInterest(interest.skill_id)}>
-                    <MaterialCommunityIcons name="close-circle-outline" size={20} color={Colors.error} />
+                    <MaterialCommunityIcons name="close-circle-outline" size={20} color={Colours.error} />
                   </TouchableOpacity>
                 </View>
                 <View style={styles.levelRow}>
@@ -368,7 +368,7 @@ const OnboardingScreen = () => {
               }}
               activeOpacity={0.85}
             >
-              <MaterialCommunityIcons name={showSkillPicker ? 'close' : 'plus'} size={18} color={Colors.primary} />
+              <MaterialCommunityIcons name={showSkillPicker ? 'close' : 'plus'} size={18} color={Colours.primary} />
               <Text style={styles.addSkillText}>{showSkillPicker ? 'Close' : 'Add a skill'}</Text>
             </TouchableOpacity>
 
@@ -387,7 +387,7 @@ const OnboardingScreen = () => {
                             onPress={() => addInterest(skill.id, skill.name)}
                             activeOpacity={0.85}
                           >
-                            <MaterialCommunityIcons name="plus" size={12} color={Colors.primary} />
+                            <MaterialCommunityIcons name="plus" size={12} color={Colours.primary} />
                             <Text style={styles.skillPickerChipText}>{skill.name}</Text>
                           </TouchableOpacity>
                         ))}
@@ -420,7 +420,7 @@ const OnboardingScreen = () => {
               value={goalDescription}
               onChangeText={setGoalDescription}
               placeholder="e.g. I want to build my first full-stack project by the end of the year."
-              placeholderTextColor={Colors.textSecondary}
+              placeholderTextColor={Colours.textSecondary}
               multiline
               numberOfLines={3}
             />
@@ -497,7 +497,7 @@ const OnboardingScreen = () => {
             <MaterialCommunityIcons
               name={currentStep.icon as any}
               size={28}
-              color={Colors.primary}
+              color={Colours.primary}
             />
           </View>
           <Text style={styles.stepTitle}>{currentStep.title}</Text>

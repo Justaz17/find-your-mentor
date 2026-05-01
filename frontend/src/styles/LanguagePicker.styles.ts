@@ -1,14 +1,14 @@
 import { StyleSheet } from 'react-native';
-import { Colors, FontSize, Spacing } from '../utils/constants';
+import { Colours, FontSize, Spacing } from '../utils/constants';
 
 export const styles = StyleSheet.create({
   trigger: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colours.border,
     paddingHorizontal: Spacing.md,
     paddingVertical: 12,
     gap: Spacing.sm,
@@ -16,12 +16,12 @@ export const styles = StyleSheet.create({
   triggerText: {
     flex: 1,
     fontSize: FontSize.md,
-    color: Colors.text,
+    color: Colours.text,
     fontWeight: '600',
   },
-  placeholder: { color: Colors.textSecondary },
+  placeholder: { color: Colours.textSecondary },
 
-  modal: { flex: 1, backgroundColor: Colors.background },
+  modal: { flex: 1, backgroundColor: Colours.background },
   modalHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -29,16 +29,16 @@ export const styles = StyleSheet.create({
     paddingHorizontal: Spacing.lg,
     paddingVertical: Spacing.md,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    borderBottomColor: Colours.border,
   },
   modalTitle: {
     fontSize: FontSize.xl,
     fontWeight: '900',
-    color: Colors.text,
+    color: Colours.text,
   },
   doneText: {
     fontSize: FontSize.md,
-    color: Colors.primary,
+    color: Colours.primary,
     fontWeight: '900',
   },
 
@@ -48,7 +48,7 @@ export const styles = StyleSheet.create({
     gap: 8,
     padding: Spacing.lg,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    borderBottomColor: Colours.border,
   },
   selectedChip: {
     flexDirection: 'row',
@@ -57,13 +57,13 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 999,
-    backgroundColor: Colors.primaryLight,
+    backgroundColor: Colours.primaryLight,
     borderWidth: 1,
-    borderColor: Colors.primary,
+    borderColor: Colours.primary,
   },
   selectedChipText: {
     fontSize: FontSize.sm,
-    color: Colors.primary,
+    color: Colours.primary,
     fontWeight: '700',
   },
 
@@ -75,13 +75,13 @@ export const styles = StyleSheet.create({
     paddingHorizontal: Spacing.lg,
     paddingVertical: 14,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.surface,
+    borderBottomColor: Colours.surface,
   },
-  optionActive: { backgroundColor: Colors.primaryLight },
+  optionActive: { backgroundColor: Colours.primaryLight },
   optionText: {
     fontSize: FontSize.md,
-    color: Colors.text,
+    color: Colours.text,
     fontWeight: '600',
   },
-  optionTextActive: { color: Colors.primary, fontWeight: '800' },
+  optionTextActive: { color: Colours.primary, fontWeight: '800' },
 });

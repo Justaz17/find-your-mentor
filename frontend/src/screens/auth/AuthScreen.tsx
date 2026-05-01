@@ -12,7 +12,7 @@ import {
 import { useNavigation, useRoute, RouteProp, CommonActions } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Colors, Spacing, FontSize } from '../../utils/constants';
+import { Colours, Spacing, FontSize } from '../../utils/constants';
 import { getEmailValidationError, getLoginErrors, getRegistrationErrors, passwordsMatch } from '../../utils/validators';
 import { login, register } from '../../services/authService';
 import { useAuth } from '../../context/AuthContext';
@@ -111,7 +111,7 @@ const AuthScreen = () => {
         activeOpacity={0.7}
         hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
       >
-        <MaterialCommunityIcons name="close" size={22} color={Colors.textSecondary} />
+        <MaterialCommunityIcons name="close" size={22} color={Colours.textSecondary} />
       </TouchableOpacity>
 
       <ScrollView
@@ -160,7 +160,7 @@ const AuthScreen = () => {
               <TextInput
                 style={styles.input}
                 placeholder="Enter your full name"
-                placeholderTextColor={Colors.textSecondary}
+                placeholderTextColor={Colours.textSecondary}
                 value={name}
                 onChangeText={setName}
                 autoCapitalize="words"
@@ -174,7 +174,7 @@ const AuthScreen = () => {
             <TextInput
               style={styles.input}
               placeholder="you@example.com"
-              placeholderTextColor={Colors.textSecondary}
+              placeholderTextColor={Colours.textSecondary}
               value={email}
               onChangeText={setEmail}
               keyboardType="email-address"
@@ -195,7 +195,7 @@ const AuthScreen = () => {
           <TextInput
             style={styles.input}
             placeholder="Enter your password"
-            placeholderTextColor={Colors.textSecondary}
+            placeholderTextColor={Colours.textSecondary}
             value={password}
             onChangeText={setPassword}
             secureTextEntry
@@ -211,7 +211,7 @@ const AuthScreen = () => {
             <TextInput
               style={styles.input}
               placeholder="Confirm your password"
-              placeholderTextColor={Colors.textSecondary}
+              placeholderTextColor={Colours.textSecondary}
               value={confirmPassword}
               onChangeText={setConfirmPassword}
               secureTextEntry
@@ -254,7 +254,7 @@ const AuthScreen = () => {
             activeOpacity={0.8}
           >
             {isLoading
-              ? <ActivityIndicator color={Colors.textLight} />
+              ? <ActivityIndicator color={Colours.textLight} />
               : <Text style={styles.submitButtonText}>
                   {isLogin ? 'Log In' : 'Create Account'}
                 </Text>

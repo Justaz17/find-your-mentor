@@ -4,7 +4,7 @@ import {
   Dimensions, StyleSheet,
 } from 'react-native';
 import { Surface, Divider } from 'react-native-paper';
-import { Colors, Spacing, FontSize } from '../../utils/constants';
+import { Colours, Spacing, FontSize } from '../../utils/constants';
 import { AvailabilitySlot } from '../../types/Mentor';
 import { styles } from '../../styles/TimeLinePicker.styles';
 
@@ -98,7 +98,7 @@ const TimeLinePicker = ({
       const { startMins, endMins } = validPositions[0];
       fireCallback(startMins, endMins);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [selectedDate, serviceDurationMinutes, validPositions.length]);
 
   const fireCallback = (startMins: number, endMins: number) => {
@@ -143,7 +143,7 @@ const TimeLinePicker = ({
     p => p.startMins >= activeSlotStartMins && p.endMins <= activeSlotEndMins
   );
 
-  // ── Layout — always use bounds, never activeBounds ────────────────────
+  // ── Layout — bounds ────────────────────
   const gridHeight = minsToPixel(bounds.maxMins, bounds.minMins) + TOP_PADDING * 2;
 
   const hourMarks: number[] = [];
@@ -200,10 +200,10 @@ const TimeLinePicker = ({
           {/* Track */}
           <View style={[styles.track, { width: trackWidth, height: gridHeight }]}>
 
-            {/* ① Grey base */}
+            {/*  Grey base */}
             <View style={[StyleSheet.absoluteFill, { backgroundColor: '#F5F5F5' }]} />
 
-            {/* ② Green available bands — all slots, not just active */}
+            {/*  Green available bands - all slots, not just active */}
             {slotsForDate.map((slot, i) => {
               const slotStartMins = toMins(new Date(slot.start_time));
               const slotEndMins = toMins(new Date(slot.end_time));
@@ -212,7 +212,7 @@ const TimeLinePicker = ({
               return <View key={i} style={[styles.availBand, { top, height }]} />;
             })}
 
-            {/* ③ Hour grid lines */}
+            {/* Hour grid lines */}
             {hourMarks.map(mins => (
               <View
                 key={`h-${mins}`}
@@ -223,7 +223,7 @@ const TimeLinePicker = ({
               />
             ))}
 
-            {/* ④ Half-hour grid lines */}
+            {/* Half-hour grid lines */}
             {halfHourMarks.map(mins => (
               <View
                 key={`hh-${mins}`}
@@ -247,9 +247,9 @@ const TimeLinePicker = ({
                   right: Spacing.sm,
                   height: 35,
                   borderRadius: 6,
-                  backgroundColor: isSelected ? Colors.primary : Colors.primary + '25',
+                  backgroundColor: isSelected ? Colours.primary : Colours.primary + '25',
                   borderWidth: 1,
-                  borderColor: isSelected ? Colors.primary : Colors.primary + '50',
+                  borderColor: isSelected ? Colours.primary : Colours.primary + '50',
                   flexDirection: 'row',
                   alignItems: 'center',
                   justifyContent: 'space-between',
@@ -259,10 +259,10 @@ const TimeLinePicker = ({
                 onPress={() => handleTap(i)}
                 activeOpacity={0.7}
               >
-                <Text style={{ fontSize: 10, fontWeight: '700', color: isSelected ? '#fff' : Colors.primary }}>
+                <Text style={{ fontSize: 10, fontWeight: '700', color: isSelected ? '#fff' : Colours.primary }}>
                   {fmt(pos.startMins)}
                 </Text>
-                <Text style={{ fontSize: 10, fontWeight: '700', color: isSelected ? '#fff' : Colors.primary }}>
+                <Text style={{ fontSize: 10, fontWeight: '700', color: isSelected ? '#fff' : Colours.primary }}>
                   {isSelected ? ` ${fmt(pos.endMins)}` : ''}
                 </Text>
               </TouchableOpacity>

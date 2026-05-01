@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { Colors, Spacing, FontSize, CATEGORIES } from '../../utils/constants';
+import { Colours, Spacing, FontSize, CATEGORIES } from '../../utils/constants';
 import { MentorProfile, Category } from '../../types/Mentor';
 import { getMentors, getCategories, searchMentors } from '../../services/mentorService';
 import { getMyLearnerProfile } from '../../services/learnerService';
@@ -77,6 +77,7 @@ const HomeScreen = () => {
       }
       setMentors(data);
     } catch (err: any) {
+      console.error('Error fetching mentors:', err);
       setError(err.message || 'Failed to load mentors');
     } finally {
       setIsLoading(false);
@@ -120,7 +121,6 @@ const HomeScreen = () => {
   // Rotate top 6 mentors randomly on each mount
   const rotatedMentors = useMemo(
     () => shuffleSlice(mentors.slice(0, 6), 6),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [mentors.length] // only re-shuffle when mentor list changes, not on every render
   );
 
@@ -135,11 +135,11 @@ const HomeScreen = () => {
   // ─── Shared search bar ────────────────────────────────────────────────
   const SearchBar = (
     <View style={styles.searchCard}>
-      <MaterialCommunityIcons name="magnify" size={20} color={Colors.textSecondary} />
+      <MaterialCommunityIcons name="magnify" size={20} color={Colours.textSecondary} />
       <TextInput
         style={styles.searchInput}
         placeholder="Search skills, mentors, topics..."
-        placeholderTextColor={Colors.textSecondary}
+        placeholderTextColor={Colours.textSecondary}
         value={searchQuery}
         onChangeText={setSearchQuery}
         onSubmitEditing={handleSearch}
@@ -147,7 +147,7 @@ const HomeScreen = () => {
       />
       {searchQuery.length > 0 && (
         <TouchableOpacity onPress={() => setSearchQuery('')}>
-          <MaterialCommunityIcons name="close-circle" size={18} color={Colors.textSecondary} />
+          <MaterialCommunityIcons name="close-circle" size={18} color={Colours.textSecondary} />
         </TouchableOpacity>
       )}
     </View>
@@ -294,7 +294,7 @@ const HomeScreen = () => {
             {/* Icon node in the centre */}
             <View style={styles.stepNode}>
               <View style={styles.stepNodeInner}>
-                <MaterialCommunityIcons name={step.icon as any} size={22} color={Colors.primary} />
+                <MaterialCommunityIcons name={step.icon as any} size={22} color={Colours.primary} />
               </View>
             </View>
 
@@ -367,7 +367,7 @@ const HomeScreen = () => {
 
         {isLoading ? (
           <View style={styles.loadingWrap}>
-            <ActivityIndicator size="small" color={Colors.primary} />
+            <ActivityIndicator size="small" color={Colours.primary} />
           </View>
         ) : error ? (
           <View style={styles.errorWrap}>
@@ -405,7 +405,7 @@ const HomeScreen = () => {
           activeOpacity={0.88}
         >
           <Text style={styles.browseAllText}>Browse all mentors</Text>
-          <MaterialCommunityIcons name="arrow-right" size={18} color={Colors.primary} />
+          <MaterialCommunityIcons name="arrow-right" size={18} color={Colours.primary} />
         </TouchableOpacity>
       </View>
     </View>
@@ -438,7 +438,7 @@ const HomeScreen = () => {
         ListHeaderComponent={ListContent}
         contentContainerStyle={styles.listContent}
         refreshControl={
-          <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} tintColor={Colors.primary} />
+          <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} tintColor={Colours.primary} />
         }
       />
     </View>

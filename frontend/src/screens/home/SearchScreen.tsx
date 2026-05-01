@@ -15,7 +15,7 @@ import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Colors, Spacing, FontSize } from '../../utils/constants';
+import { Colours, Spacing, FontSize } from '../../utils/constants';
 import { MentorProfile, Category, SearchFilters } from '../../types/Mentor';
 import { searchMentors, getCategories, getRandomMentor } from '../../services/mentorService';
 import { RootStackParamList } from '../../navigation/types';
@@ -178,7 +178,6 @@ const SearchScreen = () => {
     low: number,
     high: number,
   ) => {
-    //dont search if query is just 1 character long 
     if (q.trim() && q.trim().length < 2) {
         setResults([]);
         return;
@@ -272,7 +271,7 @@ const SearchScreen = () => {
       <View style={styles.bgBubble2} pointerEvents="none" />
       <View style={styles.bgBubble3} pointerEvents="none" />
 
-      {/* ── Top block — no background, bubbles show through ── */}
+      {/* ── Top block  no background, bubbles show through ── */}
       <View style={styles.topBlock}>
 
         {/* Header */}
@@ -285,8 +284,8 @@ const SearchScreen = () => {
             disabled={isDiceLoading}
           >
             {isDiceLoading
-              ? <ActivityIndicator size="small" color={Colors.primary} />
-              : <MaterialCommunityIcons name="dice-multiple" size={22} color={Colors.primary} />
+              ? <ActivityIndicator size="small" color={Colours.primary} />
+              : <MaterialCommunityIcons name="dice-multiple" size={22} color={Colours.primary} />
             }
           </TouchableOpacity>
         </View>
@@ -294,11 +293,11 @@ const SearchScreen = () => {
         {/* Search + filter */}
         <View style={styles.searchRow}>
           <View style={styles.searchBox}>
-            <MaterialCommunityIcons name="magnify" size={20} color={Colors.textSecondary} />
+            <MaterialCommunityIcons name="magnify" size={20} color={Colours.textSecondary} />
             <TextInput
               style={styles.searchInput}
               placeholder="Search mentors, skills..."
-              placeholderTextColor={Colors.textSecondary}
+              placeholderTextColor={Colours.textSecondary}
               value={query}
               onChangeText={setQuery}
               returnKeyType="search"
@@ -307,7 +306,7 @@ const SearchScreen = () => {
             />
             {query.length > 0 && (
               <TouchableOpacity onPress={() => setQuery('')}>
-                <MaterialCommunityIcons name="close-circle" size={18} color={Colors.textSecondary} />
+                <MaterialCommunityIcons name="close-circle" size={18} color={Colours.textSecondary} />
               </TouchableOpacity>
             )}
           </View>
@@ -319,7 +318,7 @@ const SearchScreen = () => {
             <MaterialCommunityIcons
               name="tune-variant"
               size={20}
-              color={activeFilterCount > 0 ? Colors.primary : Colors.textSecondary}
+              color={activeFilterCount > 0 ? Colours.primary : Colours.textSecondary}
             />
             {activeFilterCount > 0 && (
               <View style={styles.filterBadge}>
@@ -363,7 +362,7 @@ const SearchScreen = () => {
           </ScrollView>
         </View>
 
-        {/* Active filter chips — transparent, no background */}
+        {/* Active filter chips; transparent, no background */}
         {activeChips.length > 0 && (
           <View style={styles.activeFiltersRow}>
             <ScrollView
@@ -379,7 +378,7 @@ const SearchScreen = () => {
                   activeOpacity={0.8}
                 >
                   <Text style={styles.activeChipText}>{chip.label}</Text>
-                  <MaterialCommunityIcons name="close" size={12} color={Colors.primary} />
+                  <MaterialCommunityIcons name="close" size={12} color={Colours.primary} />
                 </TouchableOpacity>
               ))}
               <TouchableOpacity onPress={doReset} style={styles.clearAllBtn}>
@@ -414,7 +413,7 @@ const SearchScreen = () => {
                 <Text style={styles.joinBannerTitle}>Ready to level up?</Text>
                 <Text style={styles.joinBannerSub}>Create a free account to book sessions</Text>
               </View>
-              <MaterialCommunityIcons name="arrow-right" size={20} color={Colors.primary} />
+              <MaterialCommunityIcons name="arrow-right" size={20} color={Colours.primary} />
             </TouchableOpacity>
           ) : null
         }
@@ -430,7 +429,7 @@ const SearchScreen = () => {
         ListEmptyComponent={
           isLoading ? (
             <View style={styles.loadingWrap}>
-              <ActivityIndicator size="large" color={Colors.primary} />
+              <ActivityIndicator size="large" color={Colours.primary} />
               <Text style={styles.loadingText}>Finding mentors...</Text>
             </View>
           ) : (
@@ -438,7 +437,7 @@ const SearchScreen = () => {
               <MaterialCommunityIcons
                 name="account-search-outline"
                 size={52}
-                color={Colors.textSecondary}
+                color={Colours.textSecondary}
                 style={{ marginBottom: Spacing.md }}
               />
               <Text style={styles.emptyTitle}>No results</Text>

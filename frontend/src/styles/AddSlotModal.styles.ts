@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { Colors, FontSize, Spacing } from '../utils/constants';
+import { Colours, FontSize, Spacing } from '../utils/constants';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.surface,
+    backgroundColor: Colours.surface,
   },
   header: {
     flexDirection: 'row',
@@ -13,24 +13,24 @@ export const styles = StyleSheet.create({
     paddingHorizontal: Spacing.lg,
     paddingTop: Spacing.xl,
     paddingBottom: Spacing.lg,
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    borderBottomColor: Colours.border,
   },
   cancelButton: {
     fontSize: FontSize.md,
     fontWeight: '600',
-    color: Colors.error,
+    color: Colours.error,
   },
   title: {
     fontSize: FontSize.lg,
     fontWeight: '700',
-    color: Colors.text,
+    color: Colours.text,
   },
   saveButton: {
     fontSize: FontSize.md,
     fontWeight: '600',
-    color: Colors.primary,
+    color: Colours.primary,
   },
   disabledButton: {
     opacity: 0.5,
@@ -45,14 +45,14 @@ export const styles = StyleSheet.create({
   sectionLabel: {
     fontSize: FontSize.md,
     fontWeight: '700',
-    color: Colors.text,
+    color: Colours.text,
     marginBottom: Spacing.md,
   },
   pickerButton: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colours.border,
     paddingVertical: Spacing.md,
     paddingHorizontal: Spacing.lg,
     alignItems: 'center',
@@ -60,10 +60,10 @@ export const styles = StyleSheet.create({
   pickerButtonText: {
     fontSize: FontSize.md,
     fontWeight: '600',
-    color: Colors.text,
+    color: Colours.text,
   },
   summary: {
-    backgroundColor: Colors.primaryLight,
+    backgroundColor: Colours.primaryLight,
     borderRadius: 12,
     paddingHorizontal: Spacing.lg,
     paddingVertical: Spacing.md,
@@ -72,12 +72,12 @@ export const styles = StyleSheet.create({
   summaryLabel: {
     fontSize: FontSize.sm,
     fontWeight: '600',
-    color: Colors.primary,
+    color: Colours.primary,
     marginBottom: Spacing.sm,
   },
   summaryText: {
     fontSize: FontSize.md,
     fontWeight: '700',
-    color: Colors.text,
+    color: Colours.text,
   },
 });

@@ -4,7 +4,7 @@ import {
   Alert, ScrollView, ActivityIndicator,
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Colors, FontSize, Spacing } from '../../utils/constants';
+import { Colours, FontSize, Spacing } from '../../utils/constants';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -145,28 +145,28 @@ const AddSlotModal = ({ visible, onClose, onAdd }: AddSlotModalProps) => {
 
   return (
     <Modal visible={visible} animationType="slide" presentationStyle="pageSheet">
-      <View style={{ flex: 1, backgroundColor: Colors.background }}>
+      <View style={{ flex: 1, backgroundColor: Colours.background }}>
 
         {/* Header */}
         <View style={{
           paddingTop: insets.top + Spacing.md,
           paddingHorizontal: Spacing.lg,
           paddingBottom: Spacing.md,
-          borderBottomWidth: 1, borderBottomColor: Colors.border,
+          borderBottomWidth: 1, borderBottomColor: Colours.border,
           flexDirection: 'row', alignItems: 'center', gap: Spacing.md,
         }}>
           <TouchableOpacity onPress={handleBack} activeOpacity={0.7}>
             <MaterialCommunityIcons
               name={step === 'date' ? 'close' : 'arrow-left'}
-              size={24} color={Colors.text}
+              size={24} color={Colours.text}
             />
           </TouchableOpacity>
           <View style={{ flex: 1 }}>
-            <Text style={{ fontSize: FontSize.md, fontWeight: '900', color: Colors.text }}>
+            <Text style={{ fontSize: FontSize.md, fontWeight: '900', color: Colours.text }}>
               {stepTitle}
             </Text>
             {stepSubtitle ? (
-              <Text style={{ fontSize: FontSize.xs, color: Colors.textSecondary, fontWeight: '600', marginTop: 1 }}>
+              <Text style={{ fontSize: FontSize.xs, color: Colours.textSecondary, fontWeight: '600', marginTop: 1 }}>
                 {stepSubtitle}
               </Text>
             ) : null}
@@ -175,7 +175,7 @@ const AddSlotModal = ({ visible, onClose, onAdd }: AddSlotModalProps) => {
             {(['date', 'start', 'end', 'summary'] as const).map(s => (
               <View key={s} style={{
                 width: 6, height: 6, borderRadius: 3,
-                backgroundColor: s === step ? Colors.primary : Colors.border,
+                backgroundColor: s === step ? Colours.primary : Colours.border,
               }} />
             ))}
           </View>
@@ -191,20 +191,20 @@ const AddSlotModal = ({ visible, onClose, onAdd }: AddSlotModalProps) => {
             <>
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <TouchableOpacity onPress={prevMonth} activeOpacity={0.7} style={{ padding: 8 }}>
-                  <MaterialCommunityIcons name="chevron-left" size={24} color={Colors.text} />
+                  <MaterialCommunityIcons name="chevron-left" size={24} color={Colours.text} />
                 </TouchableOpacity>
-                <Text style={{ fontSize: FontSize.md, fontWeight: '900', color: Colors.text }}>
+                <Text style={{ fontSize: FontSize.md, fontWeight: '900', color: Colours.text }}>
                   {MONTHS[calendarMonth.getMonth()]} {calendarMonth.getFullYear()}
                 </Text>
                 <TouchableOpacity onPress={nextMonth} activeOpacity={0.7} style={{ padding: 8 }}>
-                  <MaterialCommunityIcons name="chevron-right" size={24} color={Colors.text} />
+                  <MaterialCommunityIcons name="chevron-right" size={24} color={Colours.text} />
                 </TouchableOpacity>
               </View>
 
               <View style={{ flexDirection: 'row' }}>
                 {DAYS.map(d => (
                   <View key={d} style={{ flex: 1, alignItems: 'center', paddingBottom: 8 }}>
-                    <Text style={{ fontSize: FontSize.xs, fontWeight: '800', color: Colors.textSecondary }}>
+                    <Text style={{ fontSize: FontSize.xs, fontWeight: '800', color: Colours.textSecondary }}>
                       {d}
                     </Text>
                   </View>
@@ -239,13 +239,13 @@ const AddSlotModal = ({ visible, onClose, onAdd }: AddSlotModalProps) => {
                       <View style={{
                         width: 36, height: 36, borderRadius: 18,
                         alignItems: 'center', justifyContent: 'center',
-                        backgroundColor: selected ? Colors.primary : todayDay ? Colors.primaryLight : 'transparent',
+                        backgroundColor: selected ? Colours.primary : todayDay ? Colours.primaryLight : 'transparent',
                         borderWidth: todayDay && !selected ? 1 : 0,
-                        borderColor: Colors.primary,
+                        borderColor: Colours.primary,
                       }}>
                         <Text style={{
                           fontSize: FontSize.sm, fontWeight: selected ? '900' : '600',
-                          color: selected ? '#fff' : disabled ? Colors.border : todayDay ? Colors.primary : Colors.text,
+                          color: selected ? '#fff' : disabled ? Colours.border : todayDay ? Colours.primary : Colours.text,
                         }}>
                           {day.getDate()}
                         </Text>
@@ -262,32 +262,32 @@ const AddSlotModal = ({ visible, onClose, onAdd }: AddSlotModalProps) => {
             <>
               <TouchableOpacity
                 style={{
-                  backgroundColor: Colors.primaryLight, borderRadius: 14,
-                  padding: Spacing.md, borderWidth: 1, borderColor: Colors.primary + '30',
+                  backgroundColor: Colours.primaryLight, borderRadius: 14,
+                  padding: Spacing.md, borderWidth: 1, borderColor: Colours.primary + '30',
                   flexDirection: 'row', alignItems: 'center', gap: Spacing.sm,
                 }}
                 onPress={handleFreeAllDay}
                 activeOpacity={0.85}
               >
-                <MaterialCommunityIcons name="weather-sunny" size={20} color={Colors.primary} />
+                <MaterialCommunityIcons name="weather-sunny" size={20} color={Colours.primary} />
                 <View style={{ flex: 1 }}>
-                  <Text style={{ fontSize: FontSize.sm, fontWeight: '800', color: Colors.primary }}>
+                  <Text style={{ fontSize: FontSize.sm, fontWeight: '800', color: Colours.primary }}>
                     Free all day
                   </Text>
-                  <Text style={{ fontSize: FontSize.xs, color: Colors.textSecondary, fontWeight: '600' }}>
+                  <Text style={{ fontSize: FontSize.xs, color: Colours.textSecondary, fontWeight: '600' }}>
                     Sets 8:00 AM — 8:00 PM automatically
                   </Text>
                 </View>
-                <MaterialCommunityIcons name="chevron-right" size={18} color={Colors.primary} />
+                <MaterialCommunityIcons name="chevron-right" size={18} color={Colours.primary} />
               </TouchableOpacity>
 
               <View style={{ alignItems: 'center' }}>
-                <Text style={{ fontSize: FontSize.xs, color: Colors.textSecondary, fontWeight: '700', textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                <Text style={{ fontSize: FontSize.xs, color: Colours.textSecondary, fontWeight: '700', textTransform: 'uppercase', letterSpacing: 0.5 }}>
                   Or pick a start time
                 </Text>
               </View>
 
-              <View style={{ backgroundColor: '#ffffff', borderRadius: 12, overflow: 'hidden', borderWidth: 1, borderColor: Colors.border }}>
+              <View style={{ backgroundColor: '#ffffff', borderRadius: 12, overflow: 'hidden', borderWidth: 1, borderColor: Colours.border }}>
                 <DateTimePicker
                   value={startTime}
                   mode="time"
@@ -300,19 +300,19 @@ const AddSlotModal = ({ visible, onClose, onAdd }: AddSlotModalProps) => {
               </View>
 
               <View style={{
-                backgroundColor: Colors.surface, borderRadius: 14,
-                padding: Spacing.md, borderWidth: 1, borderColor: Colors.border,
+                backgroundColor: Colours.surface, borderRadius: 14,
+                padding: Spacing.md, borderWidth: 1, borderColor: Colours.border,
                 flexDirection: 'row', alignItems: 'center', gap: Spacing.sm,
               }}>
-                <MaterialCommunityIcons name="clock-outline" size={18} color={Colors.primary} />
-                <Text style={{ fontSize: FontSize.md, fontWeight: '800', color: Colors.text }}>
+                <MaterialCommunityIcons name="clock-outline" size={18} color={Colours.primary} />
+                <Text style={{ fontSize: FontSize.md, fontWeight: '800', color: Colours.text }}>
                   Slot starts at {startTime.toLocaleTimeString('en-IE', { hour: '2-digit', minute: '2-digit' })}
                 </Text>
               </View>
 
               <TouchableOpacity
                 style={{
-                  backgroundColor: Colors.primary, borderRadius: 14,
+                  backgroundColor: Colours.primary, borderRadius: 14,
                   paddingVertical: 16, flexDirection: 'row',
                   justifyContent: 'center', alignItems: 'center', gap: 8,
                 }}
@@ -334,7 +334,7 @@ const AddSlotModal = ({ visible, onClose, onAdd }: AddSlotModalProps) => {
           {/* ── STEP: END TIME ── */}
           {step === 'end' && (
             <>
-              <View style={{ backgroundColor: '#ffffff', borderRadius: 12, overflow: 'hidden', borderWidth: 1, borderColor: Colors.border }}>
+              <View style={{ backgroundColor: '#ffffff', borderRadius: 12, overflow: 'hidden', borderWidth: 1, borderColor: Colours.border }}>
                 <DateTimePicker
                   value={endTime}
                   mode="time"
@@ -352,19 +352,19 @@ const AddSlotModal = ({ visible, onClose, onAdd }: AddSlotModalProps) => {
               </View>
 
               <View style={{
-                backgroundColor: durationValid ? Colors.primaryLight : Colors.error + '15',
+                backgroundColor: durationValid ? Colours.primaryLight : Colours.error + '15',
                 borderRadius: 12, padding: Spacing.md,
-                borderWidth: 1, borderColor: durationValid ? Colors.primary + '30' : Colors.error + '30',
+                borderWidth: 1, borderColor: durationValid ? Colours.primary + '30' : Colours.error + '30',
                 flexDirection: 'row', alignItems: 'center', gap: 8,
               }}>
                 <MaterialCommunityIcons
                   name={durationValid ? 'clock-check-outline' : 'clock-alert-outline'}
                   size={18}
-                  color={durationValid ? Colors.primary : Colors.error}
+                  color={durationValid ? Colours.primary : Colours.error}
                 />
                 <Text style={{
                   fontSize: FontSize.sm, fontWeight: '800',
-                  color: durationValid ? Colors.primary : Colors.error,
+                  color: durationValid ? Colours.primary : Colours.error,
                 }}>
                   {durationError ?? `${formatDuration(durationMinutes)} slot`}
                 </Text>
@@ -372,7 +372,7 @@ const AddSlotModal = ({ visible, onClose, onAdd }: AddSlotModalProps) => {
 
               <TouchableOpacity
                 style={{
-                  backgroundColor: durationValid ? Colors.primary : Colors.border,
+                  backgroundColor: durationValid ? Colours.primary : Colours.border,
                   borderRadius: 14, paddingVertical: 16,
                   flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 8,
                 }}
@@ -392,25 +392,25 @@ const AddSlotModal = ({ visible, onClose, onAdd }: AddSlotModalProps) => {
           {step === 'summary' && selectedDate && (
             <>
               <View style={{
-                backgroundColor: Colors.surface, borderRadius: 16,
-                borderWidth: 1, borderColor: Colors.border, overflow: 'hidden',
+                backgroundColor: Colours.surface, borderRadius: 16,
+                borderWidth: 1, borderColor: Colours.border, overflow: 'hidden',
               }}>
                 <View style={{
                   flexDirection: 'row', alignItems: 'center', gap: Spacing.md,
-                  padding: Spacing.md, borderBottomWidth: 1, borderBottomColor: Colors.border,
+                  padding: Spacing.md, borderBottomWidth: 1, borderBottomColor: Colours.border,
                 }}>
                   <View style={{
                     width: 40, height: 40, borderRadius: 20,
-                    backgroundColor: Colors.primaryLight,
+                    backgroundColor: Colours.primaryLight,
                     justifyContent: 'center', alignItems: 'center',
                   }}>
-                    <MaterialCommunityIcons name="calendar" size={20} color={Colors.primary} />
+                    <MaterialCommunityIcons name="calendar" size={20} color={Colours.primary} />
                   </View>
                   <View>
-                    <Text style={{ fontSize: FontSize.xs, fontWeight: '700', color: Colors.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                    <Text style={{ fontSize: FontSize.xs, fontWeight: '700', color: Colours.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5 }}>
                       Date
                     </Text>
-                    <Text style={{ fontSize: FontSize.md, fontWeight: '800', color: Colors.text }}>
+                    <Text style={{ fontSize: FontSize.md, fontWeight: '800', color: Colours.text }}>
                       {selectedDate.toLocaleDateString('en-IE', { weekday: 'long', month: 'long', day: 'numeric' })}
                     </Text>
                   </View>
@@ -418,20 +418,20 @@ const AddSlotModal = ({ visible, onClose, onAdd }: AddSlotModalProps) => {
 
                 <View style={{
                   flexDirection: 'row', alignItems: 'center', gap: Spacing.md,
-                  padding: Spacing.md, borderBottomWidth: 1, borderBottomColor: Colors.border,
+                  padding: Spacing.md, borderBottomWidth: 1, borderBottomColor: Colours.border,
                 }}>
                   <View style={{
                     width: 40, height: 40, borderRadius: 20,
-                    backgroundColor: Colors.primaryLight,
+                    backgroundColor: Colours.primaryLight,
                     justifyContent: 'center', alignItems: 'center',
                   }}>
-                    <MaterialCommunityIcons name="clock-outline" size={20} color={Colors.primary} />
+                    <MaterialCommunityIcons name="clock-outline" size={20} color={Colours.primary} />
                   </View>
                   <View>
-                    <Text style={{ fontSize: FontSize.xs, fontWeight: '700', color: Colors.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                    <Text style={{ fontSize: FontSize.xs, fontWeight: '700', color: Colours.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5 }}>
                       Time
                     </Text>
-                    <Text style={{ fontSize: FontSize.md, fontWeight: '800', color: Colors.text }}>
+                    <Text style={{ fontSize: FontSize.md, fontWeight: '800', color: Colours.text }}>
                       {startTime.toLocaleTimeString('en-IE', { hour: '2-digit', minute: '2-digit' })}
                       {' — '}
                       {endTime.toLocaleTimeString('en-IE', { hour: '2-digit', minute: '2-digit' })}
@@ -445,16 +445,16 @@ const AddSlotModal = ({ visible, onClose, onAdd }: AddSlotModalProps) => {
                 }}>
                   <View style={{
                     width: 40, height: 40, borderRadius: 20,
-                    backgroundColor: Colors.primaryLight,
+                    backgroundColor: Colours.primaryLight,
                     justifyContent: 'center', alignItems: 'center',
                   }}>
-                    <MaterialCommunityIcons name="timer-outline" size={20} color={Colors.primary} />
+                    <MaterialCommunityIcons name="timer-outline" size={20} color={Colours.primary} />
                   </View>
                   <View>
-                    <Text style={{ fontSize: FontSize.xs, fontWeight: '700', color: Colors.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                    <Text style={{ fontSize: FontSize.xs, fontWeight: '700', color: Colours.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5 }}>
                       Duration
                     </Text>
-                    <Text style={{ fontSize: FontSize.md, fontWeight: '800', color: Colors.text }}>
+                    <Text style={{ fontSize: FontSize.md, fontWeight: '800', color: Colours.text }}>
                       {formatDuration(durationMinutes)}
                     </Text>
                   </View>
@@ -463,18 +463,18 @@ const AddSlotModal = ({ visible, onClose, onAdd }: AddSlotModalProps) => {
 
               <View style={{
                 flexDirection: 'row', gap: Spacing.sm, alignItems: 'flex-start',
-                backgroundColor: Colors.surface, borderRadius: 12,
-                padding: Spacing.md, borderWidth: 1, borderColor: Colors.border,
+                backgroundColor: Colours.surface, borderRadius: 12,
+                padding: Spacing.md, borderWidth: 1, borderColor: Colours.border,
               }}>
-                <MaterialCommunityIcons name="information-outline" size={16} color={Colors.textSecondary} />
-                <Text style={{ flex: 1, fontSize: FontSize.xs, color: Colors.textSecondary, fontWeight: '600', lineHeight: 18 }}>
+                <MaterialCommunityIcons name="information-outline" size={16} color={Colours.textSecondary} />
+                <Text style={{ flex: 1, fontSize: FontSize.xs, color: Colours.textSecondary, fontWeight: '600', lineHeight: 18 }}>
                   Learners will see this slot and can book sessions within it. You approve every booking.
                 </Text>
               </View>
 
               <TouchableOpacity
                 style={{
-                  backgroundColor: Colors.primary, borderRadius: 14,
+                  backgroundColor: Colours.primary, borderRadius: 14,
                   paddingVertical: 16, flexDirection: 'row',
                   justifyContent: 'center', alignItems: 'center', gap: 8,
                 }}

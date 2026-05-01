@@ -1,30 +1,30 @@
 import { StyleSheet } from 'react-native';
-import { Colors, Spacing, FontSize } from '../utils/constants';
+import { Colours, Spacing, FontSize } from '../utils/constants';
 
 export const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: Colors.surface },
+  container: { flex: 1, backgroundColor: Colours.surface },
   listContent: { paddingBottom: Spacing.xxl },
 
   // ── Bubbles ───────────────────────────────────────────────────────────
   bgBubble1: {
     position: 'absolute', top: -100, left: -80,
     width: 300, height: 300, borderRadius: 150,
-    backgroundColor: Colors.primaryLight, opacity: 0.85,
+    backgroundColor: Colours.primaryLight, opacity: 0.85,
   },
   bgBubble2: {
     position: 'absolute', top: 320, right: -120,
     width: 340, height: 340, borderRadius: 170,
-    backgroundColor: Colors.primary, opacity: 0.04,
+    backgroundColor: Colours.primary, opacity: 0.04,
   },
   bgBubble3: {
     position: 'absolute', top: 780, left: -100,
     width: 280, height: 280, borderRadius: 140,
-    backgroundColor: Colors.primaryLight, opacity: 0.5,
+    backgroundColor: Colours.primaryLight, opacity: 0.5,
   },
   bgBubble4: {
     position: 'absolute', top: 1200, right: -80,
     width: 260, height: 260, borderRadius: 130,
-    backgroundColor: Colors.primary, opacity: 0.03,
+    backgroundColor: Colours.primary, opacity: 0.03,
   },
 
   // ── Hero (shared wrap) ────────────────────────────────────────────────
@@ -33,14 +33,14 @@ export const styles = StyleSheet.create({
     paddingHorizontal: Spacing.lg,
     borderBottomLeftRadius: 28,
     borderBottomRightRadius: 28,
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
     gap: Spacing.sm,
   },
 
   // Greeting sits just above the headline, small and muted
   greeting: {
     fontSize: FontSize.sm,
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     fontWeight: '600',
     marginBottom: -4,
   },
@@ -50,13 +50,13 @@ export const styles = StyleSheet.create({
   heroTitleBlack: {
     fontSize: 40,
     fontWeight: '900',
-    color: Colors.text,
+    color: Colours.text,
     letterSpacing: -1,
   },
   heroTitlePurple: {
     fontSize: 40,
     fontWeight: '900',
-    color: Colors.primary,
+    color: Colours.primary,
     letterSpacing: -1,
   },
 
@@ -66,15 +66,15 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 5,
     alignSelf: 'flex-start',
-    backgroundColor: Colors.primaryLight,
+    backgroundColor: Colours.primaryLight,
     borderRadius: 999,
     paddingHorizontal: 10,
     paddingVertical: 4,
   },
-  heroBadgeText: { fontSize: FontSize.xs, color: Colors.primary, fontWeight: '800' },
+  heroBadgeText: { fontSize: FontSize.xs, color: Colours.primary, fontWeight: '800' },
   heroSubtitle: {
     fontSize: FontSize.md,
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     lineHeight: 22,
     fontWeight: '500',
   },
@@ -84,64 +84,64 @@ export const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: 6,
   },
-  tagsLabel: { fontSize: FontSize.xs, color: Colors.textSecondary, fontWeight: '700' },
+  tagsLabel: { fontSize: FontSize.xs, color: Colours.textSecondary, fontWeight: '700' },
   tag: {
     paddingHorizontal: 11,
     paddingVertical: 5,
     borderRadius: 999,
-    backgroundColor: Colors.primaryLight,
+    backgroundColor: Colours.primaryLight,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colours.border,
   },
-  tagText: { fontSize: FontSize.xs, color: Colors.primary, fontWeight: '800' },
+  tagText: { fontSize: FontSize.xs, color: Colours.primary, fontWeight: '800' },
   ctaRow: { flexDirection: 'row', gap: 10 },
   primaryCta: {
     flex: 1, flexDirection: 'row',
-    backgroundColor: Colors.primary,
+    backgroundColor: Colours.primary,
     borderRadius: 14, paddingVertical: 13,
     alignItems: 'center', justifyContent: 'center',
-    shadowColor: Colors.primary, shadowOpacity: 0.3,
+    shadowColor: Colours.primary, shadowOpacity: 0.3,
     shadowRadius: 12, shadowOffset: { width: 0, height: 6 },
     elevation: 4,
   },
-  primaryCtaText: { color: Colors.textLight, fontSize: FontSize.sm, fontWeight: '900' },
+  primaryCtaText: { color: Colours.textLight, fontSize: FontSize.sm, fontWeight: '900' },
   secondaryCta: {
-    flex: 1, backgroundColor: Colors.background,
+    flex: 1, backgroundColor: Colours.background,
     borderRadius: 14, paddingVertical: 13,
-    alignItems: 'center', borderWidth: 1.5, borderColor: Colors.border,
+    alignItems: 'center', borderWidth: 1.5, borderColor: Colours.border,
   },
-  secondaryCtaText: { color: Colors.text, fontSize: FontSize.sm, fontWeight: '800' },
+  secondaryCtaText: { color: Colours.text, fontSize: FontSize.sm, fontWeight: '800' },
   mentorSkipLink: {
     flexDirection: 'row', alignItems: 'center',
     justifyContent: 'center', gap: 4,
   },
   mentorSkipText: {
-    fontSize: FontSize.xs, color: Colors.primary,
+    fontSize: FontSize.xs, color: Colours.primary,
     fontWeight: '700', textDecorationLine: 'underline',
   },
 
   // ── Search ────────────────────────────────────────────────────────────
   searchCard: {
     flexDirection: 'row', alignItems: 'center', gap: Spacing.sm,
-    backgroundColor: Colors.surface,
+    backgroundColor: Colours.surface,
     borderRadius: 16, paddingHorizontal: Spacing.md,
-    borderWidth: 1.5, borderColor: Colors.border,
+    borderWidth: 1.5, borderColor: Colours.border,
     shadowColor: '#000', shadowOpacity: 0.05,
     shadowRadius: 10, shadowOffset: { width: 0, height: 4 },
     elevation: 2,
   },
   searchInput: {
     flex: 1, paddingVertical: 13,
-    fontSize: FontSize.md, color: Colors.text, fontWeight: '600',
+    fontSize: FontSize.md, color: Colours.text, fontWeight: '600',
   },
 
   // ── Find me a mentor ──────────────────────────────────────────────────
   findMentorBtn: {
     flexDirection: 'row', alignItems: 'center',
     justifyContent: 'center', gap: 8,
-    backgroundColor: Colors.primary,
+    backgroundColor: Colours.primary,
     borderRadius: 16, paddingVertical: 15,
-    shadowColor: Colors.primary, shadowOpacity: 0.35,
+    shadowColor: Colours.primary, shadowOpacity: 0.35,
     shadowRadius: 14, shadowOffset: { width: 0, height: 6 },
     elevation: 5,
   },
@@ -157,10 +157,10 @@ export const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: FontSize.lg, fontWeight: '900',
-    color: Colors.text, letterSpacing: -0.4, marginBottom: 2,
+    color: Colours.text, letterSpacing: -0.4, marginBottom: 2,
   },
   sectionSubtitle: {
-    fontSize: FontSize.xs, color: Colors.textSecondary,
+    fontSize: FontSize.xs, color: Colours.textSecondary,
     fontWeight: '600', marginBottom: Spacing.md,
   },
 
@@ -175,12 +175,12 @@ export const styles = StyleSheet.create({
   sectionDividerLine: {
     flex: 1,
     height: 1,
-    backgroundColor: Colors.border,
+    backgroundColor: Colours.border,
   },
   sectionDividerLabel: {
     fontSize: FontSize.xs,
     fontWeight: '900',
-    color: Colors.primary,
+    color: Colours.primary,
     textTransform: 'uppercase',
     letterSpacing: 1,
   },
@@ -195,11 +195,11 @@ export const styles = StyleSheet.create({
   categoryIconWrap: {
     width: 56, height: 56, borderRadius: 16,
     justifyContent: 'center', alignItems: 'center',
-    borderWidth: 1, borderColor: Colors.border,
+    borderWidth: 1, borderColor: Colours.border,
   },
   categoryGridLabel: {
     fontSize: 10, fontWeight: '700',
-    color: Colors.text, textAlign: 'center', lineHeight: 13,
+    color: Colours.text, textAlign: 'center', lineHeight: 13,
   },
 
   // ── Join banner ───────────────────────────────────────────────────────
@@ -209,18 +209,18 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: Spacing.md,
-    backgroundColor: Colors.primaryLight,
+    backgroundColor: Colours.primaryLight,
     borderRadius: 18,
     padding: Spacing.md,
     borderWidth: 1.5,
-    borderColor: Colors.primary + '30',
+    borderColor: Colours.primary + '30',
   },
   joinBannerTitle: {
     fontSize: FontSize.md, fontWeight: '900',
-    color: Colors.text, marginBottom: 2,
+    color: Colours.text, marginBottom: 2,
   },
   joinBannerSub: {
-    fontSize: FontSize.xs, color: Colors.textSecondary, fontWeight: '600',
+    fontSize: FontSize.xs, color: Colours.textSecondary, fontWeight: '600',
   },
 
   // ── Mentors scroll ────────────────────────────────────────────────────
@@ -232,12 +232,12 @@ export const styles = StyleSheet.create({
 
   loadingWrap: { height: 180, justifyContent: 'center', alignItems: 'center' },
   errorWrap: { alignItems: 'center', paddingVertical: Spacing.lg },
-  errorText: { fontSize: FontSize.sm, color: Colors.error, marginBottom: Spacing.sm, fontWeight: '700' },
+  errorText: { fontSize: FontSize.sm, color: Colours.error, marginBottom: Spacing.sm, fontWeight: '700' },
   retryBtn: {
-    backgroundColor: Colors.error, borderRadius: 12,
+    backgroundColor: Colours.error, borderRadius: 12,
     paddingHorizontal: Spacing.xl, paddingVertical: Spacing.sm,
   },
-  retryText: { color: Colors.textLight, fontSize: FontSize.sm, fontWeight: '900' },
+  retryText: { color: Colours.textLight, fontSize: FontSize.sm, fontWeight: '900' },
 
   // ── How it works ─────────────────────────────────────────────────────
   howWrap: {
@@ -252,13 +252,13 @@ export const styles = StyleSheet.create({
   howTitle: {
     fontSize: FontSize.xl,
     fontWeight: '900',
-    color: Colors.text,
+    color: Colours.text,
     letterSpacing: -0.4,
     marginBottom: 4,
   },
   howSubtitle: {
     fontSize: FontSize.sm,
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     fontWeight: '600',
   },
 
@@ -286,12 +286,12 @@ export const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: Colors.primaryLight,
+    backgroundColor: Colours.primaryLight,
     borderWidth: 2,
-    borderColor: Colors.primary + '40',
+    borderColor: Colours.primary + '40',
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: Colors.primary,
+    shadowColor: Colours.primary,
     shadowOpacity: 0.15,
     shadowRadius: 8,
     shadowOffset: { width: 0, height: 4 },
@@ -303,7 +303,7 @@ export const styles = StyleSheet.create({
     width: 2,
     top: 50,
     bottom: -50,
-    backgroundColor: Colors.border,
+    backgroundColor: Colours.border,
     zIndex: 1,
   },
   connectorLeft: {
@@ -315,11 +315,11 @@ export const styles = StyleSheet.create({
     marginLeft: -1 + (48 / 2) - 1,
   },
   stepCard: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
     borderRadius: 16,
     padding: Spacing.md,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colours.border,
     shadowColor: '#000',
     shadowOpacity: 0.04,
     shadowRadius: 8,
@@ -331,7 +331,7 @@ export const styles = StyleSheet.create({
   stepNumber: {
     fontSize: 11,
     fontWeight: '900',
-    color: Colors.primary,
+    color: Colours.primary,
     letterSpacing: 1,
     marginBottom: 4,
     textTransform: 'uppercase',
@@ -339,13 +339,13 @@ export const styles = StyleSheet.create({
   stepTitle: {
     fontSize: FontSize.sm,
     fontWeight: '900',
-    color: Colors.text,
+    color: Colours.text,
     marginBottom: 4,
     letterSpacing: -0.2,
   },
   stepBody: {
     fontSize: FontSize.xs,
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     fontWeight: '500',
     lineHeight: 16,
   },
@@ -354,11 +354,11 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
-    backgroundColor: Colors.primary,
+    backgroundColor: Colours.primary,
     borderRadius: 16,
     paddingVertical: 15,
     marginTop: Spacing.md,
-    shadowColor: Colors.primary,
+    shadowColor: Colours.primary,
     shadowOpacity: 0.3,
     shadowRadius: 12,
     shadowOffset: { width: 0, height: 6 },
@@ -375,11 +375,11 @@ export const styles = StyleSheet.create({
   completionCard: {
     marginHorizontal: Spacing.lg,
     marginTop: Spacing.lg,
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
     borderRadius: 18,
     padding: Spacing.md,
     borderWidth: 1.5,
-    borderColor: Colors.primary + '40',
+    borderColor: Colours.primary + '40',
     gap: Spacing.sm,
   },
   completionTop: {
@@ -392,12 +392,12 @@ export const styles = StyleSheet.create({
   completionTitle: {
     fontSize: FontSize.md,
     fontWeight: '900',
-    color: Colors.text,
+    color: Colours.text,
     marginBottom: 3,
   },
   completionSub: {
     fontSize: FontSize.xs,
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     fontWeight: '600',
     lineHeight: 16,
   },
@@ -405,26 +405,26 @@ export const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: Colors.primaryLight,
+    backgroundColor: Colours.primaryLight,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: Colors.primary + '40',
+    borderColor: Colours.primary + '40',
   },
   completionPct: {
     fontSize: FontSize.sm,
     fontWeight: '900',
-    color: Colors.primary,
+    color: Colours.primary,
   },
   completionTrack: {
     height: 4,
-    backgroundColor: Colors.border,
+    backgroundColor: Colours.border,
     borderRadius: 2,
     overflow: 'hidden',
   },
   completionFill: {
     height: 4,
-    backgroundColor: Colors.primary,
+    backgroundColor: Colours.primary,
     borderRadius: 2,
   },
   completionCta: {
@@ -434,7 +434,7 @@ export const styles = StyleSheet.create({
   },
   completionCtaText: {
     fontSize: FontSize.sm,
-    color: Colors.primary,
+    color: Colours.primary,
     fontWeight: '800',
   },
 
@@ -444,11 +444,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'center', gap: 8,
     marginTop: Spacing.lg,
     paddingVertical: 14, borderRadius: 16,
-    borderWidth: 1.5, borderColor: Colors.primary,
+    borderWidth: 1.5, borderColor: Colours.primary,
     backgroundColor: 'transparent',
   },
   browseAllText: {
     fontSize: FontSize.md, fontWeight: '900',
-    color: Colors.primary, letterSpacing: -0.2,
+    color: Colours.primary, letterSpacing: -0.2,
   },
 });

@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Colors, Spacing, FontSize } from '../../utils/constants';
+import { Colours, Spacing, FontSize } from '../../utils/constants';
 import { getMyMentorProfile, createOrUpdateMentorProfile } from '../../services/mentorService';
 import { getCategories } from '../../services/mentorService';
 import { Category } from '../../types/Mentor';
@@ -144,7 +144,7 @@ const MentorEditProfileScreen = () => {
   if (isLoading) {
     return (
       <View style={styles.centered}>
-        <ActivityIndicator size="large" color={Colors.primary} />
+        <ActivityIndicator size="large" color={Colours.primary} />
       </View>
     );
   }
@@ -160,7 +160,7 @@ const MentorEditProfileScreen = () => {
         <Text style={styles.headerTitle}>Edit profile</Text>
         <TouchableOpacity onPress={handleSave} activeOpacity={0.85} disabled={isSaving}>
           {isSaving
-            ? <ActivityIndicator size="small" color={Colors.primary} />
+            ? <ActivityIndicator size="small" color={Colours.primary} />
             : <Text style={styles.saveText}>Save</Text>
           }
         </TouchableOpacity>
@@ -181,13 +181,13 @@ const MentorEditProfileScreen = () => {
             value={bio}
             onChangeText={v => v.length <= BIO_MAX && setBio(v)}
             placeholder="What do you do and what can you teach?"
-            placeholderTextColor={Colors.textSecondary}
+            placeholderTextColor={Colours.textSecondary}
             multiline
             numberOfLines={5}
           />
           <Text style={[
             styles.charCount,
-            bio.length > BIO_MAX * 0.9 && { color: Colors.error },
+            bio.length > BIO_MAX * 0.9 && { color: Colours.error },
           ]}>
             {bio.length}/{BIO_MAX}
           </Text>
@@ -221,7 +221,7 @@ const MentorEditProfileScreen = () => {
                     onPress={() => removeSkill(skill)}
                     hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
                   >
-                    <MaterialCommunityIcons name="close-circle" size={16} color={Colors.primary} />
+                    <MaterialCommunityIcons name="close-circle" size={16} color={Colours.primary} />
                   </TouchableOpacity>
                 </View>
               ))}
@@ -230,23 +230,23 @@ const MentorEditProfileScreen = () => {
 
           {/* Search input */}
           <View style={styles.searchWrap}>
-            <MaterialCommunityIcons name="magnify" size={18} color={Colors.textSecondary} />
+            <MaterialCommunityIcons name="magnify" size={18} color={Colours.textSecondary} />
             <TextInput
               style={styles.searchInput}
               value={skillSearch}
               onChangeText={setSkillSearch}
               placeholder="Search skills..."
-              placeholderTextColor={Colors.textSecondary}
+              placeholderTextColor={Colours.textSecondary}
               returnKeyType="done"
             />
             {skillSearch.length > 0 && (
               <TouchableOpacity onPress={() => setSkillSearch('')}>
-                <MaterialCommunityIcons name="close-circle" size={16} color={Colors.textSecondary} />
+                <MaterialCommunityIcons name="close-circle" size={16} color={Colours.textSecondary} />
               </TouchableOpacity>
             )}
           </View>
 
-          {/* Search results — shown when typing */}
+          {/* Search results - shown when typing */}
           {isSearching && searchResults.length > 0 && (
             <View style={styles.searchResults}>
               {searchResults.map(skill => (
@@ -256,7 +256,7 @@ const MentorEditProfileScreen = () => {
                   onPress={() => addSkill(skill.name)}
                   activeOpacity={0.85}
                 >
-                  <MaterialCommunityIcons name="plus-circle-outline" size={18} color={Colors.primary} />
+                  <MaterialCommunityIcons name="plus-circle-outline" size={18} color={Colours.primary} />
                   <View style={{ flex: 1 }}>
                     <Text style={styles.searchResultName}>{skill.name}</Text>
                     <Text style={styles.searchResultCategory}>{skill.category}</Text>
@@ -270,7 +270,7 @@ const MentorEditProfileScreen = () => {
             <Text style={styles.noResults}>No matching skills found</Text>
           )}
 
-          {/* Category tabs + browse — shown when NOT searching */}
+          {/* Category tabs + browse - shown when NOT searching */}
           {!isSearching && (
             <>
               <ScrollView
@@ -306,7 +306,7 @@ const MentorEditProfileScreen = () => {
                       onPress={() => addSkill(skill.name)}
                       activeOpacity={0.85}
                     >
-                      <MaterialCommunityIcons name="plus" size={12} color={Colors.primary} />
+                      <MaterialCommunityIcons name="plus" size={12} color={Colours.primary} />
                       <Text style={styles.browseChipText}>{skill.name}</Text>
                     </TouchableOpacity>
                   ))}
@@ -335,7 +335,7 @@ const MentorEditProfileScreen = () => {
                     <MaterialCommunityIcons
                       name={f.icon as any}
                       size={22}
-                      color={active ? '#fff' : Colors.textSecondary}
+                      color={active ? '#fff' : Colours.textSecondary}
                     />
                   </View>
                   <View style={{ flex: 1 }}>
@@ -345,7 +345,7 @@ const MentorEditProfileScreen = () => {
                     <Text style={styles.formatDesc}>{f.desc}</Text>
                   </View>
                   {active && (
-                    <MaterialCommunityIcons name="check-circle" size={22} color={Colors.primary} />
+                    <MaterialCommunityIcons name="check-circle" size={22} color={Colours.primary} />
                   )}
                 </TouchableOpacity>
               );
@@ -359,7 +359,7 @@ const MentorEditProfileScreen = () => {
             <MaterialCommunityIcons
               name={isVisible ? 'eye-outline' : 'eye-off-outline'}
               size={22}
-              color={isVisible ? Colors.primary : Colors.textSecondary}
+              color={isVisible ? Colours.primary : Colours.textSecondary}
             />
             <View style={{ flex: 1 }}>
               <Text style={styles.visibilityTitle}>Profile visible</Text>
@@ -373,8 +373,8 @@ const MentorEditProfileScreen = () => {
           <Switch
             value={isVisible}
             onValueChange={setIsVisible}
-            trackColor={{ false: Colors.border, true: Colors.primary + '60' }}
-            thumbColor={isVisible ? Colors.primary : Colors.textSecondary}
+            trackColor={{ false: Colours.border, true: Colours.primary + '60' }}
+            thumbColor={isVisible ? Colours.primary : Colours.textSecondary}
           />
         </View>
 

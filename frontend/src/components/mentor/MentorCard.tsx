@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { MentorProfile } from '../../types/Mentor';
-import { Colors, Spacing, FontSize } from '../../utils/constants';
+import { Colours, Spacing, FontSize } from '../../utils/constants';
 import { sr, ml, styles } from '../../styles/MentorCard.styles';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -12,7 +12,7 @@ interface MentorCardProps {
   matchScore?: number;
 }
 
-const AVATAR_COLORS = ['#6C3AED', '#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#EC4899', '#8B5CF6', '#06B6D4'];
+const AVATAR_Colours = ['#6C3AED', '#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#EC4899', '#8B5CF6', '#06B6D4'];
 
 const shortenReason = (reason: string): string => {
   const r = reason.toLowerCase();
@@ -57,7 +57,7 @@ const MatchLabel = ({ score }: { score: number }) => {
   const clamped = Math.round(score);
   const { label, color, bg } =
     clamped >= 70 ? { label: 'Great match', color: '#059669', bg: '#ECFDF5' } :
-    clamped >= 40 ? { label: 'Good match', color: Colors.primary, bg: Colors.primaryLight } :
+    clamped >= 40 ? { label: 'Good match', color: Colours.primary, bg: Colours.primaryLight } :
                    { label: 'Explore', color: '#6C3AED', bg: '#EDE9FE' };
   return (
     <View style={[ml.wrap, { backgroundColor: bg }]}>
@@ -75,7 +75,7 @@ const MentorCard = ({ mentor, onPress, matchReasons, matchScore }: MentorCardPro
     .toUpperCase()
     .slice(0, 2);
 
-  const avatarColor = AVATAR_COLORS[mentor.user_name.length % AVATAR_COLORS.length];
+  const avatarColour = AVATAR_Colours[mentor.user_name.length % AVATAR_Colours.length];
   const rating = mentor.average_rating ?? null;
   const reviewCount = mentor.total_reviews ?? 0;
 
@@ -91,8 +91,8 @@ const MentorCard = ({ mentor, onPress, matchReasons, matchScore }: MentorCardPro
 
       {/* Top row — avatar + price */}
       <View style={styles.topRow}>
-        <View style={[styles.avatarWrap, { backgroundColor: avatarColor + '18' }]}>
-          <View style={[styles.avatar, { backgroundColor: avatarColor }]}>
+        <View style={[styles.avatarWrap, { backgroundColor: avatarColour + '18' }]}>
+          <View style={[styles.avatar, { backgroundColor: avatarColour }]}>
             <Text style={styles.avatarText}>{initials}</Text>
           </View>
         </View>

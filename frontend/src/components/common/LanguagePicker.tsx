@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Colors, Spacing, FontSize } from '../../utils/constants';
+import { Colours, Spacing, FontSize } from '../../utils/constants';
 import { styles } from '../../styles/LanguagePicker.styles';
 
 const LANGUAGES = [
@@ -17,7 +17,7 @@ const LANGUAGES = [
 ].sort();
 
 interface LanguagePickerProps {
-  value: string;          // comma-separated string stored in DB
+  value: string;          
   onChange: (value: string) => void;
 }
 
@@ -46,12 +46,12 @@ const LanguagePicker = ({ value, onChange }: LanguagePickerProps) => {
         <MaterialCommunityIcons
           name="translate"
           size={20}
-          color={selected.size > 0 ? Colors.text : Colors.textSecondary}
+          color={selected.size > 0 ? Colours.text : Colours.textSecondary}
         />
         <Text style={[styles.triggerText, selected.size === 0 && styles.placeholder]}>
           {selected.size > 0 ? displayValue : 'Select languages'}
         </Text>
-        <MaterialCommunityIcons name="chevron-down" size={20} color={Colors.textSecondary} />
+        <MaterialCommunityIcons name="chevron-down" size={20} color={Colours.textSecondary} />
       </TouchableOpacity>
 
       <Modal
@@ -78,7 +78,7 @@ const LanguagePicker = ({ value, onChange }: LanguagePickerProps) => {
                   activeOpacity={0.85}
                 >
                   <Text style={styles.selectedChipText}>{lang}</Text>
-                  <MaterialCommunityIcons name="close" size={14} color={Colors.primary} />
+                  <MaterialCommunityIcons name="close" size={14} color={Colours.primary} />
                 </TouchableOpacity>
               ))}
             </View>
@@ -102,7 +102,7 @@ const LanguagePicker = ({ value, onChange }: LanguagePickerProps) => {
                     {lang}
                   </Text>
                   {isSelected && (
-                    <MaterialCommunityIcons name="check" size={18} color={Colors.primary} />
+                    <MaterialCommunityIcons name="check" size={18} color={Colours.primary} />
                   )}
                 </TouchableOpacity>
               );

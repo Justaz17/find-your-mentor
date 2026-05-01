@@ -8,7 +8,7 @@ import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Colors, Spacing, FontSize } from '../../utils/constants';
+import { Colours, Spacing, FontSize } from '../../utils/constants';
 import {
   LearnerProfile, LearnerProfileCreate, LearnerInterestCreate,
   GOAL_TAGS, AVAILABILITY_WINDOWS, SESSION_FORMATS, EXPERIENCE_LEVELS,
@@ -48,7 +48,7 @@ const Accordion = ({ icon, title, summary, isOpen, onToggle, children }: Accordi
           <MaterialCommunityIcons
             name={icon as any}
             size={18}
-            color={isOpen ? Colors.primary : Colors.textSecondary}
+            color={isOpen ? Colours.primary : Colours.textSecondary}
           />
         </View>
         <View style={acc.headerText}>
@@ -61,7 +61,7 @@ const Accordion = ({ icon, title, summary, isOpen, onToggle, children }: Accordi
       <MaterialCommunityIcons
         name={isOpen ? 'chevron-up' : 'chevron-down'}
         size={20}
-        color={Colors.textSecondary}
+        color={Colours.textSecondary}
       />
     </TouchableOpacity>
     {isOpen && <View style={acc.body}>{children}</View>}
@@ -260,7 +260,7 @@ const EditLearnerProfileScreen = () => {
         <Text style={styles.headerTitle}>{existing ? 'Edit profile' : 'Create profile'}</Text>
         <TouchableOpacity onPress={handleSave} activeOpacity={0.85} disabled={isSaving}>
           {isSaving
-            ? <ActivityIndicator size="small" color={Colors.primary} />
+            ? <ActivityIndicator size="small" color={Colours.primary} />
             : <Text style={styles.saveText}>Save</Text>
           }
         </TouchableOpacity>
@@ -287,7 +287,7 @@ const EditLearnerProfileScreen = () => {
               value={bio}
               onChangeText={setBio}
               placeholder="Tell mentors about yourself..."
-              placeholderTextColor={Colors.textSecondary}
+              placeholderTextColor={Colours.textSecondary}
               multiline
               numberOfLines={4}
             />
@@ -353,25 +353,25 @@ const EditLearnerProfileScreen = () => {
             <FieldLabel text="Budget per session (€)" />
             <View style={styles.priceRow}>
               <View style={styles.priceInputWrap}>
-                <MaterialCommunityIcons name="currency-eur" size={16} color={Colors.textSecondary} />
+                <MaterialCommunityIcons name="currency-eur" size={16} color={Colours.textSecondary} />
                 <TextInput
                   style={styles.priceInput}
                   value={minPrice}
                   onChangeText={setMinPrice}
                   placeholder="Min"
-                  placeholderTextColor={Colors.textSecondary}
+                  placeholderTextColor={Colours.textSecondary}
                   keyboardType="numeric"
                 />
               </View>
               <Text style={styles.priceSeparator}>–</Text>
               <View style={styles.priceInputWrap}>
-                <MaterialCommunityIcons name="currency-eur" size={16} color={Colors.textSecondary} />
+                <MaterialCommunityIcons name="currency-eur" size={16} color={Colours.textSecondary} />
                 <TextInput
                   style={styles.priceInput}
                   value={maxPrice}
                   onChangeText={setMaxPrice}
                   placeholder="Max"
-                  placeholderTextColor={Colors.textSecondary}
+                  placeholderTextColor={Colours.textSecondary}
                   keyboardType="numeric"
                 />
               </View>
@@ -393,7 +393,7 @@ const EditLearnerProfileScreen = () => {
                 <View style={styles.interestCardHeader}>
                   <Text style={styles.interestSkillName}>{interest.skill_name}</Text>
                   <TouchableOpacity onPress={() => removeInterest(interest.skill_id)}>
-                    <MaterialCommunityIcons name="close-circle-outline" size={20} color={Colors.error} />
+                    <MaterialCommunityIcons name="close-circle-outline" size={20} color={Colours.error} />
                   </TouchableOpacity>
                 </View>
                 <View style={styles.levelRow}>
@@ -440,7 +440,7 @@ const EditLearnerProfileScreen = () => {
               }}
               activeOpacity={0.85}
             >
-              <MaterialCommunityIcons name={showSkillPicker ? 'close' : 'plus'} size={18} color={Colors.primary} />
+              <MaterialCommunityIcons name={showSkillPicker ? 'close' : 'plus'} size={18} color={Colours.primary} />
               <Text style={styles.addSkillText}>{showSkillPicker ? 'Close' : 'Add a skill'}</Text>
             </TouchableOpacity>
 
@@ -459,7 +459,7 @@ const EditLearnerProfileScreen = () => {
                             onPress={() => addInterest(skill.id, skill.name)}
                             activeOpacity={0.85}
                           >
-                            <MaterialCommunityIcons name="plus" size={12} color={Colors.primary} />
+                            <MaterialCommunityIcons name="plus" size={12} color={Colours.primary} />
                             <Text style={styles.skillPickerChipText}>{skill.name}</Text>
                           </TouchableOpacity>
                         ))
@@ -500,7 +500,7 @@ const EditLearnerProfileScreen = () => {
               value={goalDescription}
               onChangeText={setGoalDescription}
               placeholder="e.g. I want to build my first full-stack project by the end of the year."
-              placeholderTextColor={Colors.textSecondary}
+              placeholderTextColor={Colours.textSecondary}
               multiline
               numberOfLines={3}
             />

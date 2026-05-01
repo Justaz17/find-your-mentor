@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Colors, FontSize, Spacing } from '../utils/constants';
+import { Colours, FontSize, Spacing } from '../utils/constants';
 
 const HOUR_LABEL_WIDTH = 56;
 
@@ -8,10 +8,10 @@ export const styles = StyleSheet.create({
     marginHorizontal: Spacing.lg,
     marginVertical: Spacing.md,
     borderRadius: 16,
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
     overflow: 'hidden',
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colours.border,
   },
 
   header: {
@@ -25,22 +25,22 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: FontSize.lg,
     fontWeight: '700',
-    color: Colors.text,
+    color: Colours.text,
   },
   selectedBadge: {
-    backgroundColor: Colors.primary,
+    backgroundColor: Colours.primary,
     paddingHorizontal: Spacing.md,
     paddingVertical: 4,
     borderRadius: 20,
   },
   selectedBadgeText: {
-    color: Colors.textLight,
+    color: Colours.textLight,
     fontWeight: '700',
     fontSize: FontSize.sm,
   },
 
   divider: {
-    backgroundColor: Colors.border,
+    backgroundColor: Colours.border,
     marginHorizontal: Spacing.lg,
   },
 
@@ -49,16 +49,16 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: Spacing.lg,
     paddingVertical: Spacing.sm,
-    backgroundColor: Colors.primaryLight,
+    backgroundColor: Colours.primaryLight,
   },
   durationLabel: {
     fontSize: FontSize.sm,
     fontWeight: '600',
-    color: Colors.primary,
+    color: Colours.primary,
   },
   slotsLabel: {
     fontSize: FontSize.xs,
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
   },
 
   scrollView: {
@@ -72,9 +72,9 @@ export const styles = StyleSheet.create({
   labelsCol: {
     width: HOUR_LABEL_WIDTH,
     position: 'relative',
-    backgroundColor: Colors.surface,
+    backgroundColor: Colours.surface,
     borderRightWidth: 1,
-    borderRightColor: Colors.border,
+    borderRightColor: Colours.border,
   },
   hourLabelWrap: {
     position: 'absolute',
@@ -85,7 +85,7 @@ export const styles = StyleSheet.create({
   hourLabel: {
     fontSize: 10,
     fontWeight: '600',
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
   },
 
   // Track
@@ -126,7 +126,7 @@ export const styles = StyleSheet.create({
     width: 5,
     height: 5,
     borderRadius: 3,
-    backgroundColor: Colors.primary,
+    backgroundColor: Colours.primary,
     opacity: 0.4,
   },
 
@@ -135,7 +135,7 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     left: Spacing.md,
     right: Spacing.md,
-    backgroundColor: Colors.primary,
+    backgroundColor: Colours.primary,
     borderRadius: 10,
     zIndex: 20,
     elevation: 6,
@@ -148,7 +148,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   blockTimeLabelTop: {
-    color: Colors.textLight,
+    color: Colours.textLight,
     fontSize: 11,
     fontWeight: '700',
     opacity: 0.9,
@@ -159,18 +159,18 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   blockDuration: {
-    color: Colors.textLight,
+    color: Colours.textLight,
     fontWeight: '800',
     fontSize: FontSize.md,
   },
   blockHint: {
-    color: Colors.textLight,
+    color: Colours.textLight,
     fontSize: 10,
     opacity: 0.7,
     marginTop: 2,
   },
   blockTimeLabelBottom: {
-    color: Colors.textLight,
+    color: Colours.textLight,
     fontSize: 11,
     fontWeight: '700',
     opacity: 0.9,
@@ -181,18 +181,18 @@ export const styles = StyleSheet.create({
     paddingHorizontal: Spacing.lg,
     paddingVertical: Spacing.sm,
     borderTopWidth: 1,
-    borderTopColor: Colors.border,
-    backgroundColor: Colors.primaryLight,
+    borderTopColor: Colours.border,
+    backgroundColor: Colours.primaryLight,
   },
   footerText: {
     fontSize: FontSize.xs,
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     fontStyle: 'italic',
     textAlign: 'center',
   },
 
   slotTabsScroll: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
   },
   slotTabsRow: {
     flexDirection: 'row',
@@ -205,25 +205,25 @@ export const styles = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: 20,
     borderWidth: 1.5,
-    borderColor: Colors.border,
-    backgroundColor: Colors.surface,
+    borderColor: Colours.border,
+    backgroundColor: Colours.surface,
   },
   slotTabActive: {
-    borderColor: Colors.primary,
-    backgroundColor: Colors.primary,
+    borderColor: Colours.primary,
+    backgroundColor: Colours.primary,
   },
   slotTabText: {
     fontSize: FontSize.xs,
     fontWeight: '700',
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
   },
   slotTabTextActive: {
-    color: Colors.textLight,
+    color: Colours.textLight,
   },
   emptyText: {
     padding: Spacing.lg,
     textAlign: 'center',
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     fontSize: FontSize.sm,
   },
 });

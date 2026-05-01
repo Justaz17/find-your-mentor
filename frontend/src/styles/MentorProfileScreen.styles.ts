@@ -1,20 +1,20 @@
 import { StyleSheet } from 'react-native';
-import { Colors, Spacing } from '../utils/constants';
+import { Colours, Spacing } from '../utils/constants';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.surface,
+    backgroundColor: Colours.surface,
   },
   centered: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Colors.surface,
+    backgroundColor: Colours.surface,
     padding: Spacing.lg,
   },
   loadingText: {
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     marginTop: Spacing.sm,
   },
   errorEmoji: {
@@ -22,14 +22,14 @@ export const styles = StyleSheet.create({
     marginBottom: Spacing.sm,
   },
   errorText: {
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     textAlign: 'center',
     marginBottom: Spacing.lg,
   },
 
   // Header
   headerCard: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
     borderBottomLeftRadius: 28,
     borderBottomRightRadius: 28,
     paddingBottom: Spacing.xl,
@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
   },
   name: {
     fontWeight: '800',
-    color: Colors.text,
+    color: Colours.text,
     marginTop: Spacing.md,
     letterSpacing: -0.3,
   },
@@ -56,7 +56,7 @@ export const styles = StyleSheet.create({
     marginTop: Spacing.xs,
   },
   ratingText: {
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
   },
   rateRow: {
     flexDirection: 'row',
@@ -65,11 +65,11 @@ export const styles = StyleSheet.create({
   },
   rate: {
     fontWeight: '900',
-    color: Colors.primary,
+    color: Colours.primary,
     letterSpacing: -0.3,
   },
   rateLabel: {
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
   },
 
   // Section cards
@@ -77,11 +77,11 @@ export const styles = StyleSheet.create({
     marginHorizontal: Spacing.lg,
     marginTop: Spacing.md,
     borderRadius: 18,
-    borderColor: Colors.border,
+    borderColor: Colours.border,
   },
   sectionTitle: {
     fontWeight: '800',
-    color: Colors.text,
+    color: Colours.text,
     marginBottom: Spacing.sm,
     letterSpacing: -0.2,
   },
@@ -93,23 +93,23 @@ export const styles = StyleSheet.create({
     gap: 8,
   },
   skillChip: {
-    backgroundColor: Colors.primaryLight,
+    backgroundColor: Colours.primaryLight,
     borderRadius: 999,
   },
   chipText: {
-    color: Colors.primary,
+    color: Colours.primary,
     fontWeight: '700',
   },
 
   // Bio
   bioText: {
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     lineHeight: 24,
   },
 
   // Availability
   placeholderText: {
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     fontStyle: 'italic',
   },
 
@@ -122,17 +122,17 @@ export const styles = StyleSheet.create({
   },
   writeReviewBtn: {
     borderRadius: 999,
-    borderColor: Colors.primary,
+    borderColor: Colours.primary,
   },
   reviewForm: {
-    backgroundColor: Colors.surface,
+    backgroundColor: Colours.surface,
     borderRadius: 14,
     padding: Spacing.md,
     marginBottom: Spacing.md,
   },
   reviewFormLabel: {
     fontWeight: '700',
-    color: Colors.text,
+    color: Colours.text,
     marginBottom: Spacing.xs,
   },
   starInputRow: {
@@ -140,11 +140,11 @@ export const styles = StyleSheet.create({
     marginBottom: Spacing.sm,
   },
   reviewInput: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
     marginBottom: Spacing.sm,
   },
   reviewFormError: {
-    color: Colors.error,
+    color: Colours.error,
     marginBottom: Spacing.sm,
   },
   reviewFormActions: {
@@ -163,19 +163,19 @@ export const styles = StyleSheet.create({
   },
   reviewerName: {
     fontWeight: '700',
-    color: Colors.text,
+    color: Colours.text,
   },
   reviewComment: {
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     lineHeight: 20,
     marginTop: 4,
   },
   reviewDate: {
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     marginTop: 4,
   },
   reviewDivider: {
-    backgroundColor: Colors.border,
+    backgroundColor: Colours.border,
   },
 
   // Book button

@@ -5,10 +5,9 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Colors, Spacing, FontSize } from '../../utils/constants';
+import { Colours, Spacing, FontSize } from '../../utils/constants';
 import { styles } from '../../styles/LocationPicker.styles';
 
-// Curated list — countries + major cities most relevant to an Irish platform
 // Easily extendable
 const LOCATIONS = [
   // Ireland
@@ -65,12 +64,12 @@ const LocationPicker = ({ value, onChange }: LocationPickerProps) => {
         <MaterialCommunityIcons
           name="map-marker-outline"
           size={20}
-          color={value ? Colors.text : Colors.textSecondary}
+          color={value ? Colours.text : Colours.textSecondary}
         />
         <Text style={[styles.triggerText, !value && styles.placeholder]}>
           {value || 'Select location'}
         </Text>
-        <MaterialCommunityIcons name="chevron-down" size={20} color={Colors.textSecondary} />
+        <MaterialCommunityIcons name="chevron-down" size={20} color={Colours.textSecondary} />
       </TouchableOpacity>
 
       <Modal
@@ -83,23 +82,23 @@ const LocationPicker = ({ value, onChange }: LocationPickerProps) => {
           <View style={styles.modalHeader}>
             <Text style={styles.modalTitle}>Location</Text>
             <TouchableOpacity onPress={() => { setVisible(false); setSearch(''); }}>
-              <MaterialCommunityIcons name="close" size={24} color={Colors.text} />
+              <MaterialCommunityIcons name="close" size={24} color={Colours.text} />
             </TouchableOpacity>
           </View>
 
           <View style={styles.searchBox}>
-            <MaterialCommunityIcons name="magnify" size={20} color={Colors.textSecondary} />
+            <MaterialCommunityIcons name="magnify" size={20} color={Colours.textSecondary} />
             <TextInput
               style={styles.searchInput}
               value={search}
               onChangeText={setSearch}
               placeholder="Search city or country..."
-              placeholderTextColor={Colors.textSecondary}
+              placeholderTextColor={Colours.textSecondary}
               autoFocus
             />
             {search.length > 0 && (
               <TouchableOpacity onPress={() => setSearch('')}>
-                <MaterialCommunityIcons name="close-circle" size={18} color={Colors.textSecondary} />
+                <MaterialCommunityIcons name="close-circle" size={18} color={Colours.textSecondary} />
               </TouchableOpacity>
             )}
           </View>
@@ -116,13 +115,13 @@ const LocationPicker = ({ value, onChange }: LocationPickerProps) => {
                 <MaterialCommunityIcons
                   name="map-marker-outline"
                   size={18}
-                  color={value === item ? Colors.primary : Colors.textSecondary}
+                  color={value === item ? Colours.primary : Colours.textSecondary}
                 />
                 <Text style={[styles.optionText, value === item && styles.optionTextActive]}>
                   {item}
                 </Text>
                 {value === item && (
-                  <MaterialCommunityIcons name="check" size={18} color={Colors.primary} />
+                  <MaterialCommunityIcons name="check" size={18} color={Colours.primary} />
                 )}
               </TouchableOpacity>
             )}

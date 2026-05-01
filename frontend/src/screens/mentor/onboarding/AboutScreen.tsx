@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Colors, Spacing, FontSize } from '../../../utils/constants';
+import { Colours, Spacing, FontSize } from '../../../utils/constants';
 import LocationPicker from '../../../components/common/LocationPicker';
 import LanguagePicker from '../../../components/common/LanguagePicker';
 import OnboardingProgress from '../../../components/common/OnboardingProgress';
@@ -51,7 +51,7 @@ const AboutScreen = () => {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1, backgroundColor: Colors.background }}
+      style={{ flex: 1, backgroundColor: Colours.background }}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <View style={{
@@ -63,12 +63,12 @@ const AboutScreen = () => {
         <View style={{ height: Spacing.xl }} />
         <Text style={{
           fontSize: FontSize.xxl, fontWeight: '900',
-          color: Colors.text, letterSpacing: -0.5,
+          color: Colours.text, letterSpacing: -0.5,
         }}>
           About you
         </Text>
         <Text style={{
-          fontSize: FontSize.sm, color: Colors.textSecondary,
+          fontSize: FontSize.sm, color: Colours.textSecondary,
           fontWeight: '500', marginTop: 6,
         }}>
           Help learners get to know you.
@@ -88,28 +88,28 @@ const AboutScreen = () => {
         <View style={{ gap: Spacing.sm }}>
           <Text style={{
             fontSize: FontSize.sm, fontWeight: '700',
-            color: Colors.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5,
+            color: Colours.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5,
           }}>
             Bio
           </Text>
           <TextInput
             style={{
-              backgroundColor: Colors.surface, borderWidth: 1,
-              borderColor: Colors.border, borderRadius: 14,
+              backgroundColor: Colours.surface, borderWidth: 1,
+              borderColor: Colours.border, borderRadius: 14,
               paddingHorizontal: Spacing.md, paddingVertical: Spacing.md,
-              fontSize: FontSize.sm, color: Colors.text, fontWeight: '500',
+              fontSize: FontSize.sm, color: Colours.text, fontWeight: '500',
               minHeight: 130, textAlignVertical: 'top', lineHeight: 22,
             }}
             value={bio}
             onChangeText={v => v.length <= BIO_MAX && setBio(v)}
             placeholder="What do you do and what can you teach?"
-            placeholderTextColor={Colors.textSecondary}
+            placeholderTextColor={Colours.textSecondary}
             multiline
             numberOfLines={5}
           />
           <Text style={{
             fontSize: FontSize.xs,
-            color: bio.length > BIO_MAX * 0.9 ? Colors.error : Colors.textSecondary,
+            color: bio.length > BIO_MAX * 0.9 ? Colours.error : Colours.textSecondary,
             fontWeight: '600', textAlign: 'right',
           }}>
             {bio.length}/{BIO_MAX}
@@ -122,8 +122,8 @@ const AboutScreen = () => {
               'What results have you helped others achieve?',
             ].map(prompt => (
               <View key={prompt} style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                <MaterialCommunityIcons name="circle-small" size={16} color={Colors.primary} />
-                <Text style={{ fontSize: FontSize.xs, color: Colors.textSecondary, fontWeight: '600' }}>
+                <MaterialCommunityIcons name="circle-small" size={16} color={Colours.primary} />
+                <Text style={{ fontSize: FontSize.xs, color: Colours.textSecondary, fontWeight: '600' }}>
                   {prompt}
                 </Text>
               </View>
@@ -135,7 +135,7 @@ const AboutScreen = () => {
         <View style={{ gap: Spacing.sm }}>
           <Text style={{
             fontSize: FontSize.sm, fontWeight: '700',
-            color: Colors.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5,
+            color: Colours.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5,
           }}>
             Location
           </Text>
@@ -146,7 +146,7 @@ const AboutScreen = () => {
         <View style={{ gap: Spacing.sm }}>
           <Text style={{
             fontSize: FontSize.sm, fontWeight: '700',
-            color: Colors.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5,
+            color: Colours.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5,
           }}>
             Languages
           </Text>
@@ -159,12 +159,12 @@ const AboutScreen = () => {
         paddingHorizontal: Spacing.lg,
         paddingBottom: insets.bottom + Spacing.md,
         paddingTop: Spacing.md,
-        borderTopWidth: 1, borderTopColor: Colors.border,
-        backgroundColor: Colors.background,
+        borderTopWidth: 1, borderTopColor: Colours.border,
+        backgroundColor: Colours.background,
       }}>
         <TouchableOpacity
           style={{
-            backgroundColor: Colors.primary, borderRadius: 14,
+            backgroundColor: Colours.primary, borderRadius: 14,
             paddingVertical: 16, flexDirection: 'row',
             justifyContent: 'center', alignItems: 'center', gap: 8,
           }}

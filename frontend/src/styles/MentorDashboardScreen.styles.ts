@@ -1,18 +1,18 @@
 import { StyleSheet } from 'react-native';
-import { Colors, Spacing, FontSize } from '../utils/constants';
+import { Colours, Spacing, FontSize } from '../utils/constants';
 
 export const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: Colors.surface },
+  container: { flex: 1, backgroundColor: Colours.surface },
   centered: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Colors.surface,
+    backgroundColor: Colours.surface,
   },
 
   // ── Header ────────────────────────────────────────────────────────────
   headerSurface: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
     borderBottomLeftRadius: 28,
     borderBottomRightRadius: 28,
     paddingHorizontal: Spacing.lg,
@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
   headerLabel: {
     textTransform: 'uppercase',
     letterSpacing: 0.5,
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     fontWeight: '700',
   },
   headerRow: {
@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
   },
   headerName: {
     fontWeight: '900',
-    color: Colors.text,
+    color: Colours.text,
     letterSpacing: -0.3,
   },
   switchButton: {
@@ -48,19 +48,19 @@ export const styles = StyleSheet.create({
   // ── Pending banner ────────────────────────────────────────────────────
   pendingBanner: {
     marginTop: Spacing.md,
-    backgroundColor: Colors.primaryLight,
+    backgroundColor: Colours.primaryLight,
     borderRadius: 12,
     padding: Spacing.md,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
     borderWidth: 1,
-    borderColor: Colors.primary + '30',
+    borderColor: Colours.primary + '30',
   },
   pendingText: {
     fontSize: FontSize.sm,
     fontWeight: '800',
-    color: Colors.primary,
+    color: Colours.primary,
     flex: 1,
   },
 
@@ -73,7 +73,7 @@ export const styles = StyleSheet.create({
   // ── Profile completion ────────────────────────────────────────────────
   completionCard: {
     borderRadius: 16,
-    borderColor: Colors.primary + '30',
+    borderColor: Colours.primary + '30',
   },
   completionContent: {
     flexDirection: 'row',
@@ -84,7 +84,7 @@ export const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: Colors.primary,
+    backgroundColor: Colours.primary,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -93,23 +93,23 @@ export const styles = StyleSheet.create({
   },
   completionTitle: {
     fontWeight: '900',
-    color: Colors.primary,
+    color: Colours.primary,
   },
   completionSub: {
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     fontWeight: '600',
   },
   completionPctWrap: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
     justifyContent: 'center',
     alignItems: 'center',
   },
   completionPctText: {
     fontWeight: '900',
-    color: Colors.primary,
+    color: Colours.primary,
   },
 
   // ── Stats row ─────────────────────────────────────────────────────────
@@ -120,7 +120,7 @@ export const styles = StyleSheet.create({
   statCard: {
     flex: 1,
     borderRadius: 16,
-    borderColor: Colors.border,
+    borderColor: Colours.border,
   },
   statCardContent: {
     alignItems: 'center',
@@ -130,11 +130,11 @@ export const styles = StyleSheet.create({
   },
   statValue: {
     fontWeight: '900',
-    color: Colors.text,
+    color: Colours.text,
   },
   statLabel: {
     textAlign: 'center',
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     fontWeight: '700',
   },
 
@@ -142,13 +142,13 @@ export const styles = StyleSheet.create({
   sectionLabel: {
     textTransform: 'uppercase',
     letterSpacing: 0.5,
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     fontWeight: '800',
     marginBottom: Spacing.sm,
   },
   actionCard: {
     borderRadius: 16,
-    borderColor: Colors.border,
+    borderColor: Colours.border,
     marginBottom: Spacing.sm,
   },
   actionContent: {
@@ -160,7 +160,7 @@ export const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: Colors.primaryLight,
+    backgroundColor: Colours.primaryLight,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -169,17 +169,17 @@ export const styles = StyleSheet.create({
   },
   actionLabel: {
     fontWeight: '800',
-    color: Colors.text,
+    color: Colours.text,
   },
   actionSub: {
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     fontWeight: '600',
   },
 
   // ── Upcoming sessions ─────────────────────────────────────────────────
   sessionCard: {
     borderRadius: 16,
-    borderColor: Colors.border,
+    borderColor: Colours.border,
     marginBottom: Spacing.sm,
   },
   sessionHeader: {
@@ -189,14 +189,14 @@ export const styles = StyleSheet.create({
   },
   sessionName: {
     fontWeight: '900',
-    color: Colors.text,
+    color: Colours.text,
   },
   sessionService: {
     fontWeight: '700',
-    color: Colors.primary,
+    color: Colours.primary,
   },
   sessionDate: {
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     fontWeight: '600',
   },
 
@@ -206,7 +206,7 @@ export const styles = StyleSheet.create({
     paddingVertical: Spacing.md,
   },
   signOutText: {
-    color: Colors.error,
+    color: Colours.error,
     fontWeight: '700',
   },
 });

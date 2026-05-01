@@ -1,34 +1,34 @@
 import { StyleSheet } from 'react-native';
-import { Colors, FontSize, Spacing } from '../utils/constants';
+import { Colours, FontSize, Spacing } from '../utils/constants';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.surface,
+    backgroundColor: Colours.surface,
   },
   header: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
     paddingHorizontal: Spacing.lg,
     paddingTop: Spacing.lg,
     paddingBottom: Spacing.md,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    borderBottomColor: Colours.border,
   },
   title: {
     fontSize: FontSize.xxl,
     fontWeight: '700',
-    color: Colors.text,
+    color: Colours.text,
     marginBottom: Spacing.xs,
   },
   subtitle: {
     fontSize: FontSize.md,
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
   },
   tabContainer: {
     flexDirection: 'row',
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    borderBottomColor: Colours.border,
   },
   tab: {
     flex: 1,
@@ -38,16 +38,16 @@ export const styles = StyleSheet.create({
     borderBottomColor: 'transparent',
   },
   activeTab: {
-    borderBottomColor: Colors.primary,
+    borderBottomColor: Colours.primary,
   },
   tabText: {
     fontSize: FontSize.md,
     fontWeight: '600',
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     textAlign: 'center',
   },
   activeTabText: {
-    color: Colors.primary,
+    color: Colours.primary,
   },
   content: {
     flex: 1,
@@ -55,7 +55,7 @@ export const styles = StyleSheet.create({
     paddingTop: Spacing.lg,
   },
   addButton: {
-    backgroundColor: Colors.primary,
+    backgroundColor: Colours.primary,
     borderRadius: 12,
     paddingVertical: Spacing.md,
     paddingHorizontal: Spacing.lg,
@@ -63,14 +63,14 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   addButtonText: {
-    color: Colors.textLight,
+    color: Colours.textLight,
     fontSize: FontSize.md,
     fontWeight: '700',
   },
   sectionTitle: {
     fontSize: FontSize.lg,
     fontWeight: '700',
-    color: Colors.text,
+    color: Colours.text,
     marginBottom: Spacing.md,
     marginTop: Spacing.lg,
   },
@@ -86,12 +86,12 @@ export const styles = StyleSheet.create({
   emptyStateText: {
     fontSize: FontSize.md,
     fontWeight: '600',
-    color: Colors.text,
+    color: Colours.text,
     marginBottom: Spacing.sm,
   },
   emptyStateSubtext: {
     fontSize: FontSize.sm,
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     maxWidth: 280,
     textAlign: 'center',
   },
@@ -99,26 +99,26 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Colors.surface,
+    backgroundColor: Colours.surface,
   },
   loadingText: {
     fontSize: FontSize.md,
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     marginTop: Spacing.md,
   },
   errorText: {
     fontSize: FontSize.md,
-    color: Colors.error,
+    color: Colours.error,
     marginBottom: Spacing.lg,
   },
   retryButton: {
-    backgroundColor: Colors.primary,
+    backgroundColor: Colours.primary,
     borderRadius: 8,
     paddingHorizontal: Spacing.lg,
     paddingVertical: Spacing.md,
   },
   retryText: {
-    color: Colors.textLight,
+    color: Colours.textLight,
     fontSize: FontSize.md,
     fontWeight: '600',
   },

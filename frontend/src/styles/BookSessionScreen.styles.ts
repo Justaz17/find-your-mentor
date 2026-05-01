@@ -1,24 +1,24 @@
 import { StyleSheet } from 'react-native';
-import { Colors, Spacing } from '../utils/constants';
+import { Colours, Spacing } from '../utils/constants';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.surface,
+    backgroundColor: Colours.surface,
   },
   centered: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Colors.surface,
+    backgroundColor: Colours.surface,
     padding: Spacing.lg,
   },
   loadingText: {
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     marginTop: Spacing.sm,
   },
   errorText: {
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     textAlign: 'center',
   },
   progressRow: {
@@ -31,48 +31,48 @@ export const styles = StyleSheet.create({
     width: 40,
     height: 4,
     borderRadius: 2,
-    backgroundColor: Colors.border,
+    backgroundColor: Colours.border,
   },
   progressDotActive: {
-    backgroundColor: Colors.primary,
+    backgroundColor: Colours.primary,
   },
   stepCard: {
     marginHorizontal: Spacing.lg,
     marginBottom: Spacing.md,
     borderRadius: 18,
-    borderColor: Colors.border,
+    borderColor: Colours.border,
   },
   stepTitle: {
     fontWeight: '800',
-    color: Colors.text,
+    color: Colours.text,
     marginBottom: Spacing.md,
     letterSpacing: -0.2,
   },
   emptyText: {
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     fontStyle: 'italic',
   },
   warningText: {
-    color: Colors.warning,
+    color: Colours.warning,
     fontWeight: '700',
   },
   warningSubtext: {
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     marginTop: Spacing.xs,
   },
   serviceCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.surface,
+    backgroundColor: Colours.surface,
     borderRadius: 14,
     padding: Spacing.sm,
     marginBottom: Spacing.sm,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colours.border,
   },
   serviceCardSelected: {
-    borderColor: Colors.primary,
-    backgroundColor: Colors.primaryLight,
+    borderColor: Colours.primary,
+    backgroundColor: Colours.primaryLight,
   },
   serviceInfo: {
     flex: 1,
@@ -80,10 +80,10 @@ export const styles = StyleSheet.create({
   },
   serviceName: {
     fontWeight: '700',
-    color: Colors.text,
+    color: Colours.text,
   },
   serviceDesc: {
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     marginTop: 2,
   },
   serviceMeta: {
@@ -93,17 +93,17 @@ export const styles = StyleSheet.create({
     marginTop: Spacing.xs,
   },
   durationChip: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
     borderRadius: 999,
   },
   durationText: {
     fontSize: 12,
     fontWeight: '700',
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
   },
   servicePrice: {
     fontWeight: '900',
-    color: Colors.primary,
+    color: Colours.primary,
   },
   dateRow: {
     gap: 8,
@@ -111,10 +111,10 @@ export const styles = StyleSheet.create({
   },
   dateButton: {
     borderRadius: 12,
-    borderColor: Colors.border,
+    borderColor: Colours.border,
   },
   dateButtonSelected: {
-    borderColor: Colors.primary,
+    borderColor: Colours.primary,
   },
   dateLabel: {
     fontWeight: '700',
@@ -128,11 +128,11 @@ export const styles = StyleSheet.create({
     marginTop: Spacing.sm,
   },
   summaryCard: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
     borderRadius: 16,
     padding: Spacing.md,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colours.border,
     marginBottom: Spacing.md,
   },
   summaryRow: {
@@ -142,15 +142,15 @@ export const styles = StyleSheet.create({
     paddingVertical: 6,
   },
   summaryLabel: {
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     fontWeight: '600',
   },
   summaryValue: {
-    color: Colors.text,
+    color: Colours.text,
     fontWeight: '700',
   },
   summaryPrice: {
-    color: Colors.primary,
+    color: Colours.primary,
     fontWeight: '900',
   },
   continueButton: {

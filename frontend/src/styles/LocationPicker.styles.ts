@@ -1,14 +1,14 @@
 import { StyleSheet } from 'react-native';
-import { Colors, FontSize, Spacing } from '../utils/constants';
+import { Colours, FontSize, Spacing } from '../utils/constants';
 
 export const styles = StyleSheet.create({
   trigger: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.background,
+    backgroundColor: Colours.background,
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colours.border,
     paddingHorizontal: Spacing.md,
     paddingVertical: 12,
     gap: Spacing.sm,
@@ -16,12 +16,12 @@ export const styles = StyleSheet.create({
   triggerText: {
     flex: 1,
     fontSize: FontSize.md,
-    color: Colors.text,
+    color: Colours.text,
     fontWeight: '600',
   },
-  placeholder: { color: Colors.textSecondary },
+  placeholder: { color: Colours.textSecondary },
 
-  modal: { flex: 1, backgroundColor: Colors.background },
+  modal: { flex: 1, backgroundColor: Colours.background },
   modalHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -29,12 +29,12 @@ export const styles = StyleSheet.create({
     paddingHorizontal: Spacing.lg,
     paddingVertical: Spacing.md,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    borderBottomColor: Colours.border,
   },
   modalTitle: {
     fontSize: FontSize.xl,
     fontWeight: '900',
-    color: Colors.text,
+    color: Colours.text,
   },
 
   searchBox: {
@@ -44,15 +44,15 @@ export const styles = StyleSheet.create({
     paddingHorizontal: Spacing.md,
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: Colors.border,
-    backgroundColor: Colors.surface,
+    borderColor: Colours.border,
+    backgroundColor: Colours.surface,
     gap: Spacing.sm,
   },
   searchInput: {
     flex: 1,
     paddingVertical: 11,
     fontSize: FontSize.md,
-    color: Colors.text,
+    color: Colours.text,
     fontWeight: '600',
   },
 
@@ -62,15 +62,15 @@ export const styles = StyleSheet.create({
     paddingHorizontal: Spacing.lg,
     paddingVertical: 14,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.surface,
+    borderBottomColor: Colours.surface,
     gap: Spacing.sm,
   },
-  optionActive: { backgroundColor: Colors.primaryLight },
+  optionActive: { backgroundColor: Colours.primaryLight },
   optionText: {
     flex: 1,
     fontSize: FontSize.md,
-    color: Colors.text,
+    color: Colours.text,
     fontWeight: '600',
   },
-  optionTextActive: { color: Colors.primary, fontWeight: '800' },
+  optionTextActive: { color: Colours.primary, fontWeight: '800' },
 });

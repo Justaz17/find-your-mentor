@@ -1,15 +1,15 @@
 import { StyleSheet } from 'react-native';
-import { Colors, Spacing } from '../utils/constants';
+import { Colours, Spacing } from '../utils/constants';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.surface,
+    backgroundColor: Colours.surface,
     paddingHorizontal: Spacing.lg,
   },
   pageTitle: {
     fontWeight: '800',
-    color: Colors.text,
+    color: Colours.text,
     marginTop: Spacing.md,
     marginBottom: Spacing.md,
     letterSpacing: -0.3,
@@ -17,11 +17,11 @@ export const styles = StyleSheet.create({
   sectionCard: {
     marginBottom: Spacing.md,
     borderRadius: 18,
-    borderColor: Colors.border,
+    borderColor: Colours.border,
   },
   sectionTitle: {
     fontWeight: '800',
-    color: Colors.text,
+    color: Colours.text,
     marginBottom: Spacing.sm,
     letterSpacing: -0.2,
   },
@@ -32,42 +32,42 @@ export const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   detailLabel: {
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     fontWeight: '600',
   },
   detailValue: {
-    color: Colors.text,
+    color: Colours.text,
     fontWeight: '700',
     flex: 1,
     textAlign: 'right',
   },
   detailPrice: {
-    color: Colors.primary,
+    color: Colours.primary,
     fontWeight: '900',
   },
-  divider: { backgroundColor: Colors.border },
+  divider: { backgroundColor: Colours.border },
   noteHint: {
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     marginBottom: Spacing.sm,
     lineHeight: 18,
   },
-  noteInput: { backgroundColor: Colors.background },
+  noteInput: { backgroundColor: Colours.background },
   charCount: {
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     textAlign: 'right',
     marginTop: 4,
   },
   paymentStatus: {
-    backgroundColor: Colors.primaryLight,
+    backgroundColor: Colours.primaryLight,
     borderRadius: 12,
     padding: Spacing.md,
   },
   paymentStatusText: {
     fontWeight: '700',
-    color: Colors.text,
+    color: Colours.text,
     marginBottom: 4,
   },
-  paymentStatusHint: { color: Colors.textSecondary },
+  paymentStatusHint: { color: Colours.textSecondary },
   policyRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -75,18 +75,18 @@ export const styles = StyleSheet.create({
   },
   policyGreen: { color: '#059669', fontWeight: '600' },
   policyAmber: { color: '#D97706', fontWeight: '600' },
-  policyRed: { color: Colors.error, fontWeight: '600' },
-  policyValue: { color: Colors.text, fontWeight: '700' },
+  policyRed: { color: Colours.error, fontWeight: '600' },
+  policyValue: { color: Colours.text, fontWeight: '700' },
   errorContainer: {
     backgroundColor: '#FEF2F2',
     borderRadius: 12,
     padding: Spacing.md,
     marginBottom: Spacing.md,
     borderLeftWidth: 3,
-    borderLeftColor: Colors.error,
+    borderLeftColor: Colours.error,
   },
   errorText: {
-    color: Colors.error,
+    color: Colours.error,
     fontWeight: '700',
   },
   confirmSection: { marginBottom: Spacing.lg },
@@ -101,7 +101,7 @@ export const styles = StyleSheet.create({
   // ── Success ───────────────────────────────────────────────────────────
   successContainer: {
     flex: 1,
-    backgroundColor: Colors.surface,
+    backgroundColor: Colours.surface,
     justifyContent: 'center',
     alignItems: 'center',
     padding: Spacing.lg,
@@ -110,26 +110,26 @@ export const styles = StyleSheet.create({
     width: 72,
     height: 72,
     borderRadius: 36,
-    backgroundColor: Colors.secondary + '20',
+    backgroundColor: Colours.secondary + '20',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: Spacing.md,
     borderWidth: 2,
-    borderColor: Colors.secondary,
+    borderColor: Colours.secondary,
   },
   successCheck: {
     fontSize: 32,
-    color: Colors.secondary,
+    color: Colours.secondary,
     fontWeight: '900',
   },
   successTitle: {
     fontWeight: '900',
-    color: Colors.text,
+    color: Colours.text,
     marginBottom: Spacing.sm,
     letterSpacing: -0.3,
   },
   successText: {
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     textAlign: 'center',
     marginBottom: Spacing.lg,
     lineHeight: 24,
@@ -137,14 +137,14 @@ export const styles = StyleSheet.create({
   successCard: {
     width: '100%',
     borderRadius: 18,
-    borderColor: Colors.border,
+    borderColor: Colours.border,
     marginBottom: Spacing.lg,
   },
   homeButton: { borderRadius: 14, width: '100%', marginBottom: Spacing.md },
   homeButtonContent: { paddingVertical: 8 },
   homeButtonLabel: { fontSize: 16, fontWeight: '800' },
   cancelNote: {
-    color: Colors.textSecondary,
+    color: Colours.textSecondary,
     textAlign: 'center',
     lineHeight: 20,
   },

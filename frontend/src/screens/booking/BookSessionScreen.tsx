@@ -19,7 +19,7 @@ import { RootStackParamList } from '../../navigation/types';
 import { MentorService, AvailabilitySlot } from '../../types/Mentor';
 import { getMentorServices } from '../../services/serviceService';
 import { getMentorAvailability, getMentorBookedTimes } from '../../services/mentorService';
-import { Colors, Spacing, FontSize } from '../../utils/constants';
+import { Colours, Spacing, FontSize } from '../../utils/constants';
 import TimelinePickerComponent from '../../components/booking/TimelinePicker';
 import { styles } from '../../styles/BookSessionScreen.styles';
 
@@ -237,7 +237,7 @@ const BookSessionScreen = () => {
   if (isLoading) {
     return (
       <View style={styles.centered}>
-        <ActivityIndicator size="large" color={Colors.primary} />
+        <ActivityIndicator size="large" color={Colours.primary} />
         <Text variant="bodyMedium" style={styles.loadingText}>Loading...</Text>
       </View>
     );
@@ -306,7 +306,7 @@ const BookSessionScreen = () => {
                       setSelectedEndTime(null);
                       setSelectedSlotId(null);
                     }}
-                    color={Colors.primary}
+                    color={Colours.primary}
                   />
                   <View style={styles.serviceInfo}>
                     <Text variant="bodyLarge" style={styles.serviceName}>

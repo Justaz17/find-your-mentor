@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Colors, Spacing, FontSize } from '../../../utils/constants';
+import { Colours, Spacing, FontSize } from '../../../utils/constants';
 import OnboardingProgress from '../../../components/common/OnboardingProgress';
 import { MentorOnboardingParamList } from '../../../navigation/MentorOnboardingNavigator';
 import { ROLE_PRESETS, RolePreset } from '../../../utils/rolePresets';
@@ -90,7 +90,7 @@ const ExpertiseScreen = () => {
 };
 
   return (
-    <View style={{ flex: 1, backgroundColor: Colors.background }}>
+    <View style={{ flex: 1, backgroundColor: Colours.background }}>
       {/* Header */}
       <View style={{
         paddingTop: insets.top + Spacing.md,
@@ -104,16 +104,16 @@ const ExpertiseScreen = () => {
           style={{ marginBottom: Spacing.md }}
           activeOpacity={0.7}
         >
-          <MaterialCommunityIcons name="arrow-left" size={24} color={Colors.text} />
+          <MaterialCommunityIcons name="arrow-left" size={24} color={Colours.text} />
         </TouchableOpacity>
         <Text style={{
           fontSize: FontSize.xxl, fontWeight: '900',
-          color: Colors.text, letterSpacing: -0.5,
+          color: Colours.text, letterSpacing: -0.5,
         }}>
           Your expertise
         </Text>
         <Text style={{
-          fontSize: FontSize.sm, color: Colors.textSecondary,
+          fontSize: FontSize.sm, color: Colours.textSecondary,
           fontWeight: '500', marginTop: 6,
         }}>
           Pick roles to pre-select skills, then fine-tune.
@@ -132,27 +132,27 @@ const ExpertiseScreen = () => {
         {/* Selected skills */}
         {skillEntries.length > 0 && (
           <View style={{
-            backgroundColor: Colors.surface, borderRadius: 14,
+            backgroundColor: Colours.surface, borderRadius: 14,
             padding: Spacing.md, gap: Spacing.sm,
-            borderWidth: 1, borderColor: Colors.border,
+            borderWidth: 1, borderColor: Colours.border,
           }}>
             <Text style={{
               fontSize: FontSize.xs, fontWeight: '700',
-              color: Colors.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5,
+              color: Colours.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5,
             }}>
               Selected skills ({skillEntries.length})
             </Text>
             {skillEntries.map(entry => (
               <View key={entry.name} style={{
                 gap: Spacing.sm, paddingBottom: Spacing.sm,
-                borderBottomWidth: 1, borderBottomColor: Colors.border,
+                borderBottomWidth: 1, borderBottomColor: Colours.border,
               }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Text style={{ fontSize: FontSize.sm, fontWeight: '700', color: Colors.text }}>
+                  <Text style={{ fontSize: FontSize.sm, fontWeight: '700', color: Colours.text }}>
                     {entry.name}
                   </Text>
                   <TouchableOpacity onPress={() => removeSkillManually(entry.name)}>
-                    <MaterialCommunityIcons name="close-circle-outline" size={18} color={Colors.error} />
+                    <MaterialCommunityIcons name="close-circle-outline" size={18} color={Colours.error} />
                   </TouchableOpacity>
                 </View>
                 <View style={{ flexDirection: 'row', gap: 6 }}>
@@ -161,15 +161,15 @@ const ExpertiseScreen = () => {
                       key={level.value}
                       style={{
                         flex: 1, paddingVertical: 6, borderRadius: 8, alignItems: 'center',
-                        backgroundColor: entry.proficiency === level.value ? Colors.primary : Colors.background,
+                        backgroundColor: entry.proficiency === level.value ? Colours.primary : Colours.background,
                         borderWidth: 1,
-                        borderColor: entry.proficiency === level.value ? Colors.primary : Colors.border,
+                        borderColor: entry.proficiency === level.value ? Colours.primary : Colours.border,
                       }}
                       onPress={() => setSkillProficiency(entry.name, level.value)}
                     >
                       <Text style={{
                         fontSize: FontSize.xs, fontWeight: '800',
-                        color: entry.proficiency === level.value ? '#fff' : Colors.textSecondary,
+                        color: entry.proficiency === level.value ? '#fff' : Colours.textSecondary,
                       }}>
                         {level.label}
                       </Text>
@@ -184,15 +184,15 @@ const ExpertiseScreen = () => {
         {/* Role picker */}
         <Text style={{
           fontSize: FontSize.xs, fontWeight: '700',
-          color: Colors.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5,
+          color: Colours.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5,
         }}>
           Browse by role
         </Text>
 
         {ROLE_PRESETS.map(categoryPreset => (
           <View key={categoryPreset.category} style={{
-            backgroundColor: Colors.surface, borderRadius: 14,
-            borderWidth: 1, borderColor: Colors.border, overflow: 'hidden',
+            backgroundColor: Colours.surface, borderRadius: 14,
+            borderWidth: 1, borderColor: Colours.border, overflow: 'hidden',
           }}>
             <TouchableOpacity
               style={{
@@ -205,14 +205,14 @@ const ExpertiseScreen = () => {
               <MaterialCommunityIcons
                 name={categoryPreset.icon as any}
                 size={18}
-                color={Colors.primary}
+                color={Colours.primary}
               />
-              <Text style={{ flex: 1, fontSize: FontSize.md, fontWeight: '800', color: Colors.text }}>
+              <Text style={{ flex: 1, fontSize: FontSize.md, fontWeight: '800', color: Colours.text }}>
                 {categoryPreset.category}
               </Text>
               {categoryPreset.roles.filter(r => selectedRoles.includes(r.role)).length > 0 && (
                 <View style={{
-                  backgroundColor: Colors.primary, borderRadius: 999,
+                  backgroundColor: Colours.primary, borderRadius: 999,
                   paddingHorizontal: 8, paddingVertical: 2,
                 }}>
                   <Text style={{ fontSize: 10, fontWeight: '800', color: '#fff' }}>
@@ -223,13 +223,13 @@ const ExpertiseScreen = () => {
               <MaterialCommunityIcons
                 name={expandedCategories.has(categoryPreset.category) ? 'chevron-up' : 'chevron-down'}
                 size={20}
-                color={Colors.textSecondary}
+                color={Colours.textSecondary}
               />
             </TouchableOpacity>
 
             {expandedCategories.has(categoryPreset.category) && (
               <View style={{
-                borderTopWidth: 1, borderTopColor: Colors.border,
+                borderTopWidth: 1, borderTopColor: Colours.border,
                 padding: Spacing.sm, gap: 6,
               }}>
                 {categoryPreset.roles.map(rolePreset => {
@@ -238,9 +238,9 @@ const ExpertiseScreen = () => {
 
                   return (
                     <View key={rolePreset.role} style={{
-                      backgroundColor: isRoleSelected ? Colors.primaryLight : Colors.background,
+                      backgroundColor: isRoleSelected ? Colours.primaryLight : Colours.background,
                       borderRadius: 12, borderWidth: 1,
-                      borderColor: isRoleSelected ? Colors.primary : Colors.border,
+                      borderColor: isRoleSelected ? Colours.primary : Colours.border,
                       overflow: 'hidden',
                     }}>
                       <TouchableOpacity
@@ -254,17 +254,17 @@ const ExpertiseScreen = () => {
                         <MaterialCommunityIcons
                           name={rolePreset.icon as any}
                           size={16}
-                          color={isRoleSelected ? Colors.primary : Colors.textSecondary}
+                          color={isRoleSelected ? Colours.primary : Colours.textSecondary}
                         />
                         <View style={{ flex: 1 }}>
                           <Text style={{
                             fontSize: FontSize.sm, fontWeight: '800',
-                            color: isRoleSelected ? Colors.primary : Colors.text,
+                            color: isRoleSelected ? Colours.primary : Colours.text,
                           }}>
                             {rolePreset.role}
                           </Text>
                           <Text style={{
-                            fontSize: FontSize.xs, color: Colors.textSecondary, fontWeight: '500',
+                            fontSize: FontSize.xs, color: Colours.textSecondary, fontWeight: '500',
                           }}>
                             {rolePreset.skills.length} skills
                           </Text>
@@ -273,10 +273,10 @@ const ExpertiseScreen = () => {
                         <TouchableOpacity
                           style={{
                             flexDirection: 'row', alignItems: 'center', gap: 4,
-                            backgroundColor: isRoleSelected ? Colors.primary : Colors.background,
+                            backgroundColor: isRoleSelected ? Colours.primary : Colours.background,
                             borderRadius: 8, paddingHorizontal: 10, paddingVertical: 5,
                             borderWidth: 1,
-                            borderColor: isRoleSelected ? Colors.primary : Colors.border,
+                            borderColor: isRoleSelected ? Colours.primary : Colours.border,
                             opacity: isRoleSelected ? 0.6 : 1,
                           }}
                           onPress={() => { if (!isRoleSelected) addRole(rolePreset); }}
@@ -285,11 +285,11 @@ const ExpertiseScreen = () => {
                           <MaterialCommunityIcons
                             name={isRoleSelected ? 'check' : 'plus'}
                             size={12}
-                            color={isRoleSelected ? '#fff' : Colors.primary}
+                            color={isRoleSelected ? '#fff' : Colours.primary}
                           />
                           <Text style={{
                             fontSize: 11, fontWeight: '800',
-                            color: isRoleSelected ? '#fff' : Colors.primary,
+                            color: isRoleSelected ? '#fff' : Colours.primary,
                           }}>
                             {isRoleSelected ? 'Added' : 'Add all'}
                           </Text>
@@ -298,13 +298,13 @@ const ExpertiseScreen = () => {
                         <MaterialCommunityIcons
                           name={isRoleExpanded ? 'chevron-up' : 'chevron-down'}
                           size={16}
-                          color={Colors.textSecondary}
+                          color={Colours.textSecondary}
                         />
                       </TouchableOpacity>
 
                       {isRoleExpanded && (
                         <View style={{
-                          borderTopWidth: 1, borderTopColor: Colors.border,
+                          borderTopWidth: 1, borderTopColor: Colours.border,
                           paddingHorizontal: Spacing.sm, paddingVertical: Spacing.sm,
                           gap: 2,
                         }}>
@@ -317,7 +317,7 @@ const ExpertiseScreen = () => {
                                   flexDirection: 'row', alignItems: 'center',
                                   gap: Spacing.sm, paddingVertical: 8,
                                   paddingHorizontal: Spacing.sm, borderRadius: 8,
-                                  backgroundColor: isSelected ? Colors.primary + '12' : 'transparent',
+                                  backgroundColor: isSelected ? Colours.primary + '12' : 'transparent',
                                 }}
                                 onPress={() => isSelected
                                   ? removeSkillManually(skillName)
@@ -328,11 +328,11 @@ const ExpertiseScreen = () => {
                                 <MaterialCommunityIcons
                                   name={isSelected ? 'check-circle' : 'plus-circle-outline'}
                                   size={18}
-                                  color={isSelected ? Colors.primary : Colors.textSecondary}
+                                  color={isSelected ? Colours.primary : Colours.textSecondary}
                                 />
                                 <Text style={{
                                   flex: 1, fontSize: FontSize.sm, fontWeight: '600',
-                                  color: isSelected ? Colors.primary : Colors.text,
+                                  color: isSelected ? Colours.primary : Colours.text,
                                 }}>
                                   {skillName}
                                 </Text>
@@ -355,26 +355,26 @@ const ExpertiseScreen = () => {
         paddingHorizontal: Spacing.lg,
         paddingBottom: insets.bottom + Spacing.md,
         paddingTop: Spacing.md,
-        borderTopWidth: 1, borderTopColor: Colors.border,
-        backgroundColor: Colors.background,
+        borderTopWidth: 1, borderTopColor: Colours.border,
+        backgroundColor: Colours.background,
         flexDirection: 'row', gap: Spacing.sm, alignItems: 'center',
       }}>
         <TouchableOpacity
           onPress={() => handleSaveAndNavigate('OnboardingCongrats')}
           style={{
             paddingVertical: 16, paddingHorizontal: Spacing.md,
-            borderRadius: 14, borderWidth: 1, borderColor: Colors.border,
+            borderRadius: 14, borderWidth: 1, borderColor: Colours.border,
           }}
           activeOpacity={0.7}
         >
-          <Text style={{ fontSize: FontSize.sm, color: Colors.textSecondary, fontWeight: '700' }}>
+          <Text style={{ fontSize: FontSize.sm, color: Colours.textSecondary, fontWeight: '700' }}>
             Skip
           </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={{
-            flex: 1, backgroundColor: Colors.primary, borderRadius: 14,
+            flex: 1, backgroundColor: Colours.primary, borderRadius: 14,
             paddingVertical: 16, flexDirection: 'row',
             justifyContent: 'center', alignItems: 'center', gap: 8,
           }}

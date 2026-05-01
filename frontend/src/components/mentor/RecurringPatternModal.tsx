@@ -4,7 +4,7 @@ import {
   ScrollView, ActivityIndicator,
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Colors, FontSize, Spacing } from '../../utils/constants';
+import { Colours, FontSize, Spacing } from '../../utils/constants';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -108,28 +108,28 @@ const RecurringPatternModal = ({ visible, onClose, onAdd }: RecurringPatternModa
 
   return (
     <Modal visible={visible} animationType="slide" presentationStyle="pageSheet">
-      <View style={{ flex: 1, backgroundColor: Colors.background }}>
+      <View style={{ flex: 1, backgroundColor: Colours.background }}>
 
         {/* Header */}
         <View style={{
           paddingTop: insets.top + Spacing.md,
           paddingHorizontal: Spacing.lg,
           paddingBottom: Spacing.md,
-          borderBottomWidth: 1, borderBottomColor: Colors.border,
+          borderBottomWidth: 1, borderBottomColor: Colours.border,
           flexDirection: 'row', alignItems: 'center', gap: Spacing.md,
         }}>
           <TouchableOpacity onPress={handleBack} activeOpacity={0.7}>
             <MaterialCommunityIcons
               name={step === 'day' ? 'close' : 'arrow-left'}
-              size={24} color={Colors.text}
+              size={24} color={Colours.text}
             />
           </TouchableOpacity>
           <View style={{ flex: 1 }}>
-            <Text style={{ fontSize: FontSize.md, fontWeight: '900', color: Colors.text }}>
+            <Text style={{ fontSize: FontSize.md, fontWeight: '900', color: Colours.text }}>
               {stepTitle}
             </Text>
             {stepSubtitle ? (
-              <Text style={{ fontSize: FontSize.xs, color: Colors.textSecondary, fontWeight: '600', marginTop: 1 }}>
+              <Text style={{ fontSize: FontSize.xs, color: Colours.textSecondary, fontWeight: '600', marginTop: 1 }}>
                 {stepSubtitle}
               </Text>
             ) : null}
@@ -140,7 +140,7 @@ const RecurringPatternModal = ({ visible, onClose, onAdd }: RecurringPatternModa
             {(['day', 'start', 'end', 'until', 'summary'] as const).map(s => (
               <View key={s} style={{
                 width: 6, height: 6, borderRadius: 3,
-                backgroundColor: s === step ? Colors.primary : Colors.border,
+                backgroundColor: s === step ? Colours.primary : Colours.border,
               }} />
             ))}
           </View>
@@ -162,16 +162,16 @@ const RecurringPatternModal = ({ visible, onClose, onAdd }: RecurringPatternModa
                     style={{
                       flex: 1, minWidth: '13%', paddingVertical: 12,
                       borderRadius: 12, alignItems: 'center',
-                      backgroundColor: selectedDay === day ? Colors.primary : Colors.surface,
+                      backgroundColor: selectedDay === day ? Colours.primary : Colours.surface,
                       borderWidth: 1,
-                      borderColor: selectedDay === day ? Colors.primary : Colors.border,
+                      borderColor: selectedDay === day ? Colours.primary : Colours.border,
                     }}
                     onPress={() => setSelectedDay(day)}
                     activeOpacity={0.85}
                   >
                     <Text style={{
                       fontSize: FontSize.sm, fontWeight: '800',
-                      color: selectedDay === day ? '#fff' : Colors.textSecondary,
+                      color: selectedDay === day ? '#fff' : Colours.textSecondary,
                     }}>
                       {DAY_SHORT[day]}
                     </Text>
@@ -181,7 +181,7 @@ const RecurringPatternModal = ({ visible, onClose, onAdd }: RecurringPatternModa
 
               <TouchableOpacity
                 style={{
-                  backgroundColor: Colors.primary, borderRadius: 14,
+                  backgroundColor: Colours.primary, borderRadius: 14,
                   paddingVertical: 16, flexDirection: 'row',
                   justifyContent: 'center', alignItems: 'center', gap: 8,
                 }}
@@ -209,32 +209,32 @@ const RecurringPatternModal = ({ visible, onClose, onAdd }: RecurringPatternModa
             <>
               <TouchableOpacity
                 style={{
-                  backgroundColor: Colors.primaryLight, borderRadius: 14,
-                  padding: Spacing.md, borderWidth: 1, borderColor: Colors.primary + '30',
+                  backgroundColor: Colours.primaryLight, borderRadius: 14,
+                  padding: Spacing.md, borderWidth: 1, borderColor: Colours.primary + '30',
                   flexDirection: 'row', alignItems: 'center', gap: Spacing.sm,
                 }}
                 onPress={handleFreeAllDay}
                 activeOpacity={0.85}
               >
-                <MaterialCommunityIcons name="weather-sunny" size={20} color={Colors.primary} />
+                <MaterialCommunityIcons name="weather-sunny" size={20} color={Colours.primary} />
                 <View style={{ flex: 1 }}>
-                  <Text style={{ fontSize: FontSize.sm, fontWeight: '800', color: Colors.primary }}>
+                  <Text style={{ fontSize: FontSize.sm, fontWeight: '800', color: Colours.primary }}>
                     Free all day
                   </Text>
-                  <Text style={{ fontSize: FontSize.xs, color: Colors.textSecondary, fontWeight: '600' }}>
+                  <Text style={{ fontSize: FontSize.xs, color: Colours.textSecondary, fontWeight: '600' }}>
                     Sets 8:00 AM — 8:00 PM automatically
                   </Text>
                 </View>
-                <MaterialCommunityIcons name="chevron-right" size={18} color={Colors.primary} />
+                <MaterialCommunityIcons name="chevron-right" size={18} color={Colours.primary} />
               </TouchableOpacity>
 
               <View style={{ alignItems: 'center' }}>
-                <Text style={{ fontSize: FontSize.xs, color: Colors.textSecondary, fontWeight: '700', textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                <Text style={{ fontSize: FontSize.xs, color: Colours.textSecondary, fontWeight: '700', textTransform: 'uppercase', letterSpacing: 0.5 }}>
                   Or pick a start time
                 </Text>
               </View>
 
-              <View style={{ backgroundColor: '#ffffff', borderRadius: 12, overflow: 'hidden', borderWidth: 1, borderColor: Colors.border }}>
+              <View style={{ backgroundColor: '#ffffff', borderRadius: 12, overflow: 'hidden', borderWidth: 1, borderColor: Colours.border }}>
                 <DateTimePicker
                   value={startTime}
                   mode="time"
@@ -247,19 +247,19 @@ const RecurringPatternModal = ({ visible, onClose, onAdd }: RecurringPatternModa
               </View>
 
               <View style={{
-                backgroundColor: Colors.surface, borderRadius: 14,
-                padding: Spacing.md, borderWidth: 1, borderColor: Colors.border,
+                backgroundColor: Colours.surface, borderRadius: 14,
+                padding: Spacing.md, borderWidth: 1, borderColor: Colours.border,
                 flexDirection: 'row', alignItems: 'center', gap: Spacing.sm,
               }}>
-                <MaterialCommunityIcons name="clock-outline" size={18} color={Colors.primary} />
-                <Text style={{ fontSize: FontSize.md, fontWeight: '800', color: Colors.text }}>
+                <MaterialCommunityIcons name="clock-outline" size={18} color={Colours.primary} />
+                <Text style={{ fontSize: FontSize.md, fontWeight: '800', color: Colours.text }}>
                   Starts at {startTime.toLocaleTimeString('en-IE', { hour: '2-digit', minute: '2-digit' })}
                 </Text>
               </View>
 
               <TouchableOpacity
                 style={{
-                  backgroundColor: Colors.primary, borderRadius: 14,
+                  backgroundColor: Colours.primary, borderRadius: 14,
                   paddingVertical: 16, flexDirection: 'row',
                   justifyContent: 'center', alignItems: 'center', gap: 8,
                 }}
@@ -281,7 +281,7 @@ const RecurringPatternModal = ({ visible, onClose, onAdd }: RecurringPatternModa
           {/* ── STEP: END TIME ── */}
           {step === 'end' && (
             <>
-              <View style={{ backgroundColor: '#ffffff', borderRadius: 12, overflow: 'hidden', borderWidth: 1, borderColor: Colors.border }}>
+              <View style={{ backgroundColor: '#ffffff', borderRadius: 12, overflow: 'hidden', borderWidth: 1, borderColor: Colours.border }}>
                 <DateTimePicker
                   value={endTime}
                   mode="time"
@@ -299,19 +299,19 @@ const RecurringPatternModal = ({ visible, onClose, onAdd }: RecurringPatternModa
               </View>
 
               <View style={{
-                backgroundColor: durationValid ? Colors.primaryLight : Colors.error + '15',
+                backgroundColor: durationValid ? Colours.primaryLight : Colours.error + '15',
                 borderRadius: 12, padding: Spacing.md,
-                borderWidth: 1, borderColor: durationValid ? Colors.primary + '30' : Colors.error + '30',
+                borderWidth: 1, borderColor: durationValid ? Colours.primary + '30' : Colours.error + '30',
                 flexDirection: 'row', alignItems: 'center', gap: 8,
               }}>
                 <MaterialCommunityIcons
                   name={durationValid ? 'clock-check-outline' : 'clock-alert-outline'}
                   size={18}
-                  color={durationValid ? Colors.primary : Colors.error}
+                  color={durationValid ? Colours.primary : Colours.error}
                 />
                 <Text style={{
                   fontSize: FontSize.sm, fontWeight: '800',
-                  color: durationValid ? Colors.primary : Colors.error,
+                  color: durationValid ? Colours.primary : Colours.error,
                 }}>
                   {durationError ?? `${formatDuration(durationMinutes)} slot`}
                 </Text>
@@ -319,7 +319,7 @@ const RecurringPatternModal = ({ visible, onClose, onAdd }: RecurringPatternModa
 
               <TouchableOpacity
                 style={{
-                  backgroundColor: durationValid ? Colors.primary : Colors.border,
+                  backgroundColor: durationValid ? Colours.primary : Colours.border,
                   borderRadius: 14, paddingVertical: 16,
                   flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 8,
                 }}
@@ -339,13 +339,13 @@ const RecurringPatternModal = ({ visible, onClose, onAdd }: RecurringPatternModa
           {step === 'until' && (
             <>
               <Text style={{
-                fontSize: FontSize.sm, color: Colors.textSecondary,
+                fontSize: FontSize.sm, color: Colours.textSecondary,
                 fontWeight: '600', lineHeight: 20,
               }}>
                 Slots will be auto-generated every {selectedDay.charAt(0) + selectedDay.slice(1).toLowerCase()} until this date.
               </Text>
 
-              <View style={{ backgroundColor: '#ffffff', borderRadius: 12, overflow: 'hidden', borderWidth: 1, borderColor: Colors.border }}>
+              <View style={{ backgroundColor: '#ffffff', borderRadius: 12, overflow: 'hidden', borderWidth: 1, borderColor: Colours.border }}>
                 <DateTimePicker
                   value={generateUntil}
                   mode="date"
@@ -360,19 +360,19 @@ const RecurringPatternModal = ({ visible, onClose, onAdd }: RecurringPatternModa
               </View>
 
               <View style={{
-                backgroundColor: Colors.surface, borderRadius: 14,
-                padding: Spacing.md, borderWidth: 1, borderColor: Colors.border,
+                backgroundColor: Colours.surface, borderRadius: 14,
+                padding: Spacing.md, borderWidth: 1, borderColor: Colours.border,
                 flexDirection: 'row', alignItems: 'center', gap: Spacing.sm,
               }}>
-                <MaterialCommunityIcons name="calendar-end" size={18} color={Colors.primary} />
-                <Text style={{ fontSize: FontSize.md, fontWeight: '800', color: Colors.text }}>
+                <MaterialCommunityIcons name="calendar-end" size={18} color={Colours.primary} />
+                <Text style={{ fontSize: FontSize.md, fontWeight: '800', color: Colours.text }}>
                   Until {generateUntil.toLocaleDateString('en-IE', { weekday: 'short', month: 'long', day: 'numeric', year: 'numeric' })}
                 </Text>
               </View>
 
               <TouchableOpacity
                 style={{
-                  backgroundColor: Colors.primary, borderRadius: 14,
+                  backgroundColor: Colours.primary, borderRadius: 14,
                   paddingVertical: 16, flexDirection: 'row',
                   justifyContent: 'center', alignItems: 'center', gap: 8,
                 }}
@@ -391,26 +391,26 @@ const RecurringPatternModal = ({ visible, onClose, onAdd }: RecurringPatternModa
           {step === 'summary' && (
             <>
               <View style={{
-                backgroundColor: Colors.surface, borderRadius: 16,
-                borderWidth: 1, borderColor: Colors.border, overflow: 'hidden',
+                backgroundColor: Colours.surface, borderRadius: 16,
+                borderWidth: 1, borderColor: Colours.border, overflow: 'hidden',
               }}>
                 {/* Day row */}
                 <View style={{
                   flexDirection: 'row', alignItems: 'center', gap: Spacing.md,
-                  padding: Spacing.md, borderBottomWidth: 1, borderBottomColor: Colors.border,
+                  padding: Spacing.md, borderBottomWidth: 1, borderBottomColor: Colours.border,
                 }}>
                   <View style={{
                     width: 40, height: 40, borderRadius: 20,
-                    backgroundColor: Colors.primaryLight,
+                    backgroundColor: Colours.primaryLight,
                     justifyContent: 'center', alignItems: 'center',
                   }}>
-                    <MaterialCommunityIcons name="calendar-repeat" size={20} color={Colors.primary} />
+                    <MaterialCommunityIcons name="calendar-repeat" size={20} color={Colours.primary} />
                   </View>
                   <View>
-                    <Text style={{ fontSize: FontSize.xs, fontWeight: '700', color: Colors.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                    <Text style={{ fontSize: FontSize.xs, fontWeight: '700', color: Colours.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5 }}>
                       Repeats
                     </Text>
-                    <Text style={{ fontSize: FontSize.md, fontWeight: '800', color: Colors.text }}>
+                    <Text style={{ fontSize: FontSize.md, fontWeight: '800', color: Colours.text }}>
                       Every {selectedDay.charAt(0) + selectedDay.slice(1).toLowerCase()}
                     </Text>
                   </View>
@@ -419,20 +419,20 @@ const RecurringPatternModal = ({ visible, onClose, onAdd }: RecurringPatternModa
                 {/* Time row */}
                 <View style={{
                   flexDirection: 'row', alignItems: 'center', gap: Spacing.md,
-                  padding: Spacing.md, borderBottomWidth: 1, borderBottomColor: Colors.border,
+                  padding: Spacing.md, borderBottomWidth: 1, borderBottomColor: Colours.border,
                 }}>
                   <View style={{
                     width: 40, height: 40, borderRadius: 20,
-                    backgroundColor: Colors.primaryLight,
+                    backgroundColor: Colours.primaryLight,
                     justifyContent: 'center', alignItems: 'center',
                   }}>
-                    <MaterialCommunityIcons name="clock-outline" size={20} color={Colors.primary} />
+                    <MaterialCommunityIcons name="clock-outline" size={20} color={Colours.primary} />
                   </View>
                   <View>
-                    <Text style={{ fontSize: FontSize.xs, fontWeight: '700', color: Colors.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                    <Text style={{ fontSize: FontSize.xs, fontWeight: '700', color: Colours.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5 }}>
                       Time
                     </Text>
-                    <Text style={{ fontSize: FontSize.md, fontWeight: '800', color: Colors.text }}>
+                    <Text style={{ fontSize: FontSize.md, fontWeight: '800', color: Colours.text }}>
                       {startTime.toLocaleTimeString('en-IE', { hour: '2-digit', minute: '2-digit' })}
                       {' — '}
                       {endTime.toLocaleTimeString('en-IE', { hour: '2-digit', minute: '2-digit' })}
@@ -449,16 +449,16 @@ const RecurringPatternModal = ({ visible, onClose, onAdd }: RecurringPatternModa
                 }}>
                   <View style={{
                     width: 40, height: 40, borderRadius: 20,
-                    backgroundColor: Colors.primaryLight,
+                    backgroundColor: Colours.primaryLight,
                     justifyContent: 'center', alignItems: 'center',
                   }}>
-                    <MaterialCommunityIcons name="calendar-end" size={20} color={Colors.primary} />
+                    <MaterialCommunityIcons name="calendar-end" size={20} color={Colours.primary} />
                   </View>
                   <View>
-                    <Text style={{ fontSize: FontSize.xs, fontWeight: '700', color: Colors.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                    <Text style={{ fontSize: FontSize.xs, fontWeight: '700', color: Colours.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5 }}>
                       Until
                     </Text>
-                    <Text style={{ fontSize: FontSize.md, fontWeight: '800', color: Colors.text }}>
+                    <Text style={{ fontSize: FontSize.md, fontWeight: '800', color: Colours.text }}>
                       {generateUntil.toLocaleDateString('en-IE', { month: 'long', day: 'numeric', year: 'numeric' })}
                     </Text>
                   </View>
@@ -468,18 +468,18 @@ const RecurringPatternModal = ({ visible, onClose, onAdd }: RecurringPatternModa
               {/* Info */}
               <View style={{
                 flexDirection: 'row', gap: Spacing.sm, alignItems: 'flex-start',
-                backgroundColor: Colors.surface, borderRadius: 12,
-                padding: Spacing.md, borderWidth: 1, borderColor: Colors.border,
+                backgroundColor: Colours.surface, borderRadius: 12,
+                padding: Spacing.md, borderWidth: 1, borderColor: Colours.border,
               }}>
-                <MaterialCommunityIcons name="information-outline" size={16} color={Colors.textSecondary} />
-                <Text style={{ flex: 1, fontSize: FontSize.xs, color: Colors.textSecondary, fontWeight: '600', lineHeight: 18 }}>
+                <MaterialCommunityIcons name="information-outline" size={16} color={Colours.textSecondary} />
+                <Text style={{ flex: 1, fontSize: FontSize.xs, color: Colours.textSecondary, fontWeight: '600', lineHeight: 18 }}>
                   1-hour slots will be auto-generated every {selectedDay.charAt(0) + selectedDay.slice(1).toLowerCase()} within your time window. Learners book individual slots and you approve each one.
                 </Text>
               </View>
 
               <TouchableOpacity
                 style={{
-                  backgroundColor: Colors.primary, borderRadius: 14,
+                  backgroundColor: Colours.primary, borderRadius: 14,
                   paddingVertical: 16, flexDirection: 'row',
                   justifyContent: 'center', alignItems: 'center', gap: 8,
                 }}

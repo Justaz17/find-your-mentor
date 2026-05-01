@@ -1,11 +1,7 @@
-/**
- * DEV ONLY — to remove before production
- * promote the current logged-in user to mentor role.
- */
 import React, { useState } from 'react';
 import { TouchableOpacity, Text, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import api from '../../services/api';
-import { Colors, Spacing, FontSize } from '../../utils/constants';
+import { Colours, Spacing, FontSize } from '../../utils/constants';
 
 const BecomeMentorDevButton = () => {
   const [loading, setLoading] = useState(false);
@@ -36,7 +32,7 @@ const BecomeMentorDevButton = () => {
     <TouchableOpacity style={styles.btn} onPress={handlePress} activeOpacity={0.85} disabled={loading}>
       {loading
         ? <ActivityIndicator size="small" color="#fff" />
-        : <Text style={styles.text}>DEV: Become a mentor</Text>
+        : <Text style={styles.text}>Become a mentor</Text>
       }
     </TouchableOpacity>
   );

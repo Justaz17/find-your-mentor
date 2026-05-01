@@ -7,7 +7,7 @@ import { useNavigation, useRoute, CommonActions } from '@react-navigation/native
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Colors, FontSize, Spacing } from '../../utils/constants';
+import { Colours, FontSize, Spacing } from '../../utils/constants';
 import { useAvailability } from '../../hooks/useAvailability';
 import { useAuth } from '../../context/AuthContext';
 import { RootStackParamList } from '../../navigation/types';
@@ -118,8 +118,8 @@ const MentorAvailabilityManager = () => {
 
   if (isLoading) return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <ActivityIndicator size="large" color={Colors.primary} />
-      <Text style={{ marginTop: Spacing.sm, color: Colors.textSecondary, fontWeight: '600' }}>
+      <ActivityIndicator size="large" color={Colours.primary} />
+      <Text style={{ marginTop: Spacing.sm, color: Colours.textSecondary, fontWeight: '600' }}>
         Loading availability...
       </Text>
     </View>
@@ -127,8 +127,8 @@ const MentorAvailabilityManager = () => {
 
   if (error) return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: Spacing.lg }}>
-      <MaterialCommunityIcons name="alert-circle-outline" size={48} color={Colors.error} />
-      <Text style={{ color: Colors.error, fontWeight: '700', marginTop: Spacing.sm, fontSize: FontSize.sm }}>
+      <MaterialCommunityIcons name="alert-circle-outline" size={48} color={Colours.error} />
+      <Text style={{ color: Colours.error, fontWeight: '700', marginTop: Spacing.sm, fontSize: FontSize.sm }}>
         {error}
       </Text>
     </View>
@@ -140,32 +140,32 @@ const MentorAvailabilityManager = () => {
   // ── Render ────────────────────────────────────────────────────────────
 
   return (
-    <View style={{ flex: 1, backgroundColor: Colors.surface }}>
+    <View style={{ flex: 1, backgroundColor: Colours.surface }}>
 
       {/* ── Header ── */}
       <View style={{
-        backgroundColor: Colors.background,
+        backgroundColor: Colours.background,
         paddingTop: insets.top + Spacing.md,
         paddingHorizontal: Spacing.lg,
         paddingBottom: Spacing.lg,
-        borderBottomWidth: 1, borderBottomColor: Colors.border,
+        borderBottomWidth: 1, borderBottomColor: Colours.border,
         flexDirection: 'row', alignItems: 'center', gap: Spacing.md,
       }}>
         <TouchableOpacity onPress={handleDone} activeOpacity={0.7}>
-          <MaterialCommunityIcons name="arrow-left" size={24} color={Colors.text} />
+          <MaterialCommunityIcons name="arrow-left" size={24} color={Colours.text} />
         </TouchableOpacity>
         <View style={{ flex: 1 }}>
-          <Text style={{ fontSize: FontSize.xl, fontWeight: '900', color: Colors.text }}>
+          <Text style={{ fontSize: FontSize.xl, fontWeight: '900', color: Colours.text }}>
             Availability
           </Text>
-          <Text style={{ fontSize: FontSize.xs, color: Colors.textSecondary, fontWeight: '600' }}>
+          <Text style={{ fontSize: FontSize.xs, color: Colours.textSecondary, fontWeight: '600' }}>
             Manage your teaching schedule
           </Text>
         </View>
         {isOnboarding && (
           <TouchableOpacity
             style={{
-              backgroundColor: Colors.secondary, borderRadius: 12,
+              backgroundColor: Colours.secondary, borderRadius: 12,
               paddingHorizontal: Spacing.md, paddingVertical: 8,
               flexDirection: 'row', alignItems: 'center', gap: 6,
             }}
@@ -180,26 +180,26 @@ const MentorAvailabilityManager = () => {
 
       {/* ── Tab navigation ── */}
       <View style={{
-        flexDirection: 'row', backgroundColor: Colors.background,
+        flexDirection: 'row', backgroundColor: Colours.background,
         paddingHorizontal: Spacing.lg, paddingBottom: Spacing.md,
         paddingTop: Spacing.sm, gap: Spacing.sm,
-        borderBottomWidth: 1, borderBottomColor: Colors.border,
+        borderBottomWidth: 1, borderBottomColor: Colours.border,
       }}>
         {(['slots', 'patterns'] as const).map(tab => (
           <TouchableOpacity
             key={tab}
             style={{
               flex: 1, paddingVertical: 10, borderRadius: 12, alignItems: 'center',
-              backgroundColor: activeTab === tab ? Colors.primary : Colors.surface,
+              backgroundColor: activeTab === tab ? Colours.primary : Colours.surface,
               borderWidth: 1,
-              borderColor: activeTab === tab ? Colors.primary : Colors.border,
+              borderColor: activeTab === tab ? Colours.primary : Colours.border,
             }}
             onPress={() => setActiveTab(tab)}
             activeOpacity={0.85}
           >
             <Text style={{
               fontSize: FontSize.sm, fontWeight: '800',
-              color: activeTab === tab ? '#fff' : Colors.textSecondary,
+              color: activeTab === tab ? '#fff' : Colours.textSecondary,
             }}>
               {tab === 'slots'
                 ? `Slots (${availableSlots.length})`
@@ -222,7 +222,7 @@ const MentorAvailabilityManager = () => {
           <>
             <TouchableOpacity
               style={{
-                backgroundColor: Colors.primary, borderRadius: 14,
+                backgroundColor: Colours.primary, borderRadius: 14,
                 paddingVertical: 14, flexDirection: 'row',
                 justifyContent: 'center', alignItems: 'center', gap: 8,
               }}
@@ -237,12 +237,12 @@ const MentorAvailabilityManager = () => {
 
             {availableSlots.length === 0 && bookedSlots.length === 0 ? (
               <View style={{ alignItems: 'center', paddingTop: 60, gap: Spacing.md }}>
-                <MaterialCommunityIcons name="calendar-blank-outline" size={48} color={Colors.border} />
-                <Text style={{ fontSize: FontSize.lg, fontWeight: '900', color: Colors.text }}>
+                <MaterialCommunityIcons name="calendar-blank-outline" size={48} color={Colours.border} />
+                <Text style={{ fontSize: FontSize.lg, fontWeight: '900', color: Colours.text }}>
                   No slots yet
                 </Text>
                 <Text style={{
-                  fontSize: FontSize.sm, color: Colors.textSecondary,
+                  fontSize: FontSize.sm, color: Colours.textSecondary,
                   textAlign: 'center', lineHeight: 20,
                 }}>
                   Add slots manually or use recurring patterns
@@ -254,7 +254,7 @@ const MentorAvailabilityManager = () => {
                   <>
                     <Text style={{
                       fontSize: FontSize.xs, fontWeight: '700',
-                      color: Colors.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5,
+                      color: Colours.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5,
                     }}>
                       Available ({availableSlots.length})
                     </Text>
@@ -271,7 +271,7 @@ const MentorAvailabilityManager = () => {
                   <>
                     <Text style={{
                       fontSize: FontSize.xs, fontWeight: '700',
-                      color: Colors.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5,
+                      color: Colours.textSecondary, textTransform: 'uppercase', letterSpacing: 0.5,
                     }}>
                       Booked ({bookedSlots.length})
                     </Text>
@@ -287,7 +287,7 @@ const MentorAvailabilityManager = () => {
           <>
             <TouchableOpacity
               style={{
-                backgroundColor: Colors.primary, borderRadius: 14,
+                backgroundColor: Colours.primary, borderRadius: 14,
                 paddingVertical: 14, flexDirection: 'row',
                 justifyContent: 'center', alignItems: 'center', gap: 8,
               }}
@@ -302,12 +302,12 @@ const MentorAvailabilityManager = () => {
 
             {patterns.length === 0 ? (
               <View style={{ alignItems: 'center', paddingTop: 60, gap: Spacing.md }}>
-                <MaterialCommunityIcons name="calendar-blank-outline" size={48} color={Colors.border} />
-                <Text style={{ fontSize: FontSize.lg, fontWeight: '900', color: Colors.text }}>
+                <MaterialCommunityIcons name="calendar-blank-outline" size={48} color={Colours.border} />
+                <Text style={{ fontSize: FontSize.lg, fontWeight: '900', color: Colours.text }}>
                   No recurring patterns
                 </Text>
                 <Text style={{
-                  fontSize: FontSize.sm, color: Colors.textSecondary,
+                  fontSize: FontSize.sm, color: Colours.textSecondary,
                   textAlign: 'center', lineHeight: 20,
                 }}>
                   Create a pattern to auto-generate weekly slots

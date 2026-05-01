@@ -1,5 +1,3 @@
-// frontend/src/services/availabilityService.ts
-
 import api from './api';
 import {
   AvailabilitySlot,
