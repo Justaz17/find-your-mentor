@@ -109,7 +109,7 @@ This log tracks the iterative development process for the frontend (mobile appli
 **Steps Taken:**
 1. Created `constants.ts` with:
    - `API_BASE_URL` configuration (set to `http://10.0.2.2:8000` for Android emulator, which maps to `localhost:8000` on the host machine)
-   - `Colors` object with design theme colours (purple primary: `#6C3AED`, derived from the wireframes in the Design chapter)
+   - `Colours` object with design theme colours (purple primary: `#6C3AED`, derived from the wireframes in the Design chapter)
    - `Spacing` and `FontSize` objects for consistent layout values
    - `CATEGORIES` array with category data for the home screen browse section
 2. Created `formatDate.ts` with date/time formatting functions using `en-IE` locale
@@ -123,7 +123,7 @@ This log tracks the iterative development process for the frontend (mobile appli
 - `src/utils/validators.ts`
 
 **Technical Decisions:**
-- **Centralised colour palette:** All colours defined in one `Colors` object to ensure visual consistency and make theme changes trivial. The purple primary (`#6C3AED`) was derived from the wireframes presented in the Analysis and Design chapter
+- **Centralised colour palette:** All colours defined in one `Colours` object to ensure visual consistency and make theme changes trivial. The purple primary (`#6C3AED`) was derived from the wireframes presented in the Analysis and Design chapter
 - **`10.0.2.2` for emulator:** Android emulators use `10.0.2.2` as a special alias to reach `localhost` on the host machine. This was used instead of `localhost` or `127.0.0.1` which would refer to the emulator's own loopback interface
 - **Client-side validation:** Validation functions return error messages as strings (or `null` for valid input), allowing the UI to display specific feedback before making API calls. This reduces unnecessary network requests for obviously invalid inputs
 - **Design tokens approach:** Using `Spacing` and `FontSize` objects rather than hardcoded values throughout components. This approach acts similarly to CSS variables or design tokens, maintaining consistency without a CSS preprocessor
