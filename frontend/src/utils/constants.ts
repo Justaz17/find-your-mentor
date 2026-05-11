@@ -1,7 +1,8 @@
 // Currently set to local development IP (update to your machine's IP when testing)
 // Android emulator: use 'http://10.0.2.2:8000'
 // iOS simulator: use 'http://localhost:8000'
-export const API_BASE_URL = 'http://192.168.1.17:8000';
+// export const API_BASE_URL = 'http://192.168.1.17:8000';
+export const API_BASE_URL = 'http://172.20.10.8:8000';
 
 // Colours derived from the design chapter wire frames (purple/indigo primary)
 export const Colours = {
@@ -45,7 +46,6 @@ export const FontSize = {
   hero: 34,
 };
 
-// Popular categories for the home screen (matches design wireframe)
 export const CATEGORIES = [
   { name: 'Technology', icon: 'laptop', color: Colours.primary },
   { name: 'Business & Career', icon: 'briefcase', color: Colours.purple },

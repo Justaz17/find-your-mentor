@@ -32,7 +32,7 @@ def generate_slots_from_pattern(
     slots_created = []
 
     # Get current date
-    today = datetime.now(timezone.utc).date()
+    today = datetime.now().date()
 
     # Parse start and end times
     start_h, start_m = map(int, pattern.start_time.split(":"))

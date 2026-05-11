@@ -19,7 +19,7 @@ class MentorResource(Base):
     )  # visible to everyone vs booked learners only
     created_at = Column(
         DateTime(timezone=True),
-        default=lambda: datetime.now(timezone.utc),
+        default=lambda: datetime.now(),
     )
 
     # Relationships

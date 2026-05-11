@@ -31,7 +31,7 @@ class LearnerProfile(Base):
     goal_tags = Column(String, nullable=True)
     goal_description = Column(Text, nullable=True)  # free text, used as soft signal
 
-    # Availability preference — soft signal for smart sort
+    # Availability preference - soft signal for smart sort
     # comma-separated from: weekday_mornings, weekday_afternoons, weekday_evenings,
     # weekend_mornings, weekend_afternoons, weekend_evenings
     availability_preference = Column(String, nullable=True)

@@ -365,7 +365,7 @@ def cancel_booking(
             detail=f"Booking is {booking.status}, cannot cancel",
         )
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now()
     hours_until_session = (
         booking.availability_slot.start_time - now
     ).total_seconds() / 3600

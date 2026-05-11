@@ -26,7 +26,7 @@ def get_current_user_profile(current_user: User = Depends(get_current_user)):
         "name": current_user.name,
         "role": current_user.role,
         "user_id": current_user.id,
-        "exp": datetime.now(timezone.utc) + timedelta(hours=ACCESS_TOKEN_EXPIRE_HOURS),
+        "exp": datetime.now() + timedelta(hours=ACCESS_TOKEN_EXPIRE_HOURS),
     }
     access_token = jwt.encode(token_data, SECRET_KEY, algorithm=ALGORITHM)
 
@@ -81,7 +81,7 @@ def login(credentials: UserLogin, db: Session = Depends(get_db)):
         "name": user.name,
         "role": user.role,
         "user_id": user.id,
-        "exp": datetime.now(timezone.utc) + timedelta(hours=ACCESS_TOKEN_EXPIRE_HOURS),
+        "exp": datetime.now() + timedelta(hours=ACCESS_TOKEN_EXPIRE_HOURS),
     }
     access_token = jwt.encode(token_data, SECRET_KEY, algorithm=ALGORITHM)
 

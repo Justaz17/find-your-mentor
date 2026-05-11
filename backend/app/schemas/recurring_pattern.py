@@ -64,7 +64,7 @@ class RecurringPatternCreate(BaseModel):
         # Must be in the future
         from datetime import datetime, timezone
 
-        today = datetime.now(timezone.utc).date()
+        today = datetime.now().date()
         if v <= today:
             raise ValueError("generate_until must be in the future")
         return v

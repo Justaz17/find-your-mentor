@@ -58,7 +58,7 @@ class RescheduleRequest(Base):
 
     created_at = Column(
         DateTime(timezone=True),
-        default=lambda: datetime.now(timezone.utc),
+        default=lambda: datetime.now(),
     )
 
     # Auto-reject after 30 days

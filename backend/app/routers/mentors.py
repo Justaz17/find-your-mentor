@@ -49,7 +49,7 @@ def build_mentor_dict(mentor: MentorProfile, db: Session) -> dict:
     )
 
     # Count available (future) slots
-    now = datetime.now(timezone.utc)
+    now = datetime.now()
     available_slots = (
         db.query(AvailabilitySlot)
         .filter(
@@ -116,7 +116,7 @@ def build_mentor_dict(mentor: MentorProfile, db: Session) -> dict:
 
 def filter_bookable_mentors(query, db: Session):
     """Filter out mentors with no active services or no future available slots."""
-    now = datetime.now(timezone.utc)
+    now = datetime.now()
     return query.filter(
         MentorProfile.id.in_(
             db.query(MentorService.mentor_profile_id)
@@ -378,7 +378,7 @@ def random_mentor(db: Session = Depends(get_db)):
     Returns a single random visible mentor with at least one available slot.
     Powers the dice button.
     """
-    now = datetime.now(timezone.utc)
+    now = datetime.now()
     mentor_ids = (
         db.query(MentorProfile.id)
         .join(AvailabilitySlot, AvailabilitySlot.mentor_profile_id == MentorProfile.id)

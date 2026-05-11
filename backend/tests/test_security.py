@@ -44,7 +44,7 @@ def make_expired_token(email: str) -> str:
         "name": "Test User",
         "role": "learner",
         "user_id": 9999,
-        "exp": datetime.now(timezone.utc) - timedelta(minutes=30),
+        "exp": datetime.now() - timedelta(minutes=30),
     }
     return jose_jwt.encode(payload, _SECRET_KEY, algorithm=_ALGORITHM)
 

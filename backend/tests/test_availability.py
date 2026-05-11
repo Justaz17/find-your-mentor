@@ -193,9 +193,7 @@ class TestRecurringPatterns:
         generate_until date must return 201 with the pattern data.
         The endpoint also auto-generates individual slots - verified separately.
         """
-        future_date = (
-            datetime.now(timezone.utc).date() + timedelta(days=60)
-        ).isoformat()
+        future_date = (datetime.now().date() + timedelta(days=60)).isoformat()
         resp = session.post(
             f"{BASE_URL}/recurring/mentors/me/recurring",
             headers=registered_mentor["headers"],
@@ -228,7 +226,7 @@ class TestRecurringPatterns:
         - For each occurrence it generates 1-hour sub-slots.
         - 2-hour window → 2 slots per occurrence × 1 occurrence = 2 slots total.
         """
-        today = datetime.now(timezone.utc).date()
+        today = datetime.now().date()
         # Find the next THURSDAY (weekday index 3)
         days_until_thursday = (3 - today.weekday()) % 7
         next_thursday = today + timedelta(days=days_until_thursday)

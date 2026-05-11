@@ -92,7 +92,7 @@ class Cancellation(Base):
 
     cancelled_at = Column(
         DateTime(timezone=True),
-        default=lambda: datetime.now(timezone.utc),
+        default=lambda: datetime.now(),
     )
 
     # Relationships
@@ -113,7 +113,7 @@ class CancellationStreak(Base):
 
     Behavior:
     - Learner cancels without freeze credit → streak_count++
-    - If streak_count >= 3 → freeze_until = now + 7 days
+    - If streak_count >= 3 -> freeze_until = now + 7 days
     - During freeze, learner can't create new bookings
     - Once freeze expires, streak resets
     """
@@ -137,12 +137,12 @@ class CancellationStreak(Base):
 
     created_at = Column(
         DateTime(timezone=True),
-        default=lambda: datetime.now(timezone.utc),
+        default=lambda: datetime.now(),
     )
     updated_at = Column(
         DateTime(timezone=True),
-        default=lambda: datetime.now(timezone.utc),
-        onupdate=lambda: datetime.now(timezone.utc),
+        default=lambda: datetime.now(),
+        onupdate=lambda: datetime.now(),
     )
 
     def __repr__(self):

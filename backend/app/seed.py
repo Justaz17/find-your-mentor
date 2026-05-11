@@ -940,7 +940,7 @@ def seed():
             }
             target_day = day_map[day_of_week]
 
-            current_date = datetime.now(timezone.utc).date()
+            current_date = datetime.now().date()
             for week in range(weeks_ahead):
                 # Find the next occurrence of this day
                 days_ahead = target_day - current_date.weekday()
@@ -1325,9 +1325,9 @@ def seed():
                     AvailabilitySlot.mentor_profile_id == mentor_profile_id,
                     AvailabilitySlot.status == "available",
                     AvailabilitySlot.start_time
-                    >= datetime.now(timezone.utc) + timedelta(days=min_days),
+                    >= datetime.now() + timedelta(days=min_days),
                     AvailabilitySlot.start_time
-                    <= datetime.now(timezone.utc) + timedelta(days=max_days),
+                    <= datetime.now() + timedelta(days=max_days),
                 )
                 .all()
             )
@@ -1359,9 +1359,7 @@ def seed():
             )
 
             if days_ago:
-                booking.created_at = datetime.now(timezone.utc) - timedelta(
-                    days=days_ago
-                )
+                booking.created_at = datetime.now() - timedelta(days=days_ago)
 
             db.add(booking)
             slot.status = "booked"
@@ -1369,7 +1367,7 @@ def seed():
 
         def create_past_slot(mentor_profile_id, days_ago, duration_hours=3):
             """Create a past availability slot for completed bookings"""
-            start = datetime.now(timezone.utc) - timedelta(days=days_ago)
+            start = datetime.now() - timedelta(days=days_ago)
             end = start + timedelta(hours=duration_hours)
             slot = AvailabilitySlot(
                 mentor_profile_id=mentor_profile_id,
@@ -1750,7 +1748,7 @@ def seed():
                 suggested_slot_ids=str(future_slot_1.id),
                 reason="Have an exam that week, need to push back a few days",
                 status="pending",
-                expires_at=datetime.now(timezone.utc) + timedelta(days=30),
+                expires_at=datetime.now() + timedelta(days=30),
             )
             db.add(rr1)
 
@@ -1759,15 +1757,11 @@ def seed():
                 booking_id=b16.id,
                 initiated_by="MENTOR",
                 from_slot_id=b16.availability_slot_id,
-                preferred_date_start=(
-                    datetime.now(timezone.utc) + timedelta(days=14)
-                ).date(),
-                preferred_date_end=(
-                    datetime.now(timezone.utc) + timedelta(days=21)
-                ).date(),
+                preferred_date_start=(datetime.now() + timedelta(days=14)).date(),
+                preferred_date_end=(datetime.now() + timedelta(days=21)).date(),
                 reason="Double-booked that slot, my apologies. Happy to accommodate any day the following week.",
                 status="pending",
-                expires_at=datetime.now(timezone.utc) + timedelta(days=30),
+                expires_at=datetime.now() + timedelta(days=30),
             )
             db.add(rr2)
 
@@ -1783,7 +1777,7 @@ def seed():
             learner_id=l1_user.id,
             freeze_credits=2,
             current_week_active=True,
-            last_session_date=datetime.now(timezone.utc) - timedelta(days=5),
+            last_session_date=datetime.now() - timedelta(days=5),
             total_sessions_month=3,
             most_active_skill="Python",
             most_active_day="MONDAY",
@@ -1794,7 +1788,7 @@ def seed():
             learner_id=l3_user.id,
             freeze_credits=1,
             current_week_active=True,
-            last_session_date=datetime.now(timezone.utc) - timedelta(days=3),
+            last_session_date=datetime.now() - timedelta(days=3),
             total_sessions_month=2,
             most_active_skill="Strength Training",
             most_active_day="MONDAY",
@@ -1889,8 +1883,8 @@ def seed():
                 body="Jamie Brennan has requested to reschedule your upcoming session.",
                 action_url=f"/reschedule-requests/{rr1.id}",
                 delivery_method="BOTH",
-                scheduled_for=datetime.now(timezone.utc),
-                sent_at=datetime.now(timezone.utc),
+                scheduled_for=datetime.now(),
+                sent_at=datetime.now(),
                 read_at=None,
             )
             db.add(n2)
@@ -1906,8 +1900,8 @@ def seed():
                 body="How was your Code Review session with Alex? Leave a review to help other learners.",
                 action_url=f"/bookings/{b2.id}/review",
                 delivery_method="IN_APP",
-                scheduled_for=datetime.now(timezone.utc) - timedelta(days=14),
-                sent_at=datetime.now(timezone.utc) - timedelta(days=14),
+                scheduled_for=datetime.now() - timedelta(days=14),
+                sent_at=datetime.now() - timedelta(days=14),
                 read_at=None,
             )
             db.add(n3)

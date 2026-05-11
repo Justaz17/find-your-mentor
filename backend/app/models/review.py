@@ -14,9 +14,7 @@ class Review(Base):
     reviewer_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     rating = Column(Float, nullable=False)  # 1.0 - 5.0
     comment = Column(Text, nullable=True)
-    created_at = Column(
-        DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)
-    )
+    created_at = Column(DateTime(timezone=True), default=lambda: datetime.now())
 
     # Relationships
     mentor_profile = relationship("MentorProfile", back_populates="reviews")
